@@ -54,7 +54,3 @@ export function getAtecoCategory(atecoId: string) {
 export function getAtecoCoefficient(atecoId: string) {
   return getAtecoCategory(atecoId)?.coefficient ?? 78;
 }
-
-export function normalizeInpsType(tipoInps: InpsType) {
-  return tipoInps === 'nessuno' ? 'gestioneSeparata' : tipoInps;
-}

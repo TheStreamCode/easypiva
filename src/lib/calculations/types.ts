@@ -2,8 +2,14 @@ import type { InpsType } from '../fiscal-data';
 
 export type WarningSeverity = 'warning' | 'critical';
 
+export type WarningCode =
+  | 'revenue-over-85000'
+  | 'revenue-over-100000'
+  | 'employee-costs-over-limit'
+  | 'employment-income-over-limit';
+
 export type DomainWarning = {
-  code: string;
+  code: WarningCode;
   severity: WarningSeverity;
 };
 

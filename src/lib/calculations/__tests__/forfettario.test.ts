@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { calculateForfettario } from '../forfettario';
+import type { WarningCode } from '../types';
 
 describe('calculateForfettario', () => {
   it('applies the 5% substitute tax for new activities', () => {
@@ -52,9 +53,12 @@ describe('calculateForfettario', () => {
       redditoDipendente: 0,
     });
 
+    const warningCodes: WarningCode[] = result.warnings.map((warning) => warning.code);
+
     expect(result.warnings).toEqual([
       expect.objectContaining({ code: 'revenue-over-85000', severity: 'warning' }),
     ]);
+    expect(warningCodes).toEqual(['revenue-over-85000']);
   });
 
   it('uses the default ATECO coefficient when the id is invalid', () => {

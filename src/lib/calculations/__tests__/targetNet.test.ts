@@ -31,6 +31,7 @@ describe('calculateTargetNet', () => {
     });
 
     expect(target.ricaviNecessari).toBeGreaterThan(0);
-    expect(target.inpsStimato).toBeGreaterThan(0);
+    expect(target.inpsStimato).toBe(0);
+    expect(target.tasseStimate).toBeCloseTo(target.ricaviNecessari * 0.78 * 0.15, 6);
   });
 });

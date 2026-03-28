@@ -19,13 +19,11 @@ export function calculateTargetNet(input: TargetNetInput): TargetNetResult {
   const coefficiente = getAtecoCoefficient(input.atecoId) / 100;
   const aliquotaImposta = input.nuovaAttivita ? 0.05 : 0.15;
   const nettoAnnuo = input.nettoMensile * 12;
-  const tipoInps = input.tipoInps === 'nessuno' ? 'gestioneSeparata' : input.tipoInps;
 
-  if (tipoInps === 'gestioneSeparata') {
-    const aliquotaInps = INPS_RATES.gestioneSeparata.rate;
-    const denom = 1 - coefficiente * aliquotaInps - coefficiente * (1 - aliquotaInps) * aliquotaImposta;
+  if (input.tipoInps === 'nessuno') {
+    const denom = 1 - coefficiente * aliquotaImposta;
     const ricaviNecessari = nettoAnnuo / denom;
-    const detail = calculateNetForRevenue(ricaviNecessari, coefficiente, aliquotaImposta, tipoInps, input.riduzioneInps);
+    const detail = calculateNetForRevenue(ricaviNecessari, coefficiente, aliquotaImposta, input.tipoInps, input.riduzioneInps);
 
     return {
       nettoAnnuo,
@@ -36,7 +34,22 @@ export function calculateTargetNet(input: TargetNetInput): TargetNetResult {
     };
   }
 
-  const rates = INPS_RATES[tipoInps];
+  if (input.tipoInps === 'gestioneSeparata') {
+    const aliquotaInps = INPS_RATES.gestioneSeparata.rate;
+    const denom = 1 - coefficiente * aliquotaInps - coefficiente * (1 - aliquotaInps) * aliquotaImposta;
+    const ricaviNecessari = nettoAnnuo / denom;
+    const detail = calculateNetForRevenue(ricaviNecessari, coefficiente, aliquotaImposta, input.tipoInps, input.riduzioneInps);
+
+    return {
+      nettoAnnuo,
+      ricaviNecessari,
+      inpsStimato: detail.inps,
+      tasseStimate: detail.tasse,
+      costiForfettari: ricaviNecessari - detail.redditoLordo,
+    };
+  }
+
+  const rates = INPS_RATES[input.tipoInps];
   const riduzione = input.riduzioneInps ? 0.65 : 1;
 
   let low = nettoAnnuo;
@@ -45,7 +58,7 @@ export function calculateTargetNet(input: TargetNetInput): TargetNetResult {
 
   for (let i = 0; i < 50; i++) {
     mid = (low + high) / 2;
-    const detail = calculateNetForRevenue(mid, coefficiente, aliquotaImposta, tipoInps, input.riduzioneInps);
+    const detail = calculateNetForRevenue(mid, coefficiente, aliquotaImposta, input.tipoInps, input.riduzioneInps);
 
     if (detail.netto < nettoAnnuo) {
       low = mid;
