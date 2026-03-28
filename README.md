@@ -1,15 +1,17 @@
 # EasyPIVA 2026
 
+[![CI](https://github.com/TheStreamCode/easypiva/actions/workflows/ci.yml/badge.svg)](https://github.com/TheStreamCode/easypiva/actions/workflows/ci.yml)
+
 **La tua Partita IVA, facile e trasparente.**
 
 EasyPIVA è un progetto portfolio open source per simulare regime forfettario, contributi INPS, confronto tra regimi fiscali italiani e pianificazione delle entrate.
-È creato e mantenuto internamente da **Michael Gasperini** per **Mikesoft**.
+È ideato e sviluppato interamente da **Michael Gasperini** per **Mikesoft**.
 
 ## Stato del progetto
 
 - Progetto personale e amatoriale.
 - Mantenuto internamente da Michael Gasperini / Mikesoft.
-- Non sono accettati contributi esterni, pull request o issue della community.
+- **Non sono accettati contributi esterni, pull request o issue della community.**
 
 ## Funzionalità
 
@@ -24,20 +26,16 @@ EasyPIVA è un progetto portfolio open source per simulare regime forfettario, c
 
 ## Stack
 
-- React 19
-- TypeScript
-- Vite
-- Tailwind CSS v4
-- shadcn/ui
-- Zustand
-- Recharts
-- jsPDF
-- React Router
-- React Hook Form + Zod
+- **Frontend:** React 19, TypeScript, Vite
+- **Styling:** Tailwind CSS v4, shadcn/ui
+- **State Management:** Zustand
+- **Data & Form:** React Hook Form + Zod, Recharts
+- **Utility:** jsPDF, React Router
+- **Code Quality:** ESLint, Prettier, Vitest
 
 ## Verifica locale
 
-Prima di aprire un commit, esegui sempre:
+Prima di aprire un commit, esegui sempre la suite CI locale:
 
 ```bash
 npm run ci
@@ -85,8 +83,8 @@ Se vuoi controllare i singoli passaggi:
 
 ## Disclaimer
 
-I calcoli sono basati sulle norme vigenti (Agenzia delle Entrate 2026) ma **non sostituiscono** la consulenza di un commercialista o di un consulente del lavoro.
-Le simulazioni hanno scopo puramente indicativo.
+I calcoli sono basati sulle norme vigenti (Agenzia delle Entrate 2026) ma **non sostituiscono in alcun modo** la consulenza di un commercialista o di un consulente del lavoro.
+Le simulazioni hanno scopo puramente indicativo. L'autore non assume alcuna responsabilità per eventuali errori o l'uso dei risultati.
 
 ## Licenza
 
