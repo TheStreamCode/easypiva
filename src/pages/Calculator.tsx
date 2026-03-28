@@ -7,12 +7,14 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
-import { ATECO_CATEGORIES, INPS_RATES, LIMITS } from "@/lib/constants"
+import { ATECO_CATEGORIES } from "@/lib/constants"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle, Download, ArrowRight, ArrowLeft } from "lucide-react"
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip as RechartsTooltip, Legend } from "recharts"
 import { jsPDF } from "jspdf"
 import { motion, AnimatePresence } from "motion/react"
+import { calculateForfettario } from "@/lib/calculations"
+import { formatCurrency } from "@/lib/format"
 
 const formSchema = z.object({
   atecoId: z.string().min(1, "Seleziona una categoria ATECO"),
@@ -67,59 +69,15 @@ export default function Calculator() {
 
   const prevStep = () => setStep((prev) => Math.max(prev - 1, 1))
 
-  // Calculations
-  const ateco = ATECO_CATEGORIES.find((a) => a.id === values.atecoId)
-  const coefficiente = ateco ? ateco.coefficient / 100 : 0
-  
-  // Ragguaglio ad anno
-  const ricaviRagguagliati = (values.ricavi / values.mesiAttivita) * 12
-  
-  const redditoLordo = values.ricavi * coefficiente
-  const redditoNettoImponibile = Math.max(0, redditoLordo - values.contributiVersati)
-  
-  const aliquotaImposta = values.nuovaAttivita ? 0.05 : 0.15
-  const impostaSostitutiva = redditoNettoImponibile * aliquotaImposta
-
-  // Stima INPS anno in corso (semplificata per il netto)
-  let stimaInps = 0
-  if (values.tipoInps === "gestioneSeparata") {
-    stimaInps = redditoLordo * INPS_RATES.gestioneSeparata.rate
-  } else if (values.tipoInps === "artigiani" || values.tipoInps === "commercianti") {
-    const rates = INPS_RATES[values.tipoInps]
-    const riduzione = values.riduzioneInps ? 0.65 : 1 // 35% reduction
-    
-    if (redditoLordo <= rates.minimalIncome) {
-      stimaInps = rates.minimalContribution * riduzione
-    } else {
-      stimaInps = (rates.minimalContribution + (redditoLordo - rates.minimalIncome) * rates.rateOverMinimal) * riduzione
-    }
-  }
-
-  const nettoStimato = values.ricavi - impostaSostitutiva - stimaInps
-
-  // Warnings
-  const warnings = []
-  if (ricaviRagguagliati > LIMITS.ricavi && ricaviRagguagliati <= LIMITS.uscitaImmediata) {
-    warnings.push("Attenzione: I ricavi ragguagliati superano 85.000€. Uscirai dal regime forfettario l'anno prossimo.")
-  }
-  if (ricaviRagguagliati > LIMITS.uscitaImmediata) {
-    warnings.push("CRITICO: I ricavi superano 100.000€. Uscita immediata dal regime forfettario nell'anno in corso!")
-  }
-  if (values.speseDipendenti > LIMITS.dipendenti) {
-    warnings.push("Attenzione: Le spese per dipendenti superano il limite di 20.000€.")
-  }
-  if (values.redditoDipendente > LIMITS.redditoDipendente) {
-    warnings.push("Attenzione: Il reddito da lavoro dipendente/pensione supera 35.000€. Non puoi accedere al regime forfettario.")
-  }
+  const result = calculateForfettario({ ...values, riduzioneInps: values.riduzioneInps ?? false })
+  const { coefficiente, redditoLordo, redditoNettoImponibile, aliquotaImposta, impostaSostitutiva, inps: stimaInps, nettoStimato, warnings } = result
 
   const chartData = [
     { name: "Netto Stimato", value: Math.max(0, nettoStimato), color: "var(--color-chart-1)" },
     { name: "Imposta Sostitutiva", value: impostaSostitutiva, color: "var(--color-chart-2)" },
-    { name: "Contributi INPS", value: stimaInps, color: "var(--color-chart-3)" },
+    { name: "Contributi INPS", value: stimaInps.totale, color: "var(--color-chart-3)" },
     { name: "Costi Forfettari", value: values.ricavi - redditoLordo, color: "var(--color-chart-4)" },
   ]
-
-  const formatCurrency = (val: number) => new Intl.NumberFormat('it-IT', { style: 'currency', currency: 'EUR' }).format(val)
 
   const handleExportPDF = () => {
     const doc = new jsPDF()
@@ -133,7 +91,7 @@ export default function Calculator() {
     doc.text(`Contributi Dedotti: ${formatCurrency(values.contributiVersati)}`, 20, 70)
     doc.text(`Reddito Imponibile: ${formatCurrency(redditoNettoImponibile)}`, 20, 80)
     doc.text(`Imposta Sostitutiva (${aliquotaImposta * 100}%): ${formatCurrency(impostaSostitutiva)}`, 20, 90)
-    doc.text(`Stima INPS: ${formatCurrency(stimaInps)}`, 20, 100)
+    doc.text(`Stima INPS: ${formatCurrency(stimaInps.totale)}`, 20, 100)
     doc.text(`Netto Stimato: ${formatCurrency(nettoStimato)}`, 20, 110)
     
     doc.save("easypiva-report.pdf")
@@ -401,7 +359,7 @@ export default function Calculator() {
                     </div>
                     <div className="flex justify-between items-center text-zinc-600 dark:text-zinc-400">
                       <span>Stima INPS Anno</span>
-                      <span>-{formatCurrency(stimaInps)}</span>
+                      <span>-{formatCurrency(stimaInps.totale)}</span>
                     </div>
                     
                     <div className="h-px bg-zinc-900 dark:bg-zinc-100 my-2" />
