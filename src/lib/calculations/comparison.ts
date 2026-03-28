@@ -22,7 +22,7 @@ function calculateIrpef(imponibile: number) {
 }
 
 export function compareRegimes(input: ComparisonInput): ComparisonResult {
-  const coefficiente = getAtecoCoefficient(input.atecoId) / 100 || 0.78;
+  const coefficiente = getAtecoCoefficient(input.atecoId) / 100;
   const redditoLordoForf = input.ricavi * coefficiente;
   const inpsForf = calculateInps(redditoLordoForf, 'gestioneSeparata').totale;
   const imponibileForf = Math.max(0, redditoLordoForf - inpsForf);

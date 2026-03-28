@@ -7,6 +7,17 @@ import { motion } from "motion/react"
 import { buildPlanningProjection } from "@/lib/calculations"
 import { formatCurrency } from "@/lib/format"
 
+const warningCopy = {
+  'revenue-over-85000': {
+    title: 'Attenzione',
+    message: "Hai superato la soglia degli 85.000€. L'anno prossimo uscirai dal regime forfettario e passerai al regime ordinario, ma per l'anno in corso mantieni i benefici fiscali.",
+  },
+  'revenue-over-100000': {
+    title: 'CRITICO',
+    message: "Hai superato la soglia dei 100.000€. Esci IMMEDIATAMENTE dal regime forfettario nell'anno in corso. Dovrai applicare l'IVA sulle fatture successive all'incasso che ha causato il superamento.",
+  },
+} as const
+
 const mesi = ["Gen", "Feb", "Mar", "Apr", "Mag", "Giu", "Lug", "Ago", "Set", "Ott", "Nov", "Dic"]
 
 export default function Planning() {
@@ -59,7 +70,7 @@ export default function Planning() {
 
               {result.warnings.map((warning) => (
                 <motion.div key={warning.code} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className={`mt-8 p-4 rounded-xl border text-sm leading-relaxed ${warning.severity === "critical" ? "bg-red-100/50 text-red-900 dark:bg-red-900/30 dark:text-red-200 border-red-200 dark:border-red-800/50" : "bg-amber-100/50 text-amber-900 dark:bg-amber-900/30 dark:text-amber-200 border-amber-200 dark:border-amber-800/50"}`}>
-                  <strong className="font-semibold">{warning.severity === 'critical' ? 'CRITICO:' : 'Attenzione:'}</strong> {warning.message}
+                  <strong className="font-semibold">{warningCopy[warning.code as keyof typeof warningCopy]?.title ?? 'Attenzione'}:</strong> {warningCopy[warning.code as keyof typeof warningCopy]?.message ?? warning.code}
                 </motion.div>
               ))}
             </div>
@@ -70,9 +81,9 @@ export default function Planning() {
 
             <div className="h-[400px] w-full pt-4">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={result.projection.map((item) => ({ name: item.month, cumulativeRevenue: item.cumulativeRevenue }))} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+                <LineChart data={result.projection} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e4e4e7" className="dark:stroke-zinc-800" />
-                  <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#71717a', fontSize: 12 }} dy={10} />
+                  <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: '#71717a', fontSize: 12 }} dy={10} />
                   <YAxis tickFormatter={(value) => `€${value / 1000}k`} axisLine={false} tickLine={false} tick={{ fill: '#71717a', fontSize: 12 }} dx={-10} />
                   <RechartsTooltip formatter={(value: number) => formatCurrency(value)} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)' }} />
                   <Legend iconType="circle" wrapperStyle={{ paddingTop: '20px' }} />

@@ -5,7 +5,6 @@ export type WarningSeverity = 'warning' | 'critical';
 export type DomainWarning = {
   code: string;
   severity: WarningSeverity;
-  message: string;
 };
 
 export type ForfettarioInput = {
@@ -78,7 +77,7 @@ export type TargetNetResult = {
 };
 
 export type PlanningResult = {
-  projection: Array<{ month: string; revenue: number; cumulativeRevenue: number }>;
+  projection: ProjectionPoint[];
   totaleAnnuo: number;
   limiteSuperato: boolean;
   uscitaImmediata: boolean;

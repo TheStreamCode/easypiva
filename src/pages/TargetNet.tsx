@@ -18,7 +18,6 @@ export default function TargetNet() {
   const [riduzioneInps, setRiduzioneInps] = useState(false)
 
   const result = calculateTargetNet({ nettoMensile, atecoId, nuovaAttivita, tipoInps, riduzioneInps })
-  const visibleTipoInps = tipoInps === 'nessuno' ? 'gestioneSeparata' : tipoInps
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -81,7 +80,7 @@ export default function TargetNet() {
                 <Switch id="nuovaAttivita" checked={nuovaAttivita} onCheckedChange={setNuovaAttivita} />
               </div>
 
-              {(visibleTipoInps === "artigiani" || visibleTipoInps === "commercianti") && (
+              {(tipoInps === "artigiani" || tipoInps === "commercianti") && (
                 <div className="flex items-center justify-between">
                   <Label htmlFor="riduzioneInps" className="text-zinc-700 dark:text-zinc-300">Riduzione INPS 35%</Label>
                   <Switch id="riduzioneInps" checked={riduzioneInps} onCheckedChange={setRiduzioneInps} />

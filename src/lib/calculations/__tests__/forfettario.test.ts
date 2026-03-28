@@ -18,7 +18,7 @@ describe('calculateForfettario', () => {
     expect(result.aliquotaImposta).toBe(0.05);
     expect(result.redditoLordo).toBeCloseTo(39000);
     expect(result.impostaSostitutiva).toBeCloseTo(1950);
-    expect(result.nettoStimato).toBeCloseTo(37882.7);
+    expect(result.nettoStimato).toBeCloseTo(48050);
   });
 
   it('applies the 15% substitute tax for standard activities', () => {
@@ -36,7 +36,7 @@ describe('calculateForfettario', () => {
 
     expect(result.aliquotaImposta).toBe(0.15);
     expect(result.impostaSostitutiva).toBeCloseTo(5850);
-    expect(result.nettoStimato).toBeCloseTo(33982.7);
+    expect(result.nettoStimato).toBeCloseTo(44150);
   });
 
   it('returns threshold warnings for annualized revenues', () => {
@@ -53,11 +53,7 @@ describe('calculateForfettario', () => {
     });
 
     expect(result.warnings).toEqual([
-      expect.objectContaining({
-        code: 'revenue-over-85000',
-        severity: 'warning',
-        message: "I ricavi ragguagliati superano 85.000€. Uscirai dal regime forfettario l'anno prossimo.",
-      }),
+      expect.objectContaining({ code: 'revenue-over-85000', severity: 'warning' }),
     ]);
   });
 

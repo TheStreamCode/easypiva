@@ -16,6 +16,25 @@ import { motion, AnimatePresence } from "motion/react"
 import { calculateForfettario } from "@/lib/calculations"
 import { formatCurrency } from "@/lib/format"
 
+const warningCopy = {
+  'revenue-over-85000': {
+    title: 'Attenzione',
+    message: "I ricavi ragguagliati superano 85.000€. Uscirai dal regime forfettario l'anno prossimo.",
+  },
+  'revenue-over-100000': {
+    title: 'CRITICO',
+    message: 'I ricavi superano 100.000€. Uscita immediata dal regime forfettario nell\'anno in corso!',
+  },
+  'employee-costs-over-limit': {
+    title: 'Attenzione',
+    message: 'Le spese per dipendenti superano il limite di 20.000€.',
+  },
+  'employment-income-over-limit': {
+    title: 'Attenzione',
+    message: 'Il reddito da lavoro dipendente/pensione supera 35.000€. Non puoi accedere al regime forfettario.',
+  },
+} as const
+
 const formSchema = z.object({
   atecoId: z.string().min(1, "Seleziona una categoria ATECO"),
   ricavi: z.number().min(0, "I ricavi non possono essere negativi"),
@@ -71,7 +90,6 @@ export default function Calculator() {
 
   const result = calculateForfettario({
     ...values,
-    tipoInps: values.tipoInps === 'nessuno' ? 'gestioneSeparata' : values.tipoInps,
     riduzioneInps: values.riduzioneInps ?? false,
   })
   const { coefficiente, redditoLordo, redditoNettoImponibile, aliquotaImposta, impostaSostitutiva, inps: stimaInps, nettoStimato, warnings } = result
@@ -327,8 +345,8 @@ export default function Calculator() {
                   {warnings.map((w, i) => (
                 <Alert key={i} variant={w.severity === "critical" ? "destructive" : "default"} className={w.severity !== "critical" ? "border-zinc-300 text-zinc-700 dark:text-zinc-300" : ""}>
                   <AlertCircle className="h-4 w-4" />
-                  <AlertTitle>{w.severity === 'critical' ? 'CRITICO' : 'Attenzione'}</AlertTitle>
-                  <AlertDescription>{w.message}</AlertDescription>
+                  <AlertTitle>{warningCopy[w.code as keyof typeof warningCopy]?.title ?? 'Attenzione'}</AlertTitle>
+                  <AlertDescription>{warningCopy[w.code as keyof typeof warningCopy]?.message ?? w.code}</AlertDescription>
                 </Alert>
               ))}
                 </div>

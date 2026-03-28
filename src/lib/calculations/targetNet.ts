@@ -1,4 +1,4 @@
-import { getAtecoCoefficient, INPS_RATES, normalizeInpsType } from '../fiscal-data';
+import { getAtecoCoefficient, INPS_RATES } from '../fiscal-data';
 import { calculateInps } from './inps';
 import type { TargetNetInput, TargetNetResult } from './types';
 
@@ -16,10 +16,10 @@ function calculateNetForRevenue(ricavi: number, coefficiente: number, aliquotaIm
 }
 
 export function calculateTargetNet(input: TargetNetInput): TargetNetResult {
-  const coefficiente = getAtecoCoefficient(input.atecoId) / 100 || 0.78;
+  const coefficiente = getAtecoCoefficient(input.atecoId) / 100;
   const aliquotaImposta = input.nuovaAttivita ? 0.05 : 0.15;
   const nettoAnnuo = input.nettoMensile * 12;
-  const tipoInps = normalizeInpsType(input.tipoInps);
+  const tipoInps = input.tipoInps === 'nessuno' ? 'gestioneSeparata' : input.tipoInps;
 
   if (tipoInps === 'gestioneSeparata') {
     const aliquotaInps = INPS_RATES.gestioneSeparata.rate;

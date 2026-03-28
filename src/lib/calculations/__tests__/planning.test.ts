@@ -9,11 +9,7 @@ describe('buildPlanningProjection', () => {
     expect(result.limiteSuperato).toBe(true);
     expect(result.uscitaImmediata).toBe(false);
     expect(result.warnings).toEqual([
-      expect.objectContaining({
-        code: 'revenue-over-85000',
-        severity: 'warning',
-        message: "Hai superato la soglia degli 85.000€. L'anno prossimo uscirai dal regime forfettario e passerai al regime ordinario, ma per l'anno in corso mantieni i benefici fiscali.",
-      }),
+      expect.objectContaining({ code: 'revenue-over-85000', severity: 'warning' }),
     ]);
     expect(result.projection[0]).toEqual({ month: 'Gen', revenue: 7500, cumulativeRevenue: 7500 });
   });
@@ -24,11 +20,7 @@ describe('buildPlanningProjection', () => {
     expect(result.totaleAnnuo).toBe(108000);
     expect(result.uscitaImmediata).toBe(true);
     expect(result.warnings).toEqual([
-      expect.objectContaining({
-        code: 'revenue-over-100000',
-        severity: 'critical',
-        message: "Hai superato la soglia dei 100.000€. Esci IMMEDIATAMENTE dal regime forfettario nell'anno in corso. Dovrai applicare l'IVA sulle fatture successive all'incasso che ha causato il superamento.",
-      }),
+      expect.objectContaining({ code: 'revenue-over-100000', severity: 'critical' }),
     ]);
   });
 });
