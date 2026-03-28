@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { useStore } from '@/store/useStore';
+import { Info } from 'lucide-react';
 
 export function DisclaimerModal() {
   const { hasAcceptedDisclaimer, acceptDisclaimer } = useStore();
@@ -19,41 +20,32 @@ export function DisclaimerModal() {
         if (!open) acceptDisclaimer();
       }}
     >
-      <DialogContent className="sm:max-w-[600px]">
-        <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-red-600 dark:text-red-400">
-            ATTENZIONE: Disclaimer Importante
+      <DialogContent className="sm:max-w-[480px] p-6 sm:p-8 gap-6 border-border/40 shadow-2xl">
+        <DialogHeader className="space-y-4">
+          <div className="mx-auto bg-primary/5 p-3 rounded-2xl w-fit mb-2 ring-1 ring-primary/10">
+            <Info className="w-6 h-6 text-primary" strokeWidth={1.5} />
+          </div>
+          <DialogTitle className="text-xl font-medium text-center text-foreground tracking-tight">
+            Benvenuto in EasyPIVA
           </DialogTitle>
-          <DialogDescription className="text-base pt-4 space-y-4 text-slate-700 dark:text-slate-300">
+          <DialogDescription className="text-[15px] space-y-4 text-center text-muted-foreground leading-relaxed">
             <p>
-              <strong>EasyPIVA</strong> è un progetto portfolio open-source gratuito creato e
-              mantenuto internamente da Michael Gasperini / Mikesoft.
+              Questo è un progetto portfolio open-source ideato e sviluppato internamente da{' '}
+              <span className="font-medium text-foreground">Michael Gasperini / Mikesoft</span>.
             </p>
             <p>
-              I calcoli sono basati sulle norme vigenti (Agenzia delle Entrate 2026) ma{' '}
-              <strong>
-                NON sostituiscono in alcun modo la consulenza di un commercialista o di un
-                consulente del lavoro
-              </strong>
-              .
-            </p>
-            <p>
-              Le simulazioni fornite hanno scopo puramente indicativo. L'autore non assume alcuna
-              responsabilità per eventuali errori, omissioni o per l'uso che verrà fatto dei
-              risultati ottenuti.
-            </p>
-            <p className="font-semibold">
-              Consulta sempre un professionista abilitato prima di prendere decisioni fiscali o
-              finanziarie.
+              Le simulazioni fornite si basano sulle normative dell'Agenzia delle Entrate (2026) ed
+              hanno scopo puramente indicativo. <strong>Non sostituiscono in alcun modo</strong> la
+              consulenza di un commercialista abilitato.
             </p>
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter>
+        <DialogFooter className="sm:justify-center mt-4">
           <Button
             onClick={acceptDisclaimer}
-            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white"
+            className="w-full sm:w-2/3 rounded-full h-11 text-base font-medium transition-all hover:scale-[1.02] active:scale-[0.98]"
           >
-            Ho letto e accetto
+            Ho compreso, inizia
           </Button>
         </DialogFooter>
       </DialogContent>
