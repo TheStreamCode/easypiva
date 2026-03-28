@@ -9,6 +9,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { useStore } from '@/store/useStore';
 import { Info } from 'lucide-react';
+import { fiscalDisclaimer, projectAttribution } from '@/lib/public-copy';
 
 export function DisclaimerModal() {
   const { hasAcceptedDisclaimer, acceptDisclaimer } = useStore();
@@ -29,15 +30,8 @@ export function DisclaimerModal() {
             Benvenuto in EasyPIVA
           </DialogTitle>
           <DialogDescription className="text-[15px] space-y-4 text-center text-muted-foreground leading-relaxed">
-            <p>
-              Questo è un progetto portfolio open-source ideato e sviluppato internamente da{' '}
-              <span className="font-medium text-foreground">Michael Gasperini / Mikesoft</span>.
-            </p>
-            <p>
-              Le simulazioni fornite si basano sulle normative dell'Agenzia delle Entrate (2026) ed
-              hanno scopo puramente indicativo. <strong>Non sostituiscono in alcun modo</strong> la
-              consulenza di un commercialista abilitato.
-            </p>
+            <p>{projectAttribution}</p>
+            <p>{fiscalDisclaimer}</p>
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="sm:justify-center mt-4">

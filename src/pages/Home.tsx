@@ -1,6 +1,7 @@
 import { Calculator, Scale, PiggyBank, Target, Calendar, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
+import { publicProjectStatus } from '@/lib/public-copy';
 
 const tools = [
   {
@@ -72,7 +73,7 @@ export default function Home() {
           className="text-lg md:text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl text-balance"
         >
           Strumenti gratuiti e aggiornati al 2026 per freelance, artigiani e piccole imprese
-          italiane. Nessuna registrazione richiesta.
+          italiane.
         </motion.p>
       </section>
 
@@ -83,6 +84,8 @@ export default function Home() {
             Strumenti disponibili
           </h2>
         </div>
+
+        <p className="mb-6 max-w-2xl text-sm text-zinc-500">{publicProjectStatus}</p>
 
         <motion.div
           variants={container}

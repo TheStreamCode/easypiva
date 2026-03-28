@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "description": "Portfolio open source di Michael Gasperini per EasyPIVA 2026",
+  "description": "Simulatore fiscale italiano 2026 di Michael Gasperini / Mikesoft",
   "author": {
     "name": "Michael Gasperini",
     "url": "https://mikesoft.it"
@@ -18,7 +18,7 @@
     "dev": "vite --port=3000 --host=0.0.0.0",
     "build": "vite build",
     "preview": "vite preview",
-    "clean": "rm -rf dist",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "vitest run",

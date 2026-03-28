@@ -1,5 +1,6 @@
 import { Info, ExternalLink, ShieldAlert, Lock, Database } from 'lucide-react';
 import { motion } from 'motion/react';
+import { fiscalDisclaimer, privacyStorageUses, projectAttribution } from '@/lib/public-copy';
 
 export default function Sources() {
   const containerVariants = {
@@ -50,21 +51,12 @@ export default function Sources() {
               un'applicazione web fornita a scopo puramente informativo e divulgativo.
             </p>
             <p>
-              I calcoli, le stime e le simulazioni generati da questo strumento sono basati
-              sull'interpretazione delle norme fiscali vigenti (inclusa la Legge di Bilancio 2026)
-              ma{' '}
-              <strong className="font-semibold text-blue-900 dark:text-blue-100">
-                NON costituiscono parere professionale, legale o fiscale
-              </strong>
-              , né sostituiscono in alcun modo la consulenza di un commercialista o di un consulente
-              del lavoro iscritto all'albo.
+              {projectAttribution} {fiscalDisclaimer}
             </p>
             <p>
-              L'utente utilizza l'applicazione a proprio rischio. Il progetto è mantenuto
-              internamente da Michael Gasperini / Mikesoft e non prevede collaboratori esterni; il
-              progetto non assume alcuna responsabilità per eventuali errori, inesattezze, omissioni
-              o per decisioni finanziarie e fiscali prese sulla base dei risultati forniti da
-              EasyPIVA.
+              Il progetto non assume alcuna responsabilità per eventuali errori, inesattezze,
+              omissioni o per decisioni finanziarie e fiscali prese sulla base dei risultati forniti
+              da EasyPIVA.
             </p>
           </div>
         </motion.div>
@@ -129,18 +121,22 @@ export default function Sources() {
                 (es. Google Analytics, Meta Pixel).
               </p>
               <p>
-                L'applicazione fa uso esclusivamente della tecnologia{' '}
+                L'applicazione fa uso della tecnologia{' '}
                 <strong className="font-medium text-zinc-900 dark:text-zinc-100">
                   Local Storage
                 </strong>{' '}
-                del tuo browser per finalità strettamente tecniche e di funzionamento:
+                del tuo browser per finalità tecniche e di funzionamento:
               </p>
               <ul className="list-disc list-inside space-y-2 ml-2 text-zinc-700 dark:text-zinc-300">
-                <li>
-                  Memorizzare l'accettazione del disclaimer iniziale per non riproporlo ad ogni
-                  visita.
-                </li>
+                {privacyStorageUses.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
               </ul>
+              <p>
+                Il sito carica anche font remoti dal provider del browser; per questo motivo la
+                pagina descrive solo l'assenza di cookie di profilazione e il trattamento minimo dei
+                dati locali.
+              </p>
               <p>
                 Puoi cancellare questi dati in qualsiasi momento svuotando la cache e i dati dei
                 siti web dalle impostazioni del tuo browser.

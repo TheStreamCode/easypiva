@@ -1,15 +1,14 @@
 # EasyPIVA 2026
 
-**La tua Partita IVA, facile e trasparente.**
+**La tua Partita IVA, chiara e trasparente.**
 
-EasyPIVA è un progetto portfolio open source per simulare regime forfettario, contributi INPS, confronto tra regimi fiscali italiani e pianificazione delle entrate.
-È creato e mantenuto internamente da **Michael Gasperini** per **Mikesoft**.
+EasyPIVA è un progetto portfolio open source per simulare regime forfettario, contributi INPS, confronto tra regimi fiscali italiani e pianificazione delle entrate. È creato e mantenuto internamente da **Michael Gasperini** per **Mikesoft**.
 
 ## Stato del progetto
 
-- Progetto personale e amatoriale.
+- Repository pubblico a fini portfolio.
 - Mantenuto internamente da Michael Gasperini / Mikesoft.
-- Non sono accettati contributi esterni, pull request o issue della community.
+- Issue e pull request esterne non vengono gestite.
 
 ## Funzionalità
 
@@ -37,7 +36,7 @@ EasyPIVA è un progetto portfolio open source per simulare regime forfettario, c
 
 ## Verifica locale
 
-Prima di aprire un commit, esegui sempre:
+Prima di aprire un commit, esegui:
 
 ```bash
 npm run ci
@@ -74,7 +73,7 @@ Se vuoi controllare i singoli passaggi:
 ## Note GitHub
 
 - Repository pubblico pensato come portfolio.
-- Nessun contributo esterno viene accettato.
+- Nessun contributo esterno viene gestito.
 - Issue/discussion possono restare disabilitati lato GitHub.
 
 ## Pubblicazione
@@ -85,8 +84,7 @@ Se vuoi controllare i singoli passaggi:
 
 ## Disclaimer
 
-I calcoli sono basati sulle norme vigenti (Agenzia delle Entrate 2026) ma **non sostituiscono** la consulenza di un commercialista o di un consulente del lavoro.
-Le simulazioni hanno scopo puramente indicativo.
+I calcoli sono basati sulle norme vigenti (Agenzia delle Entrate 2026) ma **non sostituiscono** la consulenza di un commercialista o di un consulente del lavoro. Le simulazioni hanno scopo puramente indicativo.
 
 ## Licenza
 

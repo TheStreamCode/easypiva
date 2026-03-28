@@ -49,6 +49,8 @@ export type ComparisonInput = {
   costiReali: number;
   atecoId: string;
   nuovaAttivita: boolean;
+  tipoInps?: InpsType;
+  riduzioneInps?: boolean;
 };
 
 export type RegimeResult = {
