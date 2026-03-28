@@ -261,7 +261,10 @@ export default function Calculator() {
 
               <div className="space-y-4">
                 <Label htmlFor="tipoInps">Cassa Previdenziale</Label>
-                <Select value={values.tipoInps} onValueChange={(val: any) => setValue("tipoInps", val)}>
+                <Select
+                  value={values.tipoInps}
+                  onValueChange={(val: FormValues["tipoInps"]) => setValue("tipoInps", val)}
+                >
                   <SelectTrigger id="tipoInps">
                     <SelectValue placeholder="Seleziona cassa..." />
                   </SelectTrigger>
