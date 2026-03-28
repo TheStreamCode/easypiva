@@ -2,7 +2,7 @@
 
 **La tua Partita IVA, facile e trasparente.**
 
-EasyPIVA è un progetto portfolio open source per simulare regime forfettario, contributi INPS, confronto tra regimi fiscali e pianificazione delle entrate.
+EasyPIVA è un progetto portfolio open source per simulare regime forfettario, contributi INPS, confronto tra regimi fiscali italiani e pianificazione delle entrate.
 È creato e mantenuto internamente da **Michael Gasperini** per **Mikesoft**.
 
 ## Stato del progetto
@@ -35,15 +35,33 @@ EasyPIVA è un progetto portfolio open source per simulare regime forfettario, c
 - React Router
 - React Hook Form + Zod
 
+## Verifica locale
+
+Prima di aprire un commit, esegui sempre:
+
+```bash
+npm run ci
+```
+
+Se vuoi controllare i singoli passaggi:
+
+- `npm run format:check`
+- `npm run typecheck`
+- `npm run lint`
+- `npm run test`
+- `npm run build`
+
 ## Avvio locale
 
 1. Clona il repository:
+
    ```bash
    git clone https://github.com/TheStreamCode/easypiva.git
    cd easypiva
    ```
 
 2. Installa le dipendenze:
+
    ```bash
    npm install
    ```

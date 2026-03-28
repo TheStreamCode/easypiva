@@ -31,7 +31,7 @@ function getInitialDisclaimerAccepted() {
     if (accepted) {
       window.localStorage.setItem(
         disclaimerStorageKey,
-        JSON.stringify({ state: { hasAcceptedDisclaimer: true } })
+        JSON.stringify({ state: { hasAcceptedDisclaimer: true } }),
       );
       window.localStorage.removeItem(legacyDisclaimerStorageKey);
     }
@@ -55,6 +55,6 @@ export const useStore = create<AppState>()(
     }),
     {
       name: disclaimerStorageKey,
-    }
-  )
+    },
+  ),
 );

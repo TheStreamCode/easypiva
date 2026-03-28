@@ -1,5 +1,17 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { Calculator, Scale, PiggyBank, Target, Calendar, Info, Menu, X, Moon, Sun, Globe } from 'lucide-react';
+import {
+  Calculator,
+  Scale,
+  PiggyBank,
+  Target,
+  Calendar,
+  Info,
+  Menu,
+  X,
+  Moon,
+  Sun,
+  Globe,
+} from 'lucide-react';
 import { useState, type MouseEvent } from 'react';
 import { flushSync } from 'react-dom';
 import { Button } from '@/components/ui/button';
@@ -16,9 +28,11 @@ const navigation = [
   { name: 'Informativa', href: '/informativa', icon: Info },
 ];
 
-function Logo({ className = "text-xl" }: { className?: string }) {
+function Logo({ className = 'text-xl' }: { className?: string }) {
   return (
-    <div className={`flex items-baseline tracking-tight text-zinc-900 dark:text-zinc-50 ${className}`}>
+    <div
+      className={`flex items-baseline tracking-tight text-zinc-900 dark:text-zinc-50 ${className}`}
+    >
       <span className="font-serif italic font-medium">Easy</span>
       <span className="font-sans font-bold tracking-tighter ml-[1px]">PIVA</span>
       <span className="w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-blue-500 ml-0.5 mb-0.5" />
@@ -32,7 +46,6 @@ export default function Layout() {
   const { mode, toggleThemeMode } = useThemeStore();
   const isDark = mode === 'dark';
 
-
   const toggleTheme = (event: MouseEvent<HTMLButtonElement>) => {
     // Fallback for browsers that don't support View Transitions
     if (!document.startViewTransition) {
@@ -42,7 +55,7 @@ export default function Layout() {
 
     const x = event.clientX;
     const y = event.clientY;
-    
+
     // Set custom properties for CSS to use
     document.documentElement.style.setProperty('--x', `${x}px`);
     document.documentElement.style.setProperty('--y', `${y}px`);
@@ -76,7 +89,12 @@ export default function Layout() {
             >
               <div className="flex items-center justify-between mb-8 px-2">
                 <Logo className="text-2xl truncate mr-2" />
-                <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(false)} className="h-8 w-8 shrink-0">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setSidebarOpen(false)}
+                  className="h-8 w-8 shrink-0"
+                >
                   <X className="h-4 w-4" />
                 </Button>
               </div>
@@ -144,7 +162,12 @@ export default function Layout() {
       <div className="flex-1 lg:pl-64 flex flex-col min-h-screen">
         <header className="h-14 flex items-center justify-between px-4 lg:hidden border-b border-zinc-200 dark:border-zinc-800/50 bg-white/80 dark:bg-[#0A0A0A]/80 backdrop-blur-md sticky top-0 z-40">
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(true)} className="h-8 w-8 -ml-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setSidebarOpen(true)}
+              className="h-8 w-8 -ml-2"
+            >
               <Menu className="h-4 w-4" />
             </Button>
             <Logo className="text-xl" />
@@ -173,12 +196,27 @@ export default function Layout() {
             <div>
               <Logo className="text-base mb-2" />
               <p className="max-w-2xl text-balance text-zinc-500 dark:text-zinc-400">
-                Progetto portfolio open-source mantenuto internamente da Michael Gasperini / Mikesoft. I calcoli sono basati sulle norme vigenti (Agenzia delle Entrate 2026) ma NON sostituiscono la consulenza di un commercialista. Consulta sempre un professionista abilitato.
+                Progetto portfolio open-source mantenuto internamente da Michael Gasperini /
+                Mikesoft. I calcoli sono basati sulle norme vigenti (Agenzia delle Entrate 2026) ma
+                NON sostituiscono la consulenza di un commercialista. Consulta sempre un
+                professionista abilitato.
               </p>
             </div>
             <div className="pt-4 border-t border-zinc-200/50 dark:border-zinc-800/50 flex items-center justify-between">
               <p className="text-zinc-500 dark:text-zinc-400 text-sm">
-                Realizzato con 💙 da <span className="font-medium text-zinc-900 dark:text-zinc-100">Michael Gasperini</span> · <a href="https://mikesoft.it" target="_blank" rel="noopener noreferrer" className="font-medium text-zinc-900 dark:text-zinc-100 hover:underline">Mikesoft</a>
+                Realizzato con 💙 da{' '}
+                <span className="font-medium text-zinc-900 dark:text-zinc-100">
+                  Michael Gasperini
+                </span>{' '}
+                ·{' '}
+                <a
+                  href="https://mikesoft.it"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-zinc-900 dark:text-zinc-100 hover:underline"
+                >
+                  Mikesoft
+                </a>
               </p>
             </div>
           </div>

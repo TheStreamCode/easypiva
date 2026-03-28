@@ -2,7 +2,13 @@ import { getAtecoCoefficient, INPS_RATES } from '../fiscal-data';
 import { calculateInps } from './inps';
 import type { TargetNetInput, TargetNetResult } from './types';
 
-function calculateNetForRevenue(ricavi: number, coefficiente: number, aliquotaImposta: number, tipoInps: TargetNetInput['tipoInps'], riduzioneInps: boolean) {
+function calculateNetForRevenue(
+  ricavi: number,
+  coefficiente: number,
+  aliquotaImposta: number,
+  tipoInps: TargetNetInput['tipoInps'],
+  riduzioneInps: boolean,
+) {
   const redditoLordo = ricavi * coefficiente;
   const inps = calculateInps(redditoLordo, tipoInps, riduzioneInps);
   const tasse = Math.max(0, redditoLordo - inps.totale) * aliquotaImposta;
@@ -23,7 +29,13 @@ export function calculateTargetNet(input: TargetNetInput): TargetNetResult {
   if (input.tipoInps === 'nessuno') {
     const denom = 1 - coefficiente * aliquotaImposta;
     const ricaviNecessari = nettoAnnuo / denom;
-    const detail = calculateNetForRevenue(ricaviNecessari, coefficiente, aliquotaImposta, input.tipoInps, input.riduzioneInps);
+    const detail = calculateNetForRevenue(
+      ricaviNecessari,
+      coefficiente,
+      aliquotaImposta,
+      input.tipoInps,
+      input.riduzioneInps,
+    );
 
     return {
       nettoAnnuo,
@@ -36,9 +48,16 @@ export function calculateTargetNet(input: TargetNetInput): TargetNetResult {
 
   if (input.tipoInps === 'gestioneSeparata') {
     const aliquotaInps = INPS_RATES.gestioneSeparata.rate;
-    const denom = 1 - coefficiente * aliquotaInps - coefficiente * (1 - aliquotaInps) * aliquotaImposta;
+    const denom =
+      1 - coefficiente * aliquotaInps - coefficiente * (1 - aliquotaInps) * aliquotaImposta;
     const ricaviNecessari = nettoAnnuo / denom;
-    const detail = calculateNetForRevenue(ricaviNecessari, coefficiente, aliquotaImposta, input.tipoInps, input.riduzioneInps);
+    const detail = calculateNetForRevenue(
+      ricaviNecessari,
+      coefficiente,
+      aliquotaImposta,
+      input.tipoInps,
+      input.riduzioneInps,
+    );
 
     return {
       nettoAnnuo,
@@ -58,7 +77,13 @@ export function calculateTargetNet(input: TargetNetInput): TargetNetResult {
 
   for (let i = 0; i < 50; i++) {
     mid = (low + high) / 2;
-    const detail = calculateNetForRevenue(mid, coefficiente, aliquotaImposta, input.tipoInps, input.riduzioneInps);
+    const detail = calculateNetForRevenue(
+      mid,
+      coefficiente,
+      aliquotaImposta,
+      input.tipoInps,
+      input.riduzioneInps,
+    );
 
     if (detail.netto < nettoAnnuo) {
       low = mid;
@@ -69,7 +94,11 @@ export function calculateTargetNet(input: TargetNetInput): TargetNetResult {
 
   const ricaviNecessari = mid;
   const redditoLordo = ricaviNecessari * coefficiente;
-  const inpsStimato = rates.minimalContribution * riduzione + (redditoLordo > rates.minimalIncome ? (redditoLordo - rates.minimalIncome) * rates.rateOverMinimal * riduzione : 0);
+  const inpsStimato =
+    rates.minimalContribution * riduzione +
+    (redditoLordo > rates.minimalIncome
+      ? (redditoLordo - rates.minimalIncome) * rates.rateOverMinimal * riduzione
+      : 0);
   const tasseStimate = Math.max(0, redditoLordo - inpsStimato) * aliquotaImposta;
 
   return {

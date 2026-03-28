@@ -1,11 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import {
-  applyThemeMode,
-  initializeThemeMode,
-  type ThemeMode,
-  themeStorageKey,
-} from '@/lib/theme';
+import { applyThemeMode, initializeThemeMode, type ThemeMode, themeStorageKey } from '@/lib/theme';
 
 interface ThemeState {
   mode: ThemeMode;
@@ -37,6 +32,6 @@ export const useThemeStore = create<ThemeState>()(
           applyThemeMode(state.mode);
         }
       },
-    }
-  )
+    },
+  ),
 );

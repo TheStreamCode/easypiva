@@ -8,7 +8,10 @@ describe('useStore disclaimer migration', () => {
   });
 
   it('keeps accepted disclaimer from the legacy storage key', async () => {
-    window.localStorage.setItem('easypiva-storage', JSON.stringify({ state: { hasAcceptedDisclaimer: true } }));
+    window.localStorage.setItem(
+      'easypiva-storage',
+      JSON.stringify({ state: { hasAcceptedDisclaimer: true } }),
+    );
 
     const { useStore } = await import('../useStore');
 

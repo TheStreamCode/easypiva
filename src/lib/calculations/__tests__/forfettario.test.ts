@@ -94,7 +94,7 @@ describe('calculateForfettario', () => {
       expect.objectContaining({
         code: 'revenue-over-85000',
         severity: 'warning',
-      })
+      }),
     );
   });
 });

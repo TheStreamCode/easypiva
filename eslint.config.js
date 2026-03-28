@@ -12,7 +12,13 @@ export default tseslint.config(
   },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended, prettier],
-    files: ['src/**/*.{ts,tsx,js,jsx}', 'components/**/*.{ts,tsx,js,jsx}', 'vite.config.ts', 'vitest.config.ts', 'eslint.config.js'],
+    files: [
+      'src/**/*.{ts,tsx,js,jsx}',
+      'components/**/*.{ts,tsx,js,jsx}',
+      'vite.config.ts',
+      'vitest.config.ts',
+      'eslint.config.js',
+    ],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'module',
@@ -35,7 +41,7 @@ export default tseslint.config(
     rules: {
       'import/no-unresolved': 'error',
       ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': ['warn', {allowConstantExport: true}],
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     },
   },
   {

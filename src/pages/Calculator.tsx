@@ -1,29 +1,44 @@
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Switch } from "@/components/ui/switch"
-import { ATECO_CATEGORIES } from "@/lib/constants"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { AlertCircle, Download, ArrowRight, ArrowLeft } from "lucide-react"
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip as RechartsTooltip, Legend } from "recharts"
-import { jsPDF } from "jspdf"
-import { motion, AnimatePresence } from "motion/react"
-import { calculateForfettario } from "@/lib/calculations"
-import { formatCurrency } from "@/lib/format"
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import { ATECO_CATEGORIES } from '@/lib/constants';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { AlertCircle, Download, ArrowRight, ArrowLeft } from 'lucide-react';
+import {
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+  Tooltip as RechartsTooltip,
+  Legend,
+} from 'recharts';
+import { jsPDF } from 'jspdf';
+import { motion, AnimatePresence } from 'motion/react';
+import { calculateForfettario } from '@/lib/calculations';
+import { formatCurrency } from '@/lib/format';
 
 const warningCopy = {
   'revenue-over-85000': {
     title: 'Attenzione',
-    message: "I ricavi ragguagliati superano 85.000€. Uscirai dal regime forfettario l'anno prossimo.",
+    message:
+      "I ricavi ragguagliati superano 85.000€. Uscirai dal regime forfettario l'anno prossimo.",
   },
   'revenue-over-100000': {
     title: 'CRITICO',
-    message: 'I ricavi superano 100.000€. Uscita immediata dal regime forfettario nell\'anno in corso!',
+    message:
+      "I ricavi superano 100.000€. Uscita immediata dal regime forfettario nell'anno in corso!",
   },
   'employee-costs-over-limit': {
     title: 'Attenzione',
@@ -31,99 +46,117 @@ const warningCopy = {
   },
   'employment-income-over-limit': {
     title: 'Attenzione',
-    message: 'Il reddito da lavoro dipendente/pensione supera 35.000€. Non puoi accedere al regime forfettario.',
+    message:
+      'Il reddito da lavoro dipendente/pensione supera 35.000€. Non puoi accedere al regime forfettario.',
   },
-} as const
+} as const;
 
 const formSchema = z.object({
-  atecoId: z.string().min(1, "Seleziona una categoria ATECO"),
-  ricavi: z.number().min(0, "I ricavi non possono essere negativi"),
+  atecoId: z.string().min(1, 'Seleziona una categoria ATECO'),
+  ricavi: z.number().min(0, 'I ricavi non possono essere negativi'),
   mesiAttivita: z.number().min(1).max(12),
   nuovaAttivita: z.boolean(),
   contributiVersati: z.number().min(0),
   speseDipendenti: z.number().min(0),
   redditoDipendente: z.number().min(0),
-  tipoInps: z.enum(["gestioneSeparata", "artigiani", "commercianti", "nessuno"]),
+  tipoInps: z.enum(['gestioneSeparata', 'artigiani', 'commercianti', 'nessuno']),
   riduzioneInps: z.boolean().optional(),
-})
+});
 
-type FormValues = z.infer<typeof formSchema>
+type FormValues = z.infer<typeof formSchema>;
 
 export default function Calculator() {
-  const [step, setStep] = useState(1)
-  const totalSteps = 3
+  const [step, setStep] = useState(1);
+  const totalSteps = 3;
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      atecoId: "",
+      atecoId: '',
       ricavi: 0,
       mesiAttivita: 12,
       nuovaAttivita: false,
       contributiVersati: 0,
       speseDipendenti: 0,
       redditoDipendente: 0,
-      tipoInps: "gestioneSeparata",
+      tipoInps: 'gestioneSeparata',
       riduzioneInps: false,
     },
-  })
+  });
 
-  const { watch, setValue, trigger } = form
-  const values = watch()
+  const { watch, setValue, trigger } = form;
+  const values = watch();
 
   const nextStep = async () => {
-    let valid = false
+    let valid = false;
     if (step === 1) {
-      valid = await trigger(["atecoId", "ricavi", "mesiAttivita", "nuovaAttivita"])
+      valid = await trigger(['atecoId', 'ricavi', 'mesiAttivita', 'nuovaAttivita']);
     } else if (step === 2) {
-      valid = await trigger(["tipoInps", "riduzioneInps", "contributiVersati"])
+      valid = await trigger(['tipoInps', 'riduzioneInps', 'contributiVersati']);
     } else if (step === 3) {
-      valid = await trigger(["speseDipendenti", "redditoDipendente"])
+      valid = await trigger(['speseDipendenti', 'redditoDipendente']);
     }
 
     if (valid) {
-      setStep((prev) => Math.min(prev + 1, totalSteps + 1))
+      setStep((prev) => Math.min(prev + 1, totalSteps + 1));
     }
-  }
+  };
 
-  const prevStep = () => setStep((prev) => Math.max(prev - 1, 1))
+  const prevStep = () => setStep((prev) => Math.max(prev - 1, 1));
 
   const result = calculateForfettario({
     ...values,
     riduzioneInps: values.riduzioneInps ?? false,
-  })
-  const { coefficiente, redditoLordo, redditoNettoImponibile, aliquotaImposta, impostaSostitutiva, inps: stimaInps, nettoStimato, warnings } = result
+  });
+  const {
+    coefficiente,
+    redditoLordo,
+    redditoNettoImponibile,
+    aliquotaImposta,
+    impostaSostitutiva,
+    inps: stimaInps,
+    nettoStimato,
+    warnings,
+  } = result;
 
   const chartData = [
-    { name: "Netto Stimato", value: Math.max(0, nettoStimato), color: "var(--color-chart-1)" },
-    { name: "Imposta Sostitutiva", value: impostaSostitutiva, color: "var(--color-chart-2)" },
-    { name: "Contributi INPS", value: stimaInps.totale, color: "var(--color-chart-3)" },
-    { name: "Costi Forfettari", value: values.ricavi - redditoLordo, color: "var(--color-chart-4)" },
-  ]
+    { name: 'Netto Stimato', value: Math.max(0, nettoStimato), color: 'var(--color-chart-1)' },
+    { name: 'Imposta Sostitutiva', value: impostaSostitutiva, color: 'var(--color-chart-2)' },
+    { name: 'Contributi INPS', value: stimaInps.totale, color: 'var(--color-chart-3)' },
+    {
+      name: 'Costi Forfettari',
+      value: values.ricavi - redditoLordo,
+      color: 'var(--color-chart-4)',
+    },
+  ];
 
   const handleExportPDF = () => {
-    const doc = new jsPDF()
-    doc.setFontSize(20)
-    doc.text("Report EasyPIVA - Calcolo Forfettario 2026", 20, 20)
-    
-    doc.setFontSize(12)
-    doc.text(`Ricavi: ${formatCurrency(values.ricavi)}`, 20, 40)
-    doc.text(`Coefficiente Redditività: ${coefficiente * 100}%`, 20, 50)
-    doc.text(`Reddito Lordo: ${formatCurrency(redditoLordo)}`, 20, 60)
-    doc.text(`Contributi Dedotti: ${formatCurrency(values.contributiVersati)}`, 20, 70)
-    doc.text(`Reddito Imponibile: ${formatCurrency(redditoNettoImponibile)}`, 20, 80)
-    doc.text(`Imposta Sostitutiva (${aliquotaImposta * 100}%): ${formatCurrency(impostaSostitutiva)}`, 20, 90)
-    doc.text(`Stima INPS: ${formatCurrency(stimaInps.totale)}`, 20, 100)
-    doc.text(`Netto Stimato: ${formatCurrency(nettoStimato)}`, 20, 110)
-    
-    doc.save("easypiva-report.pdf")
-  }
+    const doc = new jsPDF();
+    doc.setFontSize(20);
+    doc.text('Report EasyPIVA - Calcolo Forfettario 2026', 20, 20);
+
+    doc.setFontSize(12);
+    doc.text(`Ricavi: ${formatCurrency(values.ricavi)}`, 20, 40);
+    doc.text(`Coefficiente Redditività: ${coefficiente * 100}%`, 20, 50);
+    doc.text(`Reddito Lordo: ${formatCurrency(redditoLordo)}`, 20, 60);
+    doc.text(`Contributi Dedotti: ${formatCurrency(values.contributiVersati)}`, 20, 70);
+    doc.text(`Reddito Imponibile: ${formatCurrency(redditoNettoImponibile)}`, 20, 80);
+    doc.text(
+      `Imposta Sostitutiva (${aliquotaImposta * 100}%): ${formatCurrency(impostaSostitutiva)}`,
+      20,
+      90,
+    );
+    doc.text(`Stima INPS: ${formatCurrency(stimaInps.totale)}`, 20, 100);
+    doc.text(`Netto Stimato: ${formatCurrency(nettoStimato)}`, 20, 110);
+
+    doc.save('easypiva-report.pdf');
+  };
 
   const stepVariants = {
     hidden: { opacity: 0, x: 20 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.4, ease: "easeOut" } },
-    exit: { opacity: 0, x: -20, transition: { duration: 0.3, ease: "easeIn" } }
-  }
+    visible: { opacity: 1, x: 0, transition: { duration: 0.4, ease: 'easeOut' } },
+    exit: { opacity: 0, x: -20, transition: { duration: 0.3, ease: 'easeIn' } },
+  };
 
   return (
     <div className="max-w-3xl mx-auto flex flex-col gap-12 pb-16 pt-8">
@@ -141,10 +174,10 @@ export default function Calculator() {
       {step <= totalSteps && (
         <div className="flex gap-2">
           {Array.from({ length: totalSteps }).map((_, i) => (
-            <div 
-              key={i} 
+            <div
+              key={i}
               className={`h-1 flex-1 rounded-full transition-colors duration-300 ${
-                i < step ? "bg-zinc-900 dark:bg-zinc-100" : "bg-zinc-200 dark:bg-zinc-800"
+                i < step ? 'bg-zinc-900 dark:bg-zinc-100' : 'bg-zinc-200 dark:bg-zinc-800'
               }`}
             />
           ))}
@@ -155,7 +188,7 @@ export default function Calculator() {
       <div className="relative min-h-[400px]">
         <AnimatePresence mode="wait">
           {step === 1 && (
-            <motion.div 
+            <motion.div
               key="step1"
               variants={stepVariants}
               initial="hidden"
@@ -165,12 +198,14 @@ export default function Calculator() {
             >
               <div className="flex flex-col gap-2">
                 <h2 className="text-xl font-medium text-zinc-900 dark:text-zinc-100">Dati Base</h2>
-                <p className="text-sm text-zinc-500">Inserisci i dati principali della tua attività.</p>
+                <p className="text-sm text-zinc-500">
+                  Inserisci i dati principali della tua attività.
+                </p>
               </div>
 
               <div className="space-y-4">
                 <Label htmlFor="atecoId">Categoria ATECO</Label>
-                <Select value={values.atecoId} onValueChange={(val) => setValue("atecoId", val)}>
+                <Select value={values.atecoId} onValueChange={(val) => setValue('atecoId', val)}>
                   <SelectTrigger id="atecoId" className="w-full">
                     <SelectValue placeholder="Seleziona la tua categoria..." />
                   </SelectTrigger>
@@ -182,7 +217,9 @@ export default function Calculator() {
                     ))}
                   </SelectContent>
                 </Select>
-                {form.formState.errors.atecoId && <p className="text-sm text-red-500">{form.formState.errors.atecoId.message}</p>}
+                {form.formState.errors.atecoId && (
+                  <p className="text-sm text-red-500">{form.formState.errors.atecoId.message}</p>
+                )}
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -192,8 +229,8 @@ export default function Calculator() {
                     id="ricavi"
                     type="number"
                     placeholder="es. 45000"
-                    value={values.ricavi || ""}
-                    onChange={(e) => setValue("ricavi", Number(e.target.value))}
+                    value={values.ricavi || ''}
+                    onChange={(e) => setValue('ricavi', Number(e.target.value))}
                     className="text-lg"
                   />
                 </div>
@@ -205,7 +242,7 @@ export default function Calculator() {
                     min="1"
                     max="12"
                     value={values.mesiAttivita}
-                    onChange={(e) => setValue("mesiAttivita", Number(e.target.value))}
+                    onChange={(e) => setValue('mesiAttivita', Number(e.target.value))}
                     className="text-lg"
                   />
                 </div>
@@ -213,20 +250,24 @@ export default function Calculator() {
 
               <div className="flex items-center justify-between py-4 border-y border-zinc-200 dark:border-zinc-800">
                 <div className="space-y-1">
-                  <Label htmlFor="nuovaAttivita" className="text-base">Nuova Attività (Startup)</Label>
-                  <p className="text-sm text-zinc-500">Aliquota agevolata al 5% per i primi 5 anni</p>
+                  <Label htmlFor="nuovaAttivita" className="text-base">
+                    Nuova Attività (Startup)
+                  </Label>
+                  <p className="text-sm text-zinc-500">
+                    Aliquota agevolata al 5% per i primi 5 anni
+                  </p>
                 </div>
                 <Switch
                   id="nuovaAttivita"
                   checked={values.nuovaAttivita}
-                  onCheckedChange={(checked) => setValue("nuovaAttivita", checked)}
+                  onCheckedChange={(checked) => setValue('nuovaAttivita', checked)}
                 />
               </div>
             </motion.div>
           )}
 
           {step === 2 && (
-            <motion.div 
+            <motion.div
               key="step2"
               variants={stepVariants}
               initial="hidden"
@@ -235,7 +276,9 @@ export default function Calculator() {
               className="flex flex-col gap-8"
             >
               <div className="flex flex-col gap-2">
-                <h2 className="text-xl font-medium text-zinc-900 dark:text-zinc-100">Contributi INPS</h2>
+                <h2 className="text-xl font-medium text-zinc-900 dark:text-zinc-100">
+                  Contributi INPS
+                </h2>
                 <p className="text-sm text-zinc-500">Configura la tua cassa previdenziale.</p>
               </div>
 
@@ -243,7 +286,7 @@ export default function Calculator() {
                 <Label htmlFor="tipoInps">Cassa Previdenziale</Label>
                 <Select
                   value={values.tipoInps}
-                  onValueChange={(val: FormValues["tipoInps"]) => setValue("tipoInps", val)}
+                  onValueChange={(val: FormValues['tipoInps']) => setValue('tipoInps', val)}
                 >
                   <SelectTrigger id="tipoInps">
                     <SelectValue placeholder="Seleziona cassa..." />
@@ -257,16 +300,20 @@ export default function Calculator() {
                 </Select>
               </div>
 
-              {(values.tipoInps === "artigiani" || values.tipoInps === "commercianti") && (
+              {(values.tipoInps === 'artigiani' || values.tipoInps === 'commercianti') && (
                 <div className="flex items-center justify-between py-4 border-y border-zinc-200 dark:border-zinc-800">
                   <div className="space-y-1">
-                    <Label htmlFor="riduzioneInps" className="text-base">Riduzione INPS 35%</Label>
-                    <p className="text-sm text-zinc-500">Hai richiesto la riduzione per forfettari?</p>
+                    <Label htmlFor="riduzioneInps" className="text-base">
+                      Riduzione INPS 35%
+                    </Label>
+                    <p className="text-sm text-zinc-500">
+                      Hai richiesto la riduzione per forfettari?
+                    </p>
                   </div>
                   <Switch
                     id="riduzioneInps"
                     checked={values.riduzioneInps}
-                    onCheckedChange={(checked) => setValue("riduzioneInps", checked)}
+                    onCheckedChange={(checked) => setValue('riduzioneInps', checked)}
                   />
                 </div>
               )}
@@ -280,8 +327,8 @@ export default function Calculator() {
                   id="contributiVersati"
                   type="number"
                   placeholder="es. 3500"
-                  value={values.contributiVersati || ""}
-                  onChange={(e) => setValue("contributiVersati", Number(e.target.value))}
+                  value={values.contributiVersati || ''}
+                  onChange={(e) => setValue('contributiVersati', Number(e.target.value))}
                   className="text-lg"
                 />
               </div>
@@ -289,7 +336,7 @@ export default function Calculator() {
           )}
 
           {step === 3 && (
-            <motion.div 
+            <motion.div
               key="step3"
               variants={stepVariants}
               initial="hidden"
@@ -298,8 +345,12 @@ export default function Calculator() {
               className="flex flex-col gap-8"
             >
               <div className="flex flex-col gap-2">
-                <h2 className="text-xl font-medium text-zinc-900 dark:text-zinc-100">Verifica Limiti</h2>
-                <p className="text-sm text-zinc-500">Assicurati di rispettare i requisiti del regime.</p>
+                <h2 className="text-xl font-medium text-zinc-900 dark:text-zinc-100">
+                  Verifica Limiti
+                </h2>
+                <p className="text-sm text-zinc-500">
+                  Assicurati di rispettare i requisiti del regime.
+                </p>
               </div>
 
               <div className="space-y-4">
@@ -310,22 +361,24 @@ export default function Calculator() {
                 <Input
                   id="speseDipendenti"
                   type="number"
-                  value={values.speseDipendenti || ""}
-                  onChange={(e) => setValue("speseDipendenti", Number(e.target.value))}
+                  value={values.speseDipendenti || ''}
+                  onChange={(e) => setValue('speseDipendenti', Number(e.target.value))}
                   className="text-lg"
                 />
               </div>
 
               <div className="space-y-4">
                 <div className="space-y-1">
-                  <Label htmlFor="redditoDipendente">Reddito da lavoro dipendente anno precedente (€)</Label>
+                  <Label htmlFor="redditoDipendente">
+                    Reddito da lavoro dipendente anno precedente (€)
+                  </Label>
                   <p className="text-sm text-zinc-500">Limite massimo 35.000€.</p>
                 </div>
                 <Input
                   id="redditoDipendente"
                   type="number"
-                  value={values.redditoDipendente || ""}
-                  onChange={(e) => setValue("redditoDipendente", Number(e.target.value))}
+                  value={values.redditoDipendente || ''}
+                  onChange={(e) => setValue('redditoDipendente', Number(e.target.value))}
                   className="text-lg"
                 />
               </div>
@@ -333,7 +386,7 @@ export default function Calculator() {
           )}
 
           {step > totalSteps && (
-            <motion.div 
+            <motion.div
               key="results"
               variants={stepVariants}
               initial="hidden"
@@ -343,12 +396,24 @@ export default function Calculator() {
               {warnings.length > 0 && (
                 <div className="flex flex-col gap-3">
                   {warnings.map((w, i) => (
-                <Alert key={i} variant={w.severity === "critical" ? "destructive" : "default"} className={w.severity !== "critical" ? "border-zinc-300 text-zinc-700 dark:text-zinc-300" : ""}>
-                  <AlertCircle className="h-4 w-4" />
-                  <AlertTitle>{warningCopy[w.code as keyof typeof warningCopy]?.title ?? 'Attenzione'}</AlertTitle>
-                  <AlertDescription>{warningCopy[w.code as keyof typeof warningCopy]?.message ?? w.code}</AlertDescription>
-                </Alert>
-              ))}
+                    <Alert
+                      key={i}
+                      variant={w.severity === 'critical' ? 'destructive' : 'default'}
+                      className={
+                        w.severity !== 'critical'
+                          ? 'border-zinc-300 text-zinc-700 dark:text-zinc-300'
+                          : ''
+                      }
+                    >
+                      <AlertCircle className="h-4 w-4" />
+                      <AlertTitle>
+                        {warningCopy[w.code as keyof typeof warningCopy]?.title ?? 'Attenzione'}
+                      </AlertTitle>
+                      <AlertDescription>
+                        {warningCopy[w.code as keyof typeof warningCopy]?.message ?? w.code}
+                      </AlertDescription>
+                    </Alert>
+                  ))}
                 </div>
               )}
 
@@ -358,23 +423,29 @@ export default function Calculator() {
                   <h3 className="text-lg font-medium text-zinc-900 dark:text-zinc-100 border-b border-zinc-200 dark:border-zinc-800 pb-2">
                     Riepilogo Fiscale
                   </h3>
-                  
+
                   <div className="flex flex-col gap-4 text-sm">
                     <div className="flex justify-between items-center">
                       <span className="text-zinc-500">Ricavi Lordi</span>
-                      <span className="font-medium text-zinc-900 dark:text-zinc-100">{formatCurrency(values.ricavi)}</span>
+                      <span className="font-medium text-zinc-900 dark:text-zinc-100">
+                        {formatCurrency(values.ricavi)}
+                      </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-zinc-500">Reddito Lordo ({coefficiente * 100}%)</span>
-                      <span className="font-medium text-zinc-900 dark:text-zinc-100">{formatCurrency(redditoLordo)}</span>
+                      <span className="font-medium text-zinc-900 dark:text-zinc-100">
+                        {formatCurrency(redditoLordo)}
+                      </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-zinc-500">Imponibile Netto</span>
-                      <span className="font-medium text-zinc-900 dark:text-zinc-100">{formatCurrency(redditoNettoImponibile)}</span>
+                      <span className="font-medium text-zinc-900 dark:text-zinc-100">
+                        {formatCurrency(redditoNettoImponibile)}
+                      </span>
                     </div>
-                    
+
                     <div className="h-px bg-zinc-200 dark:bg-zinc-800 my-2" />
-                    
+
                     <div className="flex justify-between items-center text-zinc-600 dark:text-zinc-400">
                       <span>Imposta Sostitutiva ({aliquotaImposta * 100}%)</span>
                       <span>-{formatCurrency(impostaSostitutiva)}</span>
@@ -383,12 +454,16 @@ export default function Calculator() {
                       <span>Stima INPS Anno</span>
                       <span>-{formatCurrency(stimaInps.totale)}</span>
                     </div>
-                    
+
                     <div className="h-px bg-zinc-900 dark:bg-zinc-100 my-2" />
-                    
+
                     <div className="flex justify-between items-center text-lg">
-                      <span className="font-medium text-zinc-900 dark:text-zinc-100">Netto Stimato</span>
-                      <span className="font-semibold text-zinc-900 dark:text-zinc-100">{formatCurrency(nettoStimato)}</span>
+                      <span className="font-medium text-zinc-900 dark:text-zinc-100">
+                        Netto Stimato
+                      </span>
+                      <span className="font-semibold text-zinc-900 dark:text-zinc-100">
+                        {formatCurrency(nettoStimato)}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -415,9 +490,13 @@ export default function Calculator() {
                             <Cell key={`cell-${index}`} fill={entry.color} />
                           ))}
                         </Pie>
-                        <RechartsTooltip 
+                        <RechartsTooltip
                           formatter={(value: number) => formatCurrency(value)}
-                          contentStyle={{ borderRadius: '8px', border: '1px solid #e4e4e7', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                          contentStyle={{
+                            borderRadius: '8px',
+                            border: '1px solid #e4e4e7',
+                            boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
+                          }}
                         />
                         <Legend iconType="circle" wrapperStyle={{ fontSize: '12px' }} />
                       </PieChart>
@@ -443,24 +522,24 @@ export default function Calculator() {
       {/* Navigation */}
       {step <= totalSteps && (
         <div className="flex justify-between items-center pt-8 border-t border-zinc-200 dark:border-zinc-800">
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             onClick={prevStep}
             disabled={step === 1}
             className="gap-2 text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100"
           >
             <ArrowLeft className="w-4 h-4" /> Indietro
           </Button>
-          
-          <Button 
+
+          <Button
             onClick={nextStep}
             className="gap-2 bg-zinc-900 text-zinc-50 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
           >
-            {step === totalSteps ? "Calcola Risultati" : "Avanti"}
+            {step === totalSteps ? 'Calcola Risultati' : 'Avanti'}
             {step !== totalSteps && <ArrowRight className="w-4 h-4" />}
           </Button>
         </div>
       )}
     </div>
-  )
+  );
 }
