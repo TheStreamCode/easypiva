@@ -13,7 +13,7 @@ export const useStore = create<AppState>()(
       acceptDisclaimer: () => set({ hasAcceptedDisclaimer: true }),
     }),
     {
-      name: 'easypiva-storage',
+      name: 'easypiva-disclaimer-storage',
     }
   )
 );

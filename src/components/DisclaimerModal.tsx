@@ -7,15 +7,18 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { useStore } from "@/store/useStore"
+import { useStore } from '@/store/useStore'
 
 export function DisclaimerModal() {
   const { hasAcceptedDisclaimer, acceptDisclaimer } = useStore()
 
   return (
-    <Dialog open={!hasAcceptedDisclaimer} onOpenChange={(open) => {
-      if (!open) acceptDisclaimer()
-    }}>
+    <Dialog
+      open={!hasAcceptedDisclaimer}
+      onOpenChange={(open) => {
+        if (!open) acceptDisclaimer()
+      }}
+    >
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-red-600 dark:text-red-400">

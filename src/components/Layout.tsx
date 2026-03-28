@@ -1,9 +1,11 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { Calculator, Scale, PiggyBank, Target, Calendar, Info, Menu, X, Moon, Sun, Globe } from 'lucide-react';
-import { useState, useEffect, type MouseEvent } from 'react';
+import { useState, type MouseEvent } from 'react';
 import { flushSync } from 'react-dom';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'motion/react';
+import { type ThemeMode } from '@/lib/theme';
+import { useThemeStore } from '@/store/useThemeStore';
 
 const navigation = [
   { name: 'Dashboard', href: '/', icon: Globe },
@@ -28,21 +30,16 @@ function Logo({ className = "text-xl" }: { className?: string }) {
 export default function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
-  const [isDark, setIsDark] = useState(false);
-
-  useEffect(() => {
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDark]);
+  const { mode, setThemeMode } = useThemeStore();
+  const isDark = mode === 'dark';
 
 
   const toggleTheme = (event: MouseEvent<HTMLButtonElement>) => {
+    const nextMode: ThemeMode = isDark ? 'light' : 'dark';
+
     // Fallback for browsers that don't support View Transitions
     if (!document.startViewTransition) {
-      setIsDark(!isDark);
+      setThemeMode(nextMode);
       return;
     }
 
@@ -55,7 +52,7 @@ export default function Layout() {
 
     document.startViewTransition(() => {
       flushSync(() => {
-        setIsDark(!isDark);
+        setThemeMode(nextMode);
       });
     });
   };
