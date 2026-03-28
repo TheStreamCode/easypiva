@@ -2,6 +2,15 @@ export type ThemeMode = 'light' | 'dark';
 
 export const themeStorageKey = 'easypiva-theme-mode';
 
+export function getThemeRevealRadius(
+  x: number,
+  y: number,
+  viewportWidth: number,
+  viewportHeight: number,
+) {
+  return Math.ceil(Math.hypot(Math.max(x, viewportWidth - x), Math.max(y, viewportHeight - y)));
+}
+
 function canUseBrowserStorage() {
   return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
 }

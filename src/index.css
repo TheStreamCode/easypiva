@@ -82,6 +82,7 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --theme-reveal-duration: 0.7s;
 }
 
 .dark {
@@ -118,6 +119,12 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+@media (pointer: coarse) {
+  :root {
+    --theme-reveal-duration: 0.55s;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -130,21 +137,9 @@
   }
 }
 
-.dark
-
-.dark
-
-
-
-
-
-
-.dark
-.dark
-
 /* Circular Reveal View Transition */
 ::view-transition-group(root) {
-  animation-duration: 0.7s;
+  animation-duration: var(--theme-reveal-duration);
   animation-timing-function: cubic-bezier(0.8, 0, 0.2, 1);
 }
 
@@ -156,7 +151,7 @@
 
 /* Going Dark */
 .dark::view-transition-new(root) {
-  animation: reveal-theme 0.7s cubic-bezier(0.8, 0, 0.2, 1) forwards;
+  animation: reveal-theme var(--theme-reveal-duration) cubic-bezier(0.8, 0, 0.2, 1) forwards;
   z-index: 2;
 }
 .dark::view-transition-old(root) {
@@ -165,7 +160,7 @@
 
 /* Going Light */
 html:not(.dark)::view-transition-old(root) {
-  animation: reveal-theme 0.7s cubic-bezier(0.8, 0, 0.2, 1) reverse forwards;
+  animation: reveal-theme var(--theme-reveal-duration) cubic-bezier(0.8, 0, 0.2, 1) reverse forwards;
   z-index: 2;
 }
 html:not(.dark)::view-transition-new(root) {
@@ -177,6 +172,6 @@ html:not(.dark)::view-transition-new(root) {
     clip-path: circle(0px at var(--x, 50%) var(--y, 50%));
   }
   100% {
-    clip-path: circle(150vw at var(--x, 50%) var(--y, 50%));
+    clip-path: circle(var(--theme-reveal-radius, 150vw) at var(--x, 50%) var(--y, 50%));
   }
 }

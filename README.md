@@ -20,7 +20,7 @@ EasyPIVA è un progetto portfolio open source per simulare regime forfettario, c
 - Pianificazione mensile per monitorare i limiti di ricavi.
 - Export PDF dei risultati.
 - Salvataggio scenari nel browser con `localStorage`.
-- Modalità dark/light con circular reveal.
+- Modalità dark/light con circular reveal ottimizzata per mobile.
 
 ## Stack
 

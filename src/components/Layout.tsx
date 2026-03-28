@@ -16,6 +16,7 @@ import { useState, type MouseEvent } from 'react';
 import { flushSync } from 'react-dom';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'motion/react';
+import { getThemeRevealRadius } from '@/lib/theme';
 import { useThemeStore } from '@/store/useThemeStore';
 
 const navigation = [
@@ -55,15 +56,21 @@ export default function Layout() {
 
     const x = event.clientX;
     const y = event.clientY;
+    const radius = getThemeRevealRadius(x, y, window.innerWidth, window.innerHeight);
 
     // Set custom properties for CSS to use
     document.documentElement.style.setProperty('--x', `${x}px`);
     document.documentElement.style.setProperty('--y', `${y}px`);
+    document.documentElement.style.setProperty('--theme-reveal-radius', `${radius}px`);
 
-    document.startViewTransition(() => {
+    const transition = document.startViewTransition(() => {
       flushSync(() => {
         toggleThemeMode();
       });
+    });
+
+    transition.finished.finally(() => {
+      document.documentElement.style.removeProperty('--theme-reveal-radius');
     });
   };
 
