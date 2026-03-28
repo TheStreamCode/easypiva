@@ -98,7 +98,7 @@ export default function Planning() {
           </div>
         </motion.div>
 
-        <motion.div variants={itemVariants} className="lg:col-span-8 flex flex-col gap-12">
+        <motion.div variants={itemVariants} className="lg:col-span-8 min-w-0 flex flex-col gap-12">
           <div className="flex flex-col gap-6">
             <h3 className="text-lg font-medium text-zinc-900 dark:text-zinc-100 border-b border-zinc-200 dark:border-zinc-800 pb-2">
               Proiezione Annuale
@@ -142,8 +142,14 @@ export default function Planning() {
               Andamento Cumulato
             </h3>
 
-            <div className="h-[400px] w-full pt-4">
-              <ResponsiveContainer width="100%" height="100%">
+            <div className="h-[400px] w-full min-w-0 pt-4">
+              <ResponsiveContainer
+                width="100%"
+                height="100%"
+                minWidth={0}
+                minHeight={400}
+                initialDimension={{ width: 640, height: 400 }}
+              >
                 <LineChart
                   data={result.projection}
                   margin={{ top: 20, right: 30, left: 0, bottom: 5 }}

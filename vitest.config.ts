@@ -8,10 +8,10 @@ const root = path.dirname(fileURLToPath(import.meta.url));
 export default defineConfig({
   plugins: [react()],
   resolve: {
-    alias: {
-      '@': path.resolve(root, './src'),
-      '@/components': path.resolve(root, './components'),
-    },
+    alias: [
+      { find: '@/components', replacement: path.resolve(root, './components') },
+      { find: '@', replacement: path.resolve(root, './src') },
+    ],
   },
   test: {
     environment: 'jsdom',

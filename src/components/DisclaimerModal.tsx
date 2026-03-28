@@ -28,16 +28,16 @@ export function DisclaimerModal() {
           <DialogTitle className="text-xl font-medium text-center text-foreground tracking-tight">
             Benvenuto in EasyPIVA
           </DialogTitle>
-          <DialogDescription className="text-[15px] space-y-4 text-center text-muted-foreground leading-relaxed">
-            <p>
+          <DialogDescription className="text-[15px] text-center text-muted-foreground leading-relaxed">
+            <span className="block">
               Questo è un progetto portfolio open-source ideato e sviluppato internamente da{' '}
               <span className="font-medium text-foreground">Michael Gasperini / Mikesoft</span>.
-            </p>
-            <p>
+            </span>
+            <span className="mt-4 block">
               Le simulazioni fornite si basano sulle normative dell'Agenzia delle Entrate (2026) ed
               hanno scopo puramente indicativo. <strong>Non sostituiscono in alcun modo</strong> la
               consulenza di un commercialista abilitato.
-            </p>
+            </span>
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="sm:justify-center mt-4">

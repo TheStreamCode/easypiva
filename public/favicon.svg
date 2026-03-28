@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">EasyPIVA</title>
+  <desc id="desc">Monogramma EP su fondo scuro con accento blu.</desc>
+  <defs>
+    <linearGradient id="bg" x1="10" y1="8" x2="54" y2="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#18181b" />
+      <stop offset="1" stop-color="#09090b" />
+    </linearGradient>
+    <linearGradient id="ink" x1="18" y1="16" x2="48" y2="44" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fafafa" />
+      <stop offset="1" stop-color="#d4d4d8" />
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="16" fill="url(#bg)" />
+  <path
+    d="M18 16h14v4H22v7h9v4h-9v9h10v4H18V16Zm18 0h8c7 0 12 4.3 12 10.5S51 37 44 37h-4v11h-4V16Zm4 4v13h4c4.9 0 8-2.4 8-6.5S48.9 20 44 20h-4Z"
+    fill="url(#ink)"
+  />
+  <circle cx="49" cy="49" r="4.5" fill="#2563eb" />
+</svg>

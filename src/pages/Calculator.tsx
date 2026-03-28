@@ -473,8 +473,14 @@ export default function Calculator() {
                   <h3 className="text-lg font-medium text-zinc-900 dark:text-zinc-100 border-b border-zinc-200 dark:border-zinc-800 pb-2">
                     Ripartizione
                   </h3>
-                  <div className="h-[250px] w-full">
-                    <ResponsiveContainer width="100%" height="100%">
+                  <div className="h-[250px] w-full min-w-0">
+                    <ResponsiveContainer
+                      width="100%"
+                      height="100%"
+                      minWidth={0}
+                      minHeight={250}
+                      initialDimension={{ width: 520, height: 250 }}
+                    >
                       <PieChart>
                         <Pie
                           data={chartData}

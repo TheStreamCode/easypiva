@@ -142,7 +142,7 @@ export default function Comparison() {
           </div>
         </motion.div>
 
-        <motion.div variants={itemVariants} className="lg:col-span-2 flex flex-col gap-12">
+        <motion.div variants={itemVariants} className="lg:col-span-2 min-w-0 flex flex-col gap-12">
           <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-2">
               <h2 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-100">
@@ -157,8 +157,14 @@ export default function Comparison() {
               </p>
             </div>
 
-            <div className="h-[400px] w-full mt-4">
-              <ResponsiveContainer width="100%" height="100%">
+            <div className="mt-4 h-[400px] w-full min-w-0">
+              <ResponsiveContainer
+                width="100%"
+                height="100%"
+                minWidth={0}
+                minHeight={400}
+                initialDimension={{ width: 640, height: 400 }}
+              >
                 <BarChart data={chartData} margin={{ top: 20, right: 0, left: -20, bottom: 0 }}>
                   <CartesianGrid
                     strokeDasharray="3 3"
