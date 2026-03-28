@@ -1,23 +1,29 @@
 // @vitest-environment jsdom
-import { describe, expect, it, beforeEach, vi } from 'vitest';
-import { getInitialThemeMode, applyThemeMode, themeStorageKey } from '@/lib/theme';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-describe('theme helpers', () => {
+describe('useThemeStore', () => {
   beforeEach(() => {
+    vi.resetModules();
     window.localStorage.clear();
     document.documentElement.className = '';
-    vi.restoreAllMocks();
   });
 
-  it('uses the persisted theme mode and applies the root class', () => {
-    window.localStorage.setItem(themeStorageKey, 'dark');
+  it('persists theme changes and syncs the root class', async () => {
+    const { useThemeStore } = await import('../useThemeStore');
+    const { themeStorageKey } = await import('@/lib/theme');
 
-    expect(getInitialThemeMode()).toBe('dark');
+    expect(useThemeStore.getState().mode).toBe('light');
 
-    applyThemeMode('dark');
+    useThemeStore.getState().setThemeMode('dark');
+
+    expect(useThemeStore.getState().mode).toBe('dark');
     expect(document.documentElement.classList.contains('dark')).toBe(true);
+    expect(window.localStorage.getItem(themeStorageKey)).toContain('dark');
 
-    applyThemeMode('light');
+    useThemeStore.getState().toggleThemeMode();
+
+    expect(useThemeStore.getState().mode).toBe('light');
     expect(document.documentElement.classList.contains('dark')).toBe(false);
+    expect(window.localStorage.getItem(themeStorageKey)).toContain('light');
   });
 });

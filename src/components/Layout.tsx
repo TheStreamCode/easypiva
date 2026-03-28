@@ -4,7 +4,6 @@ import { useState, type MouseEvent } from 'react';
 import { flushSync } from 'react-dom';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'motion/react';
-import { type ThemeMode } from '@/lib/theme';
 import { useThemeStore } from '@/store/useThemeStore';
 
 const navigation = [
@@ -30,16 +29,14 @@ function Logo({ className = "text-xl" }: { className?: string }) {
 export default function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
-  const { mode, setThemeMode } = useThemeStore();
+  const { mode, toggleThemeMode } = useThemeStore();
   const isDark = mode === 'dark';
 
 
   const toggleTheme = (event: MouseEvent<HTMLButtonElement>) => {
-    const nextMode: ThemeMode = isDark ? 'light' : 'dark';
-
     // Fallback for browsers that don't support View Transitions
     if (!document.startViewTransition) {
-      setThemeMode(nextMode);
+      toggleThemeMode();
       return;
     }
 
@@ -52,7 +49,7 @@ export default function Layout() {
 
     document.startViewTransition(() => {
       flushSync(() => {
-        setThemeMode(nextMode);
+        toggleThemeMode();
       });
     });
   };

@@ -49,14 +49,6 @@ export function applyThemeMode(mode: ThemeMode) {
   document.documentElement.classList.toggle('dark', mode === 'dark');
 }
 
-export function persistThemeMode(mode: ThemeMode) {
-  if (!canUseBrowserStorage()) {
-    return;
-  }
-
-  window.localStorage.setItem(themeStorageKey, JSON.stringify({ state: { mode } }));
-}
-
 export function initializeThemeMode() {
   const mode = getInitialThemeMode();
   applyThemeMode(mode);
