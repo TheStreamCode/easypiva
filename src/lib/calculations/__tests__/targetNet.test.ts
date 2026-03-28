@@ -20,4 +20,17 @@ describe('calculateTargetNet', () => {
     expect(netto).toBeCloseTo(24000, 0);
     expect(target.tasseStimate + target.inpsStimato).toBeLessThan(target.ricaviNecessari);
   });
+
+  it('handles nessuno without crashing', () => {
+    const target = calculateTargetNet({
+      nettoMensile: 2000,
+      atecoId: '8',
+      nuovaAttivita: false,
+      tipoInps: 'nessuno',
+      riduzioneInps: false,
+    });
+
+    expect(target.ricaviNecessari).toBeGreaterThan(0);
+    expect(target.inpsStimato).toBeGreaterThan(0);
+  });
 });

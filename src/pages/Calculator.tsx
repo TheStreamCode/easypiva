@@ -69,7 +69,11 @@ export default function Calculator() {
 
   const prevStep = () => setStep((prev) => Math.max(prev - 1, 1))
 
-  const result = calculateForfettario({ ...values, riduzioneInps: values.riduzioneInps ?? false })
+  const result = calculateForfettario({
+    ...values,
+    tipoInps: values.tipoInps === 'nessuno' ? 'gestioneSeparata' : values.tipoInps,
+    riduzioneInps: values.riduzioneInps ?? false,
+  })
   const { coefficiente, redditoLordo, redditoNettoImponibile, aliquotaImposta, impostaSostitutiva, inps: stimaInps, nettoStimato, warnings } = result
 
   const chartData = [
@@ -321,12 +325,12 @@ export default function Calculator() {
               {warnings.length > 0 && (
                 <div className="flex flex-col gap-3">
                   {warnings.map((w, i) => (
-                    <Alert key={i} variant={w.includes("CRITICO") ? "destructive" : "default"} className={!w.includes("CRITICO") ? "border-zinc-300 text-zinc-700 dark:text-zinc-300" : ""}>
-                      <AlertCircle className="h-4 w-4" />
-                      <AlertTitle>Attenzione</AlertTitle>
-                      <AlertDescription>{w}</AlertDescription>
-                    </Alert>
-                  ))}
+                <Alert key={i} variant={w.severity === "critical" ? "destructive" : "default"} className={w.severity !== "critical" ? "border-zinc-300 text-zinc-700 dark:text-zinc-300" : ""}>
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertTitle>{w.severity === 'critical' ? 'CRITICO' : 'Attenzione'}</AlertTitle>
+                  <AlertDescription>{w.message}</AlertDescription>
+                </Alert>
+              ))}
                 </div>
               )}
 

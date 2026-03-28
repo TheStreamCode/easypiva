@@ -1,5 +1,13 @@
 import type { InpsType } from '../fiscal-data';
 
+export type WarningSeverity = 'warning' | 'critical';
+
+export type DomainWarning = {
+  code: string;
+  severity: WarningSeverity;
+  message: string;
+};
+
 export type ForfettarioInput = {
   ricavi: number;
   atecoId: string;
@@ -28,7 +36,7 @@ export type ForfettarioResult = {
   impostaSostitutiva: number;
   inps: InpsCalculation;
   nettoStimato: number;
-  warnings: string[];
+  warnings: DomainWarning[];
 };
 
 export type ComparisonInput = {
@@ -70,9 +78,15 @@ export type TargetNetResult = {
 };
 
 export type PlanningResult = {
-  chartData: Array<{ name: string; Ricavi: number; Cumulato: number }>;
+  projection: Array<{ month: string; revenue: number; cumulativeRevenue: number }>;
   totaleAnnuo: number;
   limiteSuperato: boolean;
   uscitaImmediata: boolean;
-  warnings: string[];
+  warnings: DomainWarning[];
+};
+
+export type ProjectionPoint = {
+  month: string;
+  revenue: number;
+  cumulativeRevenue: number;
 };

@@ -58,8 +58,8 @@ export default function Planning() {
               </div>
 
               {result.warnings.map((warning) => (
-                <motion.div key={warning} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className={`mt-8 p-4 rounded-xl border text-sm leading-relaxed ${result.uscitaImmediata ? "bg-red-100/50 text-red-900 dark:bg-red-900/30 dark:text-red-200 border-red-200 dark:border-red-800/50" : "bg-amber-100/50 text-amber-900 dark:bg-amber-900/30 dark:text-amber-200 border-amber-200 dark:border-amber-800/50"}`}>
-                  <strong className="font-semibold">{result.uscitaImmediata ? 'CRITICO:' : 'Attenzione:'}</strong> {warning.replace(/^CRITICO: |^Attenzione: /, '')}
+                <motion.div key={warning.code} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className={`mt-8 p-4 rounded-xl border text-sm leading-relaxed ${warning.severity === "critical" ? "bg-red-100/50 text-red-900 dark:bg-red-900/30 dark:text-red-200 border-red-200 dark:border-red-800/50" : "bg-amber-100/50 text-amber-900 dark:bg-amber-900/30 dark:text-amber-200 border-amber-200 dark:border-amber-800/50"}`}>
+                  <strong className="font-semibold">{warning.severity === 'critical' ? 'CRITICO:' : 'Attenzione:'}</strong> {warning.message}
                 </motion.div>
               ))}
             </div>
@@ -70,7 +70,7 @@ export default function Planning() {
 
             <div className="h-[400px] w-full pt-4">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={result.chartData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+                <LineChart data={result.projection.map((item) => ({ name: item.month, cumulativeRevenue: item.cumulativeRevenue }))} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e4e4e7" className="dark:stroke-zinc-800" />
                   <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#71717a', fontSize: 12 }} dy={10} />
                   <YAxis tickFormatter={(value) => `€${value / 1000}k`} axisLine={false} tickLine={false} tick={{ fill: '#71717a', fontSize: 12 }} dx={-10} />
@@ -78,7 +78,7 @@ export default function Planning() {
                   <Legend iconType="circle" wrapperStyle={{ paddingTop: '20px' }} />
                   <ReferenceLine y={LIMITS.ricavi} label={{ position: 'top', value: 'Limite 85k', fill: '#f59e0b', fontSize: 12 }} stroke="#f59e0b" strokeDasharray="3 3" opacity={0.5} />
                   <ReferenceLine y={LIMITS.uscitaImmediata} label={{ position: 'top', value: 'Uscita 100k', fill: '#ef4444', fontSize: 12 }} stroke="#ef4444" strokeDasharray="3 3" opacity={0.5} />
-                  <Line type="monotone" dataKey="Cumulato" name="Fatturato Cumulato" stroke="var(--color-chart-1)" strokeWidth={3} dot={{ r: 4, fill: 'var(--color-chart-1)', strokeWidth: 2, stroke: 'var(--color-background)' }} activeDot={{ r: 6, strokeWidth: 0 }} />
+                  <Line type="monotone" dataKey="cumulativeRevenue" name="Fatturato Cumulato" stroke="var(--color-chart-1)" strokeWidth={3} dot={{ r: 4, fill: 'var(--color-chart-1)', strokeWidth: 2, stroke: 'var(--color-background)' }} activeDot={{ r: 6, strokeWidth: 0 }} />
                 </LineChart>
               </ResponsiveContainer>
             </div>
