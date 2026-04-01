@@ -61,8 +61,7 @@ export default function Home() {
           transition={{ duration: 0.5, ease: 'easeOut' }}
           className="text-4xl md:text-6xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 max-w-3xl text-balance"
         >
-          La tua Partita IVA, <br className="hidden md:block" />
-          <span className="text-zinc-400 dark:text-zinc-500">facile e trasparente.</span>
+          Simulazioni fiscali precise e aggiornate.
         </motion.h1>
 
         <motion.p
@@ -71,8 +70,7 @@ export default function Home() {
           transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
           className="text-lg md:text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl text-balance"
         >
-          Strumenti gratuiti e aggiornati al 2026 per freelance, artigiani e piccole imprese
-          italiane. Nessuna registrazione richiesta.
+          Gratuito, senza registrazione, open source.
         </motion.p>
       </section>
 

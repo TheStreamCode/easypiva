@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/TheStreamCode/easypiva/actions/workflows/ci.yml/badge.svg)](https://github.com/TheStreamCode/easypiva/actions/workflows/ci.yml)
 
-**La tua Partita IVA, facile e trasparente.**
+**Simulazioni fiscali precise e aggiornate.**
 
 EasyPIVA è un progetto portfolio open source per simulare regime forfettario, contributi INPS, confronto tra regimi fiscali italiani e pianificazione delle entrate.
 È ideato e sviluppato interamente da **Michael Gasperini** per **Mikesoft**.

@@ -48,7 +48,7 @@ export const INPS_RATES = {
 
 export const IRPEF_BRACKETS_2026 = [
   { max: 28000, rate: 0.23 },
-  { max: 50000, rate: 0.35 },
+  { max: 50000, rate: 0.33 },
   { max: Infinity, rate: 0.43 },
 ] as const;
 
