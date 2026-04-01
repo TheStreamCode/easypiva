@@ -61,17 +61,11 @@ export default function Home() {
           transition={{ duration: 0.5, ease: 'easeOut' }}
           className="text-4xl md:text-6xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 max-w-3xl text-balance"
         >
-          Simulazioni fiscali precise e aggiornate.
+          Simulazioni fiscali precise e aggiornate, <br className="hidden md:block" />
+          <span className="text-zinc-400 dark:text-zinc-500">
+            gratuito, senza registrazione, open source.
+          </span>
         </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
-          className="text-lg md:text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl text-balance"
-        >
-          Gratuito, senza registrazione, open source.
-        </motion.p>
       </section>
 
       {/* Tools Grid - Cardless */}
