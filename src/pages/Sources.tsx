@@ -170,7 +170,7 @@ export default function Sources() {
                   <strong className="font-medium text-zinc-900 dark:text-zinc-100">
                     Scaglioni IRPEF (Regime Ordinario):
                   </strong>{' '}
-                  Fino a 28.000€ (23%), da 28.001€ a 50.000€ (35%), oltre 50.000€ (43%).
+                  Fino a 28.000€ (23%), da 28.001€ a 50.000€ (33%), oltre 50.000€ (43%).
                 </li>
                 <li>
                   <strong className="font-medium text-zinc-900 dark:text-zinc-100">
