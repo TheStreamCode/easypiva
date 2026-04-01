@@ -203,19 +203,14 @@ export default function Layout() {
             <div>
               <Logo className="text-base mb-2" />
               <p className="max-w-2xl text-balance text-zinc-500 dark:text-zinc-400">
-                Progetto portfolio open-source mantenuto internamente da Michael Gasperini /
-                Mikesoft. I calcoli sono basati sulle norme vigenti (Agenzia delle Entrate 2026) ma
-                NON sostituiscono la consulenza di un commercialista. Consulta sempre un
-                professionista abilitato.
+                Progetto open-source mantenuto internamente da Mikesoft. I calcoli sono basati sulle
+                norme vigenti (Agenzia delle Entrate 2026) ma NON sostituiscono la consulenza di un
+                commercialista. Consulta sempre un professionista abilitato.
               </p>
             </div>
             <div className="pt-4 border-t border-zinc-200/50 dark:border-zinc-800/50 flex items-center justify-between">
               <p className="text-zinc-500 dark:text-zinc-400 text-sm">
-                Realizzato con 💙 da{' '}
-                <span className="font-medium text-zinc-900 dark:text-zinc-100">
-                  Michael Gasperini
-                </span>{' '}
-                ·{' '}
+                Realizzato da{' '}
                 <a
                   href="https://mikesoft.it"
                   target="_blank"

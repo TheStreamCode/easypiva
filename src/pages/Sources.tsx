@@ -61,10 +61,9 @@ export default function Sources() {
             </p>
             <p>
               L'utente utilizza l'applicazione a proprio rischio. Il progetto è mantenuto
-              internamente da Michael Gasperini / Mikesoft e non prevede collaboratori esterni; il
-              progetto non assume alcuna responsabilità per eventuali errori, inesattezze, omissioni
-              o per decisioni finanziarie e fiscali prese sulla base dei risultati forniti da
-              EasyPIVA.
+              internamente da Mikesoft e non prevede collaboratori esterni; il progetto non assume
+              alcuna responsabilità per eventuali errori, inesattezze, omissioni o per decisioni
+              finanziarie e fiscali prese sulla base dei risultati forniti da EasyPIVA.
             </p>
           </div>
         </motion.div>

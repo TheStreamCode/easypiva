@@ -4,13 +4,13 @@
 
 **Simulazioni fiscali precise e aggiornate.**
 
-EasyPIVA è un progetto portfolio open source per simulare regime forfettario, contributi INPS, confronto tra regimi fiscali italiani e pianificazione delle entrate.
-È ideato e sviluppato interamente da **Michael Gasperini** per **Mikesoft**.
+EasyPIVA è un progetto open source per simulare regime forfettario, contributi INPS, confronto tra regimi fiscali italiani e pianificazione delle entrate.
+È sviluppato e mantenuto internamente da **Mikesoft**.
 
 ## Stato del progetto
 
 - Progetto personale e amatoriale.
-- Mantenuto internamente da Michael Gasperini / Mikesoft.
+- Mantenuto internamente da Mikesoft.
 - **Non sono accettati contributi esterni, pull request o issue della community.**
 
 ## Funzionalità

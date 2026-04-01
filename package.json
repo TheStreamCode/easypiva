@@ -3,9 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "description": "Portfolio open source di Michael Gasperini per EasyPIVA 2026",
+  "description": "Simulazioni fiscali italiane open source per il regime forfettario, aggiornate al 2026.",
   "author": {
-    "name": "Michael Gasperini",
+    "name": "Mikesoft",
     "url": "https://mikesoft.it"
   },
   "homepage": "https://mikesoft.it",
