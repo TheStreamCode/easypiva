@@ -6,10 +6,10 @@ import { defineConfig } from 'vite';
 export default defineConfig(() => ({
   plugins: [react(), tailwindcss()],
   resolve: {
-    alias: {
-      '@/components': path.resolve(__dirname, './components'),
-      '@': path.resolve(__dirname, './src'),
-    },
+    alias: [
+      { find: /^@\/components\//, replacement: `${path.resolve(__dirname, './components')}/` },
+      { find: /^@\//, replacement: `${path.resolve(__dirname, './src')}/` },
+    ],
   },
   server: {
     // HMR is disabled in AI Studio via DISABLE_HMR env var.

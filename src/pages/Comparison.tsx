@@ -9,6 +9,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { ATECO_CATEGORIES } from '@/lib/constants';
+import type { InpsType } from '@/lib/fiscal-data';
 import {
   BarChart,
   Bar,
@@ -29,8 +30,17 @@ export default function Comparison() {
   const [costiReali, setCostiReali] = useState(10000);
   const [atecoId, setAtecoId] = useState('8');
   const [nuovaAttivita, setNuovaAttivita] = useState(false);
+  const [tipoInps, setTipoInps] = useState<InpsType>('gestioneSeparata');
+  const [riduzioneInps, setRiduzioneInps] = useState(false);
 
-  const result = compareRegimes({ ricavi, costiReali, atecoId, nuovaAttivita });
+  const result = compareRegimes({
+    ricavi,
+    costiReali,
+    atecoId,
+    nuovaAttivita,
+    tipoInps,
+    riduzioneInps,
+  });
   const chartData = [
     {
       name: 'Forfettario',
@@ -65,7 +75,7 @@ export default function Comparison() {
           Confronto Regimi 2026
         </h1>
         <p className="text-lg text-zinc-600 dark:text-zinc-400">
-          Scopri se ti conviene il regime forfettario o quello ordinario.
+          Valuta quale regime risulta più conveniente in base ai tuoi dati.
         </p>
       </div>
 
@@ -112,6 +122,41 @@ export default function Comparison() {
             </div>
 
             <div className="space-y-3">
+              <Label htmlFor="tipoInps" className="text-zinc-700 dark:text-zinc-300">
+                Gestione INPS
+              </Label>
+              <Select value={tipoInps} onValueChange={(value) => setTipoInps(value as InpsType)}>
+                <SelectTrigger id="tipoInps">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="gestioneSeparata">Gestione Separata</SelectItem>
+                  <SelectItem value="artigiani">Artigiani</SelectItem>
+                  <SelectItem value="commercianti">Commercianti</SelectItem>
+                  <SelectItem value="nessuno">Nessuna / cassa privata</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {(tipoInps === 'artigiani' || tipoInps === 'commercianti') && (
+              <div className="flex items-center justify-between py-4 border-y border-zinc-200 dark:border-zinc-800">
+                <div className="space-y-1">
+                  <Label htmlFor="riduzioneInps" className="text-zinc-700 dark:text-zinc-300">
+                    Riduzione INPS 35%
+                  </Label>
+                  <p className="text-xs text-zinc-500">
+                    Applicabile su richiesta per i forfettari.
+                  </p>
+                </div>
+                <Switch
+                  id="riduzioneInps"
+                  checked={riduzioneInps}
+                  onCheckedChange={setRiduzioneInps}
+                />
+              </div>
+            )}
+
+            <div className="space-y-3">
               <Label htmlFor="atecoId" className="text-zinc-700 dark:text-zinc-300">
                 Categoria ATECO (per Forfettario)
               </Label>
@@ -142,7 +187,7 @@ export default function Comparison() {
           </div>
         </motion.div>
 
-        <motion.div variants={itemVariants} className="lg:col-span-2 min-w-0 flex flex-col gap-12">
+        <motion.div variants={itemVariants} className="lg:col-span-2 flex flex-col gap-12">
           <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-2">
               <h2 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-100">
@@ -157,14 +202,13 @@ export default function Comparison() {
               </p>
             </div>
 
-            <div className="mt-4 h-[400px] w-full min-w-0">
-              <ResponsiveContainer
-                width="100%"
-                height="100%"
-                minWidth={0}
-                minHeight={400}
-                initialDimension={{ width: 640, height: 400 }}
-              >
+            <p className="text-sm text-zinc-500 dark:text-zinc-400">
+              Il confronto applica la stessa gestione INPS a entrambi i regimi per mantenere la
+              simulazione coerente.
+            </p>
+
+            <div className="h-[400px] w-full mt-4">
+              <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData} margin={{ top: 20, right: 0, left: -20, bottom: 0 }}>
                   <CartesianGrid
                     strokeDasharray="3 3"

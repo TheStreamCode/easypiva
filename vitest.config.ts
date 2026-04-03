@@ -9,8 +9,8 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: [
-      { find: '@/components', replacement: path.resolve(root, './components') },
-      { find: '@', replacement: path.resolve(root, './src') },
+      { find: /^@\/components\//, replacement: `${path.resolve(root, './components')}/` },
+      { find: /^@\//, replacement: `${path.resolve(root, './src')}/` },
     ],
   },
   test: {

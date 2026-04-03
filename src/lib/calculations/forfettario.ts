@@ -10,7 +10,7 @@ export function calculateForfettario(input: ForfettarioInput): ForfettarioResult
   const aliquotaImposta = input.nuovaAttivita ? 0.05 : 0.15;
   const impostaSostitutiva = redditoNettoImponibile * aliquotaImposta;
   const inps = calculateInps(redditoLordo, input.tipoInps, input.riduzioneInps);
-  const nettoStimato = input.ricavi - impostaSostitutiva - inps.totale;
+  const nettoStimato = input.ricavi - input.contributiVersati - impostaSostitutiva - inps.totale;
   const warnings: DomainWarning[] = [];
 
   if (ricaviRagguagliati > LIMITS.ricavi && ricaviRagguagliati <= LIMITS.uscitaImmediata) {

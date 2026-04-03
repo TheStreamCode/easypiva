@@ -1,6 +1,7 @@
 import { Calculator, Scale, PiggyBank, Target, Calendar, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
+import { publicProjectStatus } from '@/lib/public-copy';
 
 const tools = [
   {
@@ -61,11 +62,19 @@ export default function Home() {
           transition={{ duration: 0.5, ease: 'easeOut' }}
           className="text-4xl md:text-6xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 max-w-3xl text-balance"
         >
-          Simulazioni fiscali precise e aggiornate, <br className="hidden md:block" />
-          <span className="text-zinc-400 dark:text-zinc-500">
-            gratuito, senza registrazione, open source.
-          </span>
+          La tua Partita IVA, <br className="hidden md:block" />
+          <span className="text-zinc-400 dark:text-zinc-500">facile e trasparente.</span>
         </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
+          className="text-lg md:text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl text-balance"
+        >
+          Strumenti gratuiti e aggiornati al 2026 per freelance, artigiani e piccole imprese
+          italiane.
+        </motion.p>
       </section>
 
       {/* Tools Grid - Cardless */}
@@ -75,6 +84,8 @@ export default function Home() {
             Strumenti disponibili
           </h2>
         </div>
+
+        <p className="mb-6 max-w-2xl text-sm text-zinc-500">{publicProjectStatus}</p>
 
         <motion.div
           variants={container}

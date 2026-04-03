@@ -1,17 +1,14 @@
 # EasyPIVA 2026
 
-[![CI](https://github.com/TheStreamCode/easypiva/actions/workflows/ci.yml/badge.svg)](https://github.com/TheStreamCode/easypiva/actions/workflows/ci.yml)
+**La tua Partita IVA, chiara e trasparente.**
 
-**Simulazioni fiscali precise e aggiornate.**
-
-EasyPIVA è un progetto open source per simulare regime forfettario, contributi INPS, confronto tra regimi fiscali italiani e pianificazione delle entrate.
-È sviluppato e mantenuto internamente da **Mikesoft**.
+EasyPIVA è un progetto portfolio open source per simulare regime forfettario, contributi INPS, confronto tra regimi fiscali italiani e pianificazione delle entrate. È creato e mantenuto internamente da **Michael Gasperini** per **Mikesoft**.
 
 ## Stato del progetto
 
-- Progetto personale e amatoriale.
-- Mantenuto internamente da Mikesoft.
-- **Non sono accettati contributi esterni, pull request o issue della community.**
+- Repository pubblico a fini portfolio.
+- Mantenuto internamente da Michael Gasperini / Mikesoft.
+- Issue e pull request esterne non vengono gestite.
 
 ## Funzionalità
 
@@ -26,16 +23,20 @@ EasyPIVA è un progetto open source per simulare regime forfettario, contributi 
 
 ## Stack
 
-- **Frontend:** React 19, TypeScript, Vite
-- **Styling:** Tailwind CSS v4, shadcn/ui
-- **State Management:** Zustand
-- **Data & Form:** React Hook Form + Zod, Recharts
-- **Utility:** jsPDF, React Router
-- **Code Quality:** ESLint, Prettier, Vitest
+- React 19
+- TypeScript
+- Vite
+- Tailwind CSS v4
+- shadcn/ui
+- Zustand
+- Recharts
+- jsPDF
+- React Router
+- React Hook Form + Zod
 
 ## Verifica locale
 
-Prima di aprire un commit, esegui sempre la suite CI locale:
+Prima di aprire un commit, esegui:
 
 ```bash
 npm run ci
@@ -72,7 +73,7 @@ Se vuoi controllare i singoli passaggi:
 ## Note GitHub
 
 - Repository pubblico pensato come portfolio.
-- Nessun contributo esterno viene accettato.
+- Nessun contributo esterno viene gestito.
 - Issue/discussion possono restare disabilitati lato GitHub.
 
 ## Pubblicazione
@@ -81,15 +82,9 @@ Se vuoi controllare i singoli passaggi:
 - Il deploy client-side è già supportato da `vercel.json`.
 - La manutenzione resta interna e non prevede collaboratori esterni.
 
-## Branding
-
-- Il progetto usa il logo EasyPIVA come favicon e segno grafico ufficiale, con sfondo neutro per
-  una resa pulita nei tab del browser e nelle anteprime.
-
 ## Disclaimer
 
-I calcoli sono basati sulle norme vigenti (Agenzia delle Entrate 2026) ma **non sostituiscono in alcun modo** la consulenza di un commercialista o di un consulente del lavoro.
-Le simulazioni hanno scopo puramente indicativo. L'autore non assume alcuna responsabilità per eventuali errori o l'uso dei risultati.
+I calcoli sono basati sulle norme vigenti (Agenzia delle Entrate 2026) ma **non sostituiscono** la consulenza di un commercialista o di un consulente del lavoro. Le simulazioni hanno scopo puramente indicativo.
 
 ## Licenza
 

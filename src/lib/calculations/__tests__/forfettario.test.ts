@@ -40,6 +40,24 @@ describe('calculateForfettario', () => {
     expect(result.nettoStimato).toBeCloseTo(44150);
   });
 
+  it('subtracts deductible contributions from the final net result', () => {
+    const result = calculateForfettario({
+      ricavi: 50000,
+      atecoId: '8',
+      contributiVersati: 1000,
+      mesiAttivita: 12,
+      nuovaAttivita: true,
+      tipoInps: 'nessuno',
+      riduzioneInps: false,
+      speseDipendenti: 0,
+      redditoDipendente: 0,
+    });
+
+    expect(result.redditoNettoImponibile).toBeCloseTo(38000);
+    expect(result.impostaSostitutiva).toBeCloseTo(1900);
+    expect(result.nettoStimato).toBeCloseTo(47100);
+  });
+
   it('returns threshold warnings for annualized revenues', () => {
     const result = calculateForfettario({
       ricavi: 90000,
