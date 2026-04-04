@@ -159,7 +159,7 @@ export function QuotePreview({ quote }: { quote: QuoteDraft }) {
         size="sm"
         variant="secondary"
         onClick={() => setIsZoomOpen(true)}
-        className="absolute right-5 top-5 z-10 opacity-100 transition md:opacity-0 md:group-hover:opacity-100"
+        className="absolute right-3 top-3 z-10 h-11 px-4 opacity-100 transition md:opacity-0 md:group-hover:opacity-100"
       >
         <Maximize2 className="mr-1.5 h-4 w-4" />
         Ingrandisci
@@ -174,6 +174,7 @@ export function QuotePreview({ quote }: { quote: QuoteDraft }) {
             onClick={() => scrollToPage(activePageIndex - 1)}
             disabled={activePageIndex === 0}
             aria-label="Pagina precedente"
+            className="h-11 w-11"
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
@@ -184,6 +185,7 @@ export function QuotePreview({ quote }: { quote: QuoteDraft }) {
             onClick={() => scrollToPage(activePageIndex + 1)}
             disabled={activePageIndex >= totalPages - 1}
             aria-label="Pagina successiva"
+            className="h-11 w-11"
           >
             <ChevronRight className="h-4 w-4" />
           </Button>
@@ -213,7 +215,7 @@ export function QuotePreview({ quote }: { quote: QuoteDraft }) {
 
       <div
         data-testid="quote-preview-page-counter"
-        className="mt-3 flex items-center justify-center gap-3 text-sm text-zinc-500"
+        className="mt-3 flex items-center justify-center gap-3 text-base text-zinc-500"
       >
         <span>{activePageIndex + 1}</span>
         <span>/</span>

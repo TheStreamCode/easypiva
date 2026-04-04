@@ -24,6 +24,8 @@ EasyPIVA è un progetto open source per simulare regime forfettario, contributi 
 - Export PDF dei risultati.
 - Salvataggio scenari nel browser con `localStorage`.
 - Modalità dark/light con circular reveal ottimizzata per mobile.
+- Layout responsive verificato con Playwright su mobile, tablet e desktop.
+- Il preventivo usa una barra mobile dedicata e controlli touch-friendly, con editor che si adatta agli schermi piccoli.
 
 ## Stack
 

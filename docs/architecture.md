@@ -49,6 +49,7 @@ components/ui/      # Componenti shadcn/ui (7 utilizzati)
 - `/quanto-fatturare` - Calcolo inverso fatturato
 - `/pianificazione` - Proiezione mensile ricavi
 - `/preventivo` - Quote builder locale con anteprima A4 e export PDF
+- `/preventivo` - Quote builder locale con anteprima A4, export PDF e layout responsive per mobile/tablet
 - `/informativa` - Privacy, disclaimer, fonti normative
 - `/*` - 404 (NotFound)
 
@@ -61,4 +62,4 @@ Gli avvisi di soglia fiscali sono centralizzati in `src/lib/public-copy.ts`. Il 
 - Nessuna persistenza lato server.
 - Nessun sistema di account.
 - La copia legale e fiscale deve restare allineata alle assunzioni di calcolo.
-- Il preventivo resta local-first: bozza in `localStorage`, preview come fonte di verità per l'export PDF.
+- Il preventivo resta local-first: bozza in `localStorage`, preview come fonte di verità per l'export PDF, con controlli touch-friendly su mobile.

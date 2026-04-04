@@ -343,8 +343,8 @@ export function QuoteForm({
         <legend className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">Voci</legend>
         <div className="space-y-3">
           {fields.map((field, index) => (
-            <div key={field.id} className="flex items-start gap-2">
-              <div className="grid flex-1 grid-cols-[1fr_80px_120px] gap-2">
+            <div key={field.id} className="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-2">
+              <div className="grid flex-1 grid-cols-1 gap-3 sm:grid-cols-[minmax(0,1fr)_80px_120px] sm:gap-2">
                 <FormField
                   id={`lineItems.${index}.description`}
                   label="Descrizione"
@@ -401,13 +401,14 @@ export function QuoteForm({
               <Button
                 type="button"
                 variant="destructive"
-                size="icon-sm"
-                className="mt-6"
+                size="sm"
+                className="h-11 w-full sm:mt-6 sm:w-auto"
                 aria-label="Rimuovi voce"
                 onClick={() => remove(index)}
                 disabled={fields.length <= 1}
               >
                 <Trash2 className="h-3.5 w-3.5" />
+                <span>Rimuovi</span>
               </Button>
             </div>
           ))}
@@ -415,7 +416,8 @@ export function QuoteForm({
         <Button
           type="button"
           variant="outline"
-          size="sm"
+          size="lg"
+          className="h-11 w-full sm:w-auto"
           onClick={() => {
             append({ id: createItemId(itemIdRef), description: '', quantity: 1, unitPrice: 0 });
           }}
@@ -567,6 +569,8 @@ export function QuoteForm({
           data-testid="quote-export-button"
           disabled={isExporting}
           onClick={onExport}
+          size="lg"
+          className="h-11 w-full sm:w-auto"
         >
           {isExporting ? 'Esportazione in corso...' : 'Esporta PDF'}
         </Button>

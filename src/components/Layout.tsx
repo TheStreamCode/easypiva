@@ -93,7 +93,7 @@ export default function Layout() {
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ type: 'spring', bounce: 0, duration: 0.4 }}
-              className="fixed inset-y-0 left-0 w-64 bg-white dark:bg-[#111111] border-r border-zinc-200 dark:border-zinc-800/50 p-4 shadow-2xl"
+              className="fixed inset-y-0 left-0 w-72 bg-white dark:bg-[#111111] border-r border-zinc-200 dark:border-zinc-800/50 p-4 shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between mb-8 px-2">
@@ -102,7 +102,7 @@ export default function Layout() {
                   variant="ghost"
                   size="icon"
                   onClick={() => setSidebarOpen(false)}
-                  className="h-8 w-8 shrink-0"
+                  className="h-11 w-11 shrink-0"
                   aria-label="Chiudi menu"
                 >
                   <X className="h-4 w-4" />
@@ -116,7 +116,7 @@ export default function Layout() {
                       key={item.name}
                       to={item.href}
                       onClick={() => setSidebarOpen(false)}
-                      className={`flex items-center gap-3 px-3 py-2 text-sm rounded-md transition-colors ${
+                      className={`flex min-h-11 items-center gap-3 px-4 py-3 text-sm rounded-md transition-colors ${
                         isActive
                           ? 'bg-zinc-100 text-zinc-900 dark:bg-zinc-800/50 dark:text-zinc-100 font-medium'
                           : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100/50 dark:hover:bg-zinc-800/30 hover:text-zinc-900 dark:hover:text-zinc-100'
@@ -159,7 +159,7 @@ export default function Layout() {
         </nav>
         <div className="p-3">
           <button
-            className="flex w-full items-center gap-3 px-3 py-2 text-sm rounded-md text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200/30 dark:hover:bg-zinc-800/30 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+            className="flex min-h-11 w-full items-center gap-3 px-3 py-3 text-sm rounded-md text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200/30 dark:hover:bg-zinc-800/30 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
             onClick={toggleTheme}
           >
             {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
@@ -170,20 +170,20 @@ export default function Layout() {
 
       {/* Main content */}
       <div className="flex-1 lg:pl-64 flex flex-col min-h-screen">
-        <header className="h-14 flex items-center justify-between px-4 lg:hidden border-b border-zinc-200 dark:border-zinc-800/50 bg-white/80 dark:bg-[#0A0A0A]/80 backdrop-blur-md sticky top-0 z-40">
+        <header className="h-16 flex items-center justify-between px-4 lg:hidden border-b border-zinc-200 dark:border-zinc-800/50 bg-white/80 dark:bg-[#0A0A0A]/80 backdrop-blur-md sticky top-0 z-40">
           <div className="flex items-center gap-3">
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setSidebarOpen(true)}
-              className="h-8 w-8 -ml-2"
+              className="h-11 w-11 -ml-2"
               aria-label="Apri menu"
             >
               <Menu className="h-4 w-4" />
             </Button>
             <Logo className="text-xl" />
           </div>
-          <Button variant="ghost" size="icon" onClick={toggleTheme} className="h-8 w-8 -mr-2">
+          <Button variant="ghost" size="icon" onClick={toggleTheme} className="h-11 w-11 -mr-2">
             {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </Button>
         </header>
@@ -214,7 +214,7 @@ export default function Layout() {
                 commercialista. Consulta sempre un professionista abilitato.
               </p>
             </div>
-            <div className="pt-4 border-t border-zinc-200/50 dark:border-zinc-800/50 flex items-center justify-between">
+            <div className="pt-4 border-t border-zinc-200/50 dark:border-zinc-800/50 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-zinc-500 dark:text-zinc-400 text-sm">
                 Realizzato da{' '}
                 <a
