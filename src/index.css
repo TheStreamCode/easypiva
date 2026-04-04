@@ -181,6 +181,15 @@ html:not(.dark)::view-transition-new(root) {
     color-scheme: light;
   }
 
+  .quote-preview-surface {
+    touch-action: none;
+    overscroll-behavior: contain;
+  }
+
+  .quote-preview-frame {
+    transform-origin: center center;
+  }
+
   .quote-a4-page {
     width: 210mm;
     height: 297mm;
