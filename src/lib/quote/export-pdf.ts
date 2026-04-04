@@ -78,7 +78,10 @@ export async function exportQuoteToPdf(
     const searchableText = buildSearchablePageText(pages[i]);
 
     if (searchableText) {
-      pdf.text(searchableText, -1000, -1000, { maxWidth: A4_WIDTH_MM - 20 });
+      pdf.text(searchableText, 10, 10, {
+        maxWidth: A4_WIDTH_MM - 20,
+        renderingMode: 'invisible',
+      });
     }
 
     const canvas = await html2canvas(pages[i], {

@@ -143,9 +143,9 @@ describe('exportQuoteToPdf', () => {
 
     expect(mockText).toHaveBeenCalledWith(
       expect.stringContaining('Studio Gamma'),
-      -1000,
-      -1000,
-      expect.objectContaining({ maxWidth: expect.any(Number) }),
+      10,
+      10,
+      expect.objectContaining({ maxWidth: expect.any(Number), renderingMode: 'invisible' }),
     );
   });
 
