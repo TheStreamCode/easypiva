@@ -64,6 +64,7 @@ export default function Contributions() {
               <Input
                 id="redditoLordo"
                 type="number"
+                inputMode="numeric"
                 value={redditoLordo}
                 onChange={(e) => setRedditoLordo(Number(e.target.value))}
                 className="text-lg"
@@ -82,6 +83,7 @@ export default function Contributions() {
                   <SelectItem value="gestioneSeparata">Gestione Separata (26,07%)</SelectItem>
                   <SelectItem value="artigiani">Artigiani</SelectItem>
                   <SelectItem value="commercianti">Commercianti</SelectItem>
+                  <SelectItem value="nessuno">Nessuna / cassa privata</SelectItem>
                 </SelectContent>
               </Select>
             </div>

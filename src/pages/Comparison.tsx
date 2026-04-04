@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { ATECO_CATEGORIES } from '@/lib/constants';
+import { ATECO_CATEGORIES } from '@/lib/fiscal-data';
 import type { InpsType } from '@/lib/fiscal-data';
 import {
   BarChart,
@@ -99,6 +99,7 @@ export default function Comparison() {
               <Input
                 id="ricavi"
                 type="number"
+                inputMode="numeric"
                 value={ricavi}
                 onChange={(e) => setRicavi(Number(e.target.value))}
                 className="text-lg"
@@ -115,6 +116,7 @@ export default function Comparison() {
               <Input
                 id="costiReali"
                 type="number"
+                inputMode="numeric"
                 value={costiReali}
                 onChange={(e) => setCostiReali(Number(e.target.value))}
                 className="text-lg"
@@ -209,7 +211,12 @@ export default function Comparison() {
 
             <div className="h-[400px] w-full mt-4">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={chartData} margin={{ top: 20, right: 0, left: -20, bottom: 0 }}>
+                <BarChart
+                  data={chartData}
+                  margin={{ top: 20, right: 0, left: -20, bottom: 0 }}
+                  aria-label="Confronto regimi"
+                  role="img"
+                >
                   <CartesianGrid
                     strokeDasharray="3 3"
                     vertical={false}

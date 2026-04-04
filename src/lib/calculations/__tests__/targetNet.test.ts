@@ -34,4 +34,32 @@ describe('calculateTargetNet', () => {
     expect(target.inpsStimato).toBe(0);
     expect(target.tasseStimate).toBeCloseTo(target.ricaviNecessari * 0.78 * 0.15, 6);
   });
+
+  it('solves the reverse revenue calculation for Artigiani with reduction', () => {
+    const target = calculateTargetNet({
+      nettoMensile: 2000,
+      atecoId: '8',
+      nuovaAttivita: false,
+      tipoInps: 'artigiani',
+      riduzioneInps: true,
+    });
+
+    expect(target.ricaviNecessari).toBeGreaterThan(24000);
+    expect(target.inpsStimato).toBeGreaterThan(0);
+    expect(target.tasseStimate + target.inpsStimato).toBeLessThan(target.ricaviNecessari);
+  });
+
+  it('solves the reverse revenue calculation for Commercianti', () => {
+    const target = calculateTargetNet({
+      nettoMensile: 3000,
+      atecoId: '2',
+      nuovaAttivita: false,
+      tipoInps: 'commercianti',
+      riduzioneInps: false,
+    });
+
+    expect(target.ricaviNecessari).toBeGreaterThan(36000);
+    expect(target.inpsStimato).toBeGreaterThan(0);
+    expect(target.tasseStimate + target.inpsStimato).toBeLessThan(target.ricaviNecessari);
+  });
 });

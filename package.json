@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Simulatore fiscale italiano 2026 di Michael Gasperini / Mikesoft",
   "author": {
-    "name": "Michael Gasperini",
+    "name": "Mikesoft",
     "url": "https://mikesoft.it"
   },
   "homepage": "https://mikesoft.it",
@@ -35,7 +35,6 @@
     "@vitejs/plugin-react": "^5.0.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "cmdk": "^1.1.1",
     "jspdf": "^4.2.1",
     "lucide-react": "^0.546.0",
     "motion": "^12.23.24",

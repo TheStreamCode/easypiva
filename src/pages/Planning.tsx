@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { LIMITS } from '@/lib/constants';
+import { LIMITS } from '@/lib/fiscal-data';
 import {
   LineChart,
   Line,
@@ -88,6 +88,7 @@ export default function Planning() {
                 <Input
                   id={`mese-${index}`}
                   type="number"
+                  inputMode="numeric"
                   value={ricaviMensili[index] || ''}
                   onChange={(e) => handleRicavoChange(index, e.target.value)}
                   placeholder="0"
@@ -151,6 +152,8 @@ export default function Planning() {
                 initialDimension={{ width: 640, height: 400 }}
               >
                 <LineChart
+                  aria-label="Proiezione annuale ricavi"
+                  role="img"
                   data={result.projection}
                   margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
                 >

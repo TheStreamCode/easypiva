@@ -10,7 +10,7 @@ import {
   X,
   Moon,
   Sun,
-  Globe,
+  Home,
 } from 'lucide-react';
 import { useState, type MouseEvent } from 'react';
 import { flushSync } from 'react-dom';
@@ -18,10 +18,9 @@ import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'motion/react';
 import { getThemeRevealRadius } from '@/lib/theme';
 import { useThemeStore } from '@/store/useThemeStore';
-import { fiscalDisclaimer, projectAttribution } from '@/lib/public-copy';
 
 const navigation = [
-  { name: 'Dashboard', href: '/', icon: Globe },
+  { name: 'Dashboard', href: '/', icon: Home },
   { name: 'Calcolatore Forfettario', href: '/calcolatore', icon: Calculator },
   { name: 'Confronto Regimi', href: '/confronto', icon: Scale },
   { name: 'Contributi INPS', href: '/contributi', icon: PiggyBank },
@@ -102,6 +101,7 @@ export default function Layout() {
                   size="icon"
                   onClick={() => setSidebarOpen(false)}
                   className="h-8 w-8 shrink-0"
+                  aria-label="Chiudi menu"
                 >
                   <X className="h-4 w-4" />
                 </Button>
@@ -175,6 +175,7 @@ export default function Layout() {
               size="icon"
               onClick={() => setSidebarOpen(true)}
               className="h-8 w-8 -ml-2"
+              aria-label="Apri menu"
             >
               <Menu className="h-4 w-4" />
             </Button>
@@ -204,12 +205,22 @@ export default function Layout() {
             <div>
               <Logo className="text-base mb-2" />
               <p className="max-w-2xl text-balance text-zinc-500 dark:text-zinc-400">
-                {projectAttribution} {fiscalDisclaimer}
+                Progetto open-source mantenuto internamente da Mikesoft. I calcoli sono basati sulle
+                norme vigenti (Agenzia delle Entrate 2026) ma NON sostituiscono la consulenza di un
+                commercialista. Consulta sempre un professionista abilitato.
               </p>
             </div>
             <div className="pt-4 border-t border-zinc-200/50 dark:border-zinc-800/50 flex items-center justify-between">
               <p className="text-zinc-500 dark:text-zinc-400 text-sm">
-                Mikesoft · Michael Gasperini
+                Realizzato da{' '}
+                <a
+                  href="https://mikesoft.it"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-zinc-900 dark:text-zinc-100 hover:underline"
+                >
+                  Mikesoft
+                </a>
               </p>
             </div>
           </div>

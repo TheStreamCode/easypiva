@@ -1,7 +1,20 @@
 import { LIMITS } from '../fiscal-data';
 import type { PlanningResult } from './types';
 
-const mesi = ['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu', 'Lug', 'Ago', 'Set', 'Ott', 'Nov', 'Dic'];
+export const mesi = [
+  'Gen',
+  'Feb',
+  'Mar',
+  'Apr',
+  'Mag',
+  'Giu',
+  'Lug',
+  'Ago',
+  'Set',
+  'Ott',
+  'Nov',
+  'Dic',
+];
 
 export function buildPlanningProjection(ricaviMensili: number[]): PlanningResult {
   let cumulato = 0;

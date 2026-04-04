@@ -1,13 +1,27 @@
-export const projectAttribution =
-  'EasyPIVA è un progetto portfolio open source sviluppato da Michael Gasperini / Mikesoft.';
+export type WarningCode =
+  | 'revenue-over-85000'
+  | 'revenue-over-100000'
+  | 'employee-costs-over-limit'
+  | 'employment-income-over-limit';
 
-export const fiscalDisclaimer =
-  'Le simulazioni si basano sulle normative vigenti e hanno valore puramente indicativo. Non sostituiscono la consulenza di un commercialista o di un consulente del lavoro abilitato.';
-
-export const publicProjectStatus =
-  'Repository pubblico a fini dimostrativi. Issue e pull request esterne non vengono gestite.';
-
-export const privacyStorageUses = [
-  "Memorizzare l'accettazione del disclaimer iniziale.",
-  'Salvare la preferenza del tema chiaro o scuro.',
-];
+export const warningCopy: Record<WarningCode, { title: string; message: string }> = {
+  'revenue-over-85000': {
+    title: 'Attenzione',
+    message:
+      "I ricavi ragguagliati superano 85.000€. Uscirai dal regime forfettario l'anno prossimo.",
+  },
+  'revenue-over-100000': {
+    title: 'CRITICO',
+    message:
+      "I ricavi superano 100.000€. Uscita immediata dal regime forfettario nell'anno in corso!",
+  },
+  'employee-costs-over-limit': {
+    title: 'Attenzione',
+    message: 'Le spese per dipendenti superano il limite di 20.000€.',
+  },
+  'employment-income-over-limit': {
+    title: 'Attenzione',
+    message:
+      'Il reddito da lavoro dipendente/pensione supera 35.000€. Non puoi accedere al regime forfettario.',
+  },
+};

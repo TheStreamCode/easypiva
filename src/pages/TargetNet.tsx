@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { ATECO_CATEGORIES } from '@/lib/constants';
+import { ATECO_CATEGORIES } from '@/lib/fiscal-data';
 import { Switch } from '@/components/ui/switch';
 import { Target } from 'lucide-react';
 import { motion } from 'motion/react';
@@ -77,6 +77,7 @@ export default function TargetNet() {
               <Input
                 id="nettoMensile"
                 type="number"
+                inputMode="numeric"
                 className="text-xl font-semibold h-12"
                 value={nettoMensile}
                 onChange={(e) => setNettoMensile(Number(e.target.value))}
@@ -119,6 +120,7 @@ export default function TargetNet() {
                   <SelectItem value="gestioneSeparata">Gestione Separata</SelectItem>
                   <SelectItem value="artigiani">Artigiani</SelectItem>
                   <SelectItem value="commercianti">Commercianti</SelectItem>
+                  <SelectItem value="nessuno">Nessuna / cassa privata</SelectItem>
                 </SelectContent>
               </Select>
             </div>

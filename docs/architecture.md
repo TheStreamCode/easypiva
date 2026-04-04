@@ -6,6 +6,23 @@
 - Tutti i calcoli fiscali vengono eseguiti localmente nel browser.
 - Lo stato persistente è limitato alle preferenze utente in `localStorage`.
 
+## Struttura progetto
+
+```
+src/
+├── pages/          # Pagina calcolatori e informativa
+├── components/     # Layout, DisclaimerModal
+├── lib/
+│   ├── calculations/   # Logica fiscale (forfettario, INPS, comparison, targetNet, planning)
+│   ├── fiscal-data.ts  # Costanti fiscali 2026 (IRPEF, INPS, ATECO, limiti)
+│   ├── public-copy.ts  # Copy centralizzata (attribution, disclaimer, warnings)
+│   ├── format.ts       # Formattazione numeri/currency
+│   └── theme.ts        # Gestione tema light/dark
+├── store/          # Zustand stores (disclaimer, tema)
+├── test/           # Setup test
+components/ui/      # Componenti shadcn/ui (7 utilizzati)
+```
+
 ## Aree principali
 
 - `src/pages/` ospita i calcolatori pubblici e le pagine informative.
@@ -19,6 +36,21 @@
 2. La pagina richiama un helper di calcolo da `src/lib/calculations/`.
 3. L'helper restituisce un risultato tipizzato e gli eventuali avvisi di soglia.
 4. La pagina renderizza localmente il risultato, i grafici e i messaggi.
+
+## Routing
+
+- `/` - Home (dashboard)
+- `/calcolatore` - Forfettario 2026 (3-step wizard)
+- `/confronto` - Forfettario vs Ordinario
+- `/contributi` - Simulatore INPS
+- `/quanto-fatturare` - Calcolo inverso fatturato
+- `/pianificazione` - Proiezione mensile ricavi
+- `/informativa` - Privacy, disclaimer, fonti normative
+- `/*` - 404 (NotFound)
+
+## Copy centralizzata
+
+La copia pubblica (attribution, disclaimer, avvisi soglia) è centralizzata in `src/lib/public-copy.ts`. Le pagine importano le costanti per evitare duplicazioni.
 
 ## Vincoli
 

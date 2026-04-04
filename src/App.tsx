@@ -7,6 +7,7 @@ import Contributions from './pages/Contributions';
 import TargetNet from './pages/TargetNet';
 import Planning from './pages/Planning';
 import Sources from './pages/Sources';
+import NotFound from './pages/NotFound';
 import { DisclaimerModal } from './components/DisclaimerModal';
 
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
           <Route path="quanto-fatturare" element={<TargetNet />} />
           <Route path="pianificazione" element={<Planning />} />
           <Route path="informativa" element={<Sources />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </Router>

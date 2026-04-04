@@ -1,6 +1,5 @@
 import { Info, ExternalLink, ShieldAlert, Lock, Database } from 'lucide-react';
 import { motion } from 'motion/react';
-import { fiscalDisclaimer, privacyStorageUses, projectAttribution } from '@/lib/public-copy';
 
 export default function Sources() {
   const containerVariants = {
@@ -18,7 +17,6 @@ export default function Sources() {
 
   return (
     <div className="max-w-3xl mx-auto flex flex-col gap-12 pb-16 pt-8">
-      {/* Header */}
       <div className="flex flex-col gap-4">
         <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
           Informativa e Privacy
@@ -34,7 +32,6 @@ export default function Sources() {
         animate="visible"
         className="flex flex-col gap-12"
       >
-        {/* Disclaimer */}
         <motion.div
           variants={itemVariants}
           className="p-6 md:p-8 rounded-2xl bg-blue-50/50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900/50"
@@ -51,18 +48,25 @@ export default function Sources() {
               un'applicazione web fornita a scopo puramente informativo e divulgativo.
             </p>
             <p>
-              {projectAttribution} {fiscalDisclaimer}
+              I calcoli, le stime e le simulazioni generati da questo strumento sono basati
+              sull'interpretazione delle norme fiscali vigenti (inclusa la Legge di Bilancio 2026)
+              ma{' '}
+              <strong className="font-semibold text-blue-900 dark:text-blue-100">
+                NON costituiscono parere professionale, legale o fiscale
+              </strong>
+              , né sostituiscono in alcun modo la consulenza di un commercialista o di un consulente
+              del lavoro iscritto all'albo.
             </p>
             <p>
-              Il progetto non assume alcuna responsabilità per eventuali errori, inesattezze,
-              omissioni o per decisioni finanziarie e fiscali prese sulla base dei risultati forniti
-              da EasyPIVA.
+              L'utente utilizza l'applicazione a proprio rischio. Il progetto è mantenuto
+              internamente da Mikesoft e non prevede collaboratori esterni; il progetto non assume
+              alcuna responsabilità per eventuali errori, inesattezze, omissioni o per decisioni
+              finanziarie e fiscali prese sulla base dei risultati forniti da EasyPIVA.
             </p>
           </div>
         </motion.div>
 
         <div className="flex flex-col gap-12">
-          {/* Privacy Policy & GDPR */}
           <motion.div variants={itemVariants} className="flex flex-col gap-4">
             <div className="flex items-center gap-3 border-b border-zinc-200 dark:border-zinc-800 pb-2">
               <Lock className="w-5 h-5 text-zinc-500" />
@@ -74,7 +78,7 @@ export default function Sources() {
               <p>
                 Nel rispetto del Regolamento (UE) 2016/679 (GDPR), ti informiamo che{' '}
                 <strong className="font-medium text-zinc-900 dark:text-zinc-100">
-                  EasyPIVA è progettata per garantire la massima privacy "by design"
+                  EasyPIVA è progettata per garantire la massima privacy &quot;by design&quot;
                 </strong>
                 .
               </p>
@@ -104,7 +108,6 @@ export default function Sources() {
             </div>
           </motion.div>
 
-          {/* Cookie Policy & Local Storage */}
           <motion.div variants={itemVariants} className="flex flex-col gap-4">
             <div className="flex items-center gap-3 border-b border-zinc-200 dark:border-zinc-800 pb-2">
               <Database className="w-5 h-5 text-zinc-500" />
@@ -121,22 +124,19 @@ export default function Sources() {
                 (es. Google Analytics, Meta Pixel).
               </p>
               <p>
-                L'applicazione fa uso della tecnologia{' '}
+                L'applicazione fa uso esclusivamente della tecnologia{' '}
                 <strong className="font-medium text-zinc-900 dark:text-zinc-100">
                   Local Storage
                 </strong>{' '}
-                del tuo browser per finalità tecniche e di funzionamento:
+                del tuo browser per finalità strettamente tecniche e di funzionamento:
               </p>
               <ul className="list-disc list-inside space-y-2 ml-2 text-zinc-700 dark:text-zinc-300">
-                {privacyStorageUses.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
+                <li>
+                  Memorizzare l'accettazione del disclaimer iniziale per non riproporlo ad ogni
+                  visita.
+                </li>
+                <li>Salvare la preferenza del tema chiaro o scuro.</li>
               </ul>
-              <p>
-                Il sito carica anche font remoti dal provider del browser; per questo motivo la
-                pagina descrive solo l'assenza di cookie di profilazione e il trattamento minimo dei
-                dati locali.
-              </p>
               <p>
                 Puoi cancellare questi dati in qualsiasi momento svuotando la cache e i dati dei
                 siti web dalle impostazioni del tuo browser.
@@ -144,7 +144,6 @@ export default function Sources() {
             </div>
           </motion.div>
 
-          {/* Fonti Normative */}
           <motion.div variants={itemVariants} className="flex flex-col gap-4">
             <div className="flex items-center gap-3 border-b border-zinc-200 dark:border-zinc-800 pb-2">
               <Info className="w-5 h-5 text-zinc-500" />
@@ -166,7 +165,7 @@ export default function Sources() {
                   <strong className="font-medium text-zinc-900 dark:text-zinc-100">
                     Scaglioni IRPEF (Regime Ordinario):
                   </strong>{' '}
-                  Fino a 28.000€ (23%), da 28.001€ a 50.000€ (35%), oltre 50.000€ (43%).
+                  Fino a 28.000€ (23%), da 28.001€ a 50.000€ (33%), oltre 50.000€ (43%).
                 </li>
                 <li>
                   <strong className="font-medium text-zinc-900 dark:text-zinc-100">

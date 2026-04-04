@@ -1,1 +1,0 @@
-export { ATECO_CATEGORIES, INPS_RATES, IRPEF_BRACKETS_2026, LIMITS } from './fiscal-data';
