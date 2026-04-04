@@ -4,6 +4,7 @@ import { waitFor } from '@testing-library/react';
 const mockSave = vi.fn();
 const mockAddImage = vi.fn();
 const mockAddPage = vi.fn();
+const mockText = vi.fn();
 const mockHtml = vi.fn().mockResolvedValue(undefined);
 
 const mockHtml2Canvas = vi.fn();
@@ -13,6 +14,7 @@ vi.mock('jspdf', () => ({
     save: mockSave,
     addImage: mockAddImage,
     addPage: mockAddPage,
+    text: mockText,
     html: mockHtml,
   })),
 }));
@@ -130,6 +132,21 @@ describe('exportQuoteToPdf', () => {
     await exportQuoteToPdf(root as HTMLElement, { filename: 'test-preventivo.pdf' });
 
     expect(mockSave).toHaveBeenCalledWith('test-preventivo.pdf');
+  });
+
+  it('adds searchable page text before rendering the image', async () => {
+    createPreviewRoot(1);
+    const root = document.querySelector('[data-testid="quote-preview-root"]')!;
+    root.querySelector('.quote-a4-page')!.textContent = 'Studio Gamma Cliente Demo PREV-2026-001';
+
+    await exportQuoteToPdf(root as HTMLElement);
+
+    expect(mockText).toHaveBeenCalledWith(
+      expect.stringContaining('Studio Gamma'),
+      -1000,
+      -1000,
+      expect.objectContaining({ maxWidth: expect.any(Number) }),
+    );
   });
 
   it('accepts a CSS selector string', async () => {

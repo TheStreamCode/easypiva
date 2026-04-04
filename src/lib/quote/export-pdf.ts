@@ -53,6 +53,10 @@ function captureContainerStyle(root: HTMLElement) {
   };
 }
 
+function buildSearchablePageText(page: HTMLElement) {
+  return (page.innerText || page.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 8000);
+}
+
 export async function exportQuoteToPdf(
   container: ContainerInput,
   options?: ExportPdfOptions,
@@ -71,6 +75,12 @@ export async function exportQuoteToPdf(
     if (i > 0) pdf.addPage([A4_WIDTH_MM, A4_HEIGHT_MM], 'portrait');
 
     const { width, height } = captureContainerStyle(pages[i]);
+    const searchableText = buildSearchablePageText(pages[i]);
+
+    if (searchableText) {
+      pdf.text(searchableText, -1000, -1000, { maxWidth: A4_WIDTH_MM - 20 });
+    }
+
     const canvas = await html2canvas(pages[i], {
       scale: CAPTURE_SCALE,
       useCORS: true,

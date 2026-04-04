@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { readFile } from 'node:fs/promises';
 
 async function dismissWelcomeModal(page: import('@playwright/test').Page) {
   const acceptButton = page.getByRole('button', { name: /Ho compreso, inizia/i });
@@ -69,6 +70,15 @@ test('completes a preventivo with logo and exports a pdf', async ({ page }) => {
   const downloadPromise = page.waitForEvent('download');
   await page.getByTestId('quote-export-button').click();
   const download = await downloadPromise;
+
+  const pdfPath = await download.path();
+  expect(pdfPath).toBeTruthy();
+  const pdfBytes = await readFile(pdfPath!);
+  const pdfText = pdfBytes.toString('latin1');
+
+  expect(pdfText).toContain('Studio Gamma');
+  expect(pdfText).toContain('Cliente Demo');
+  expect(pdfText).toContain('PREV-2026-001');
 
   expect(download.suggestedFilename()).toMatch(/^preventivo.*\.pdf$/i);
 });
