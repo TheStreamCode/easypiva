@@ -39,4 +39,4 @@ EasyPIVA fornisce simulazioni fiscali indicative per utenti con Partita IVA ital
 - La copia pubblica deve indicare che i risultati sono indicativi.
 - La pagina delle fonti deve elencare le assunzioni correnti e il comportamento di storage.
 - Ogni aggiornamento fiscale richiede un cambiamento coordinato tra costanti dati, copy UI e documentazione.
-- La copia centralizzata in `public-copy.ts` include disclaimer e avvisi soglia per evitare duplicazioni.
+- Gli avvisi di soglia sono centralizzati in `public-copy.ts` per evitare duplicazioni nei calcolatori.

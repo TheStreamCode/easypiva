@@ -1,6 +1,6 @@
 {
   "name": "EasyPIVA",
-  "description": "Simulazioni fiscali italiane open source, aggiornate al 2026. Calcola regime forfettario, contributi INPS e confronta regimi fiscali.",
+  "description": "Simulazioni fiscali italiane open source 2026 per regime forfettario, contributi INPS e confronto regimi.",
   "author": "Mikesoft",
   "website": "https://mikesoft.it",
   "requestFramePermissions": []

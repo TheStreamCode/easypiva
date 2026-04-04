@@ -15,7 +15,7 @@ src/
 ├── lib/
 │   ├── calculations/   # Logica fiscale (forfettario, INPS, comparison, targetNet, planning)
 │   ├── fiscal-data.ts  # Costanti fiscali 2026 (IRPEF, INPS, ATECO, limiti)
-│   ├── public-copy.ts  # Copy centralizzata (attribution, disclaimer, warnings)
+│   ├── public-copy.ts  # Copy centralizzata per gli avvisi di soglia
 │   ├── format.ts       # Formattazione numeri/currency
 │   └── theme.ts        # Gestione tema light/dark
 ├── store/          # Zustand stores (disclaimer, tema)
@@ -50,7 +50,7 @@ components/ui/      # Componenti shadcn/ui (7 utilizzati)
 
 ## Copy centralizzata
 
-La copia pubblica (attribution, disclaimer, avvisi soglia) è centralizzata in `src/lib/public-copy.ts`. Le pagine importano le costanti per evitare duplicazioni.
+Gli avvisi di soglia fiscali sono centralizzati in `src/lib/public-copy.ts`. Il resto della copy pubblica principale resta definito nei componenti e nelle pagine che la espongono.
 
 ## Vincoli
 

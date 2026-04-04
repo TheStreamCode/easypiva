@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "description": "Simulatore fiscale italiano 2026 di Michael Gasperini / Mikesoft",
+  "description": "Simulazioni fiscali italiane open source 2026 per regime forfettario, INPS e confronto regimi",
   "author": {
     "name": "Mikesoft",
     "url": "https://mikesoft.it"

@@ -81,10 +81,10 @@ Se vuoi controllare i singoli passaggi:
 - Il deploy client-side è già supportato da `vercel.json`.
 - La manutenzione resta interna e non prevede collaboratori esterni.
 
-## Branding
+## Identità
 
-- Il progetto usa il logo EasyPIVA come favicon e segno grafico ufficiale, con sfondo neutro per
-  una resa pulita nei tab del browser e nelle anteprime.
+- Il progetto mantiene un'identità visiva minimale coerente con il brand EasyPIVA.
+- L'attribuzione pubblica resta riferita a Mikesoft.
 
 ## Disclaimer
 
