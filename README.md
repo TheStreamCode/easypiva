@@ -20,6 +20,7 @@ EasyPIVA è un progetto open source per simulare regime forfettario, contributi 
 - Simulazione contributi INPS per Gestione Separata, Artigiani e Commercianti.
 - Calcolo inverso per trovare il fatturato necessario a un netto desiderato.
 - Pianificazione mensile per monitorare i limiti di ricavi.
+- Preventivo locale con editor, anteprima A4 e export PDF.
 - Export PDF dei risultati.
 - Salvataggio scenari nel browser con `localStorage`.
 - Modalità dark/light con circular reveal ottimizzata per mobile.
@@ -48,6 +49,12 @@ Se vuoi controllare i singoli passaggi:
 - `npm run lint`
 - `npm run test`
 - `npm run build`
+
+Per il browser smoke test del sito:
+
+```bash
+npx playwright test tests/e2e/site-smoke.spec.ts
+```
 
 ## Avvio locale
 

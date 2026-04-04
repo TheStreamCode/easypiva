@@ -14,6 +14,7 @@ EasyPIVA fornisce simulazioni fiscali indicative per utenti con Partita IVA ital
 - Trattare i risultati come stime, non come consulenza professionale.
 - Mantenere tutti i calcoli lato client.
 - Persistire solo preferenze non sensibili, come il disclaimer e il tema.
+- Il preventivo usa lo stesso principio local-first: bozza in `localStorage`, export PDF dal DOM renderizzato.
 
 ## Aliquote IRPEF 2026
 

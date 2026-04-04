@@ -1,4 +1,4 @@
-import { Calculator, Scale, PiggyBank, Target, Calendar, ArrowRight } from 'lucide-react';
+import { Calculator, Scale, PiggyBank, Target, Calendar, FileText, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 
@@ -32,6 +32,12 @@ const tools = [
     description: 'Prevedi entrate, uscite e scadenze fiscali.',
     icon: Calendar,
     href: '/pianificazione',
+  },
+  {
+    title: 'Preventivo',
+    description: 'Genera un preventivo professionale con anteprima A4 e export PDF.',
+    icon: FileText,
+    href: '/preventivo',
   },
 ];
 

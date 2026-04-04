@@ -8,3 +8,5 @@ coverage/
 !.env.example
 .git-corrupt/
 .worktrees/
+test-results/
+playwright-report/

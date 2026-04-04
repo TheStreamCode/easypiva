@@ -175,3 +175,53 @@ html:not(.dark)::view-transition-new(root) {
     clip-path: circle(var(--theme-reveal-radius, 150vw) at var(--x, 50%) var(--y, 50%));
   }
 }
+
+@layer utilities {
+  .quote-preview-root {
+    color-scheme: light;
+  }
+
+  .quote-a4-page {
+    width: 210mm;
+    height: 297mm;
+    flex: none;
+  }
+
+  .quote-a4-content {
+    height: calc(297mm - 40mm);
+  }
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  .quote-preview-root {
+    padding: 0;
+    background: white;
+    border: 0;
+  }
+
+  .quote-a4-page {
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    break-after: page;
+  }
+
+  .quote-preview-pages > :last-child .quote-a4-page {
+    break-after: auto;
+  }
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

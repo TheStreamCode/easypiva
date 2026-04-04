@@ -11,7 +11,7 @@
 ```
 src/
 ├── pages/          # Pagina calcolatori e informativa
-├── components/     # Layout, DisclaimerModal
+├── components/     # Layout, quote builder, UI condivisa
 ├── lib/
 │   ├── calculations/   # Logica fiscale (forfettario, INPS, comparison, targetNet, planning)
 │   ├── fiscal-data.ts  # Costanti fiscali 2026 (IRPEF, INPS, ATECO, limiti)
@@ -20,13 +20,16 @@ src/
 │   └── theme.ts        # Gestione tema light/dark
 ├── store/          # Zustand stores (disclaimer, tema)
 ├── test/           # Setup test
+├── components/quote/   # Editor, preview, renderer e export del preventivo
 components/ui/      # Componenti shadcn/ui (7 utilizzati)
 ```
 
 ## Aree principali
 
-- `src/pages/` ospita i calcolatori pubblici e le pagine informative.
+- `src/pages/` ospita i calcolatori pubblici, il preventivo e le pagine informative.
 - `src/lib/calculations/` contiene formule e soglie fiscali.
+- `src/lib/quote/` contiene il modello dati, la paginazione e l'export del preventivo.
+- `src/components/quote/` contiene editor, preview, shell, renderer e pezzi condivisi del preventivo.
 - `src/store/` conserva le preferenze di disclaimer e tema.
 - `components/ui/` fornisce i primitivi UI condivisi.
 
@@ -45,6 +48,7 @@ components/ui/      # Componenti shadcn/ui (7 utilizzati)
 - `/contributi` - Simulatore INPS
 - `/quanto-fatturare` - Calcolo inverso fatturato
 - `/pianificazione` - Proiezione mensile ricavi
+- `/preventivo` - Quote builder locale con anteprima A4 e export PDF
 - `/informativa` - Privacy, disclaimer, fonti normative
 - `/*` - 404 (NotFound)
 
@@ -57,3 +61,4 @@ Gli avvisi di soglia fiscali sono centralizzati in `src/lib/public-copy.ts`. Il 
 - Nessuna persistenza lato server.
 - Nessun sistema di account.
 - La copia legale e fiscale deve restare allineata alle assunzioni di calcolo.
+- Il preventivo resta local-first: bozza in `localStorage`, preview come fonte di verità per l'export PDF.

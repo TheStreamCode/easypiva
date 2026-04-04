@@ -5,6 +5,7 @@ import {
   PiggyBank,
   Target,
   Calendar,
+  FileText,
   Info,
   Menu,
   X,
@@ -26,6 +27,7 @@ const navigation = [
   { name: 'Contributi INPS', href: '/contributi', icon: PiggyBank },
   { name: 'Quanto Fatturare', href: '/quanto-fatturare', icon: Target },
   { name: 'Pianificazione', href: '/pianificazione', icon: Calendar },
+  { name: 'Preventivo', href: '/preventivo', icon: FileText },
   { name: 'Informativa', href: '/informativa', icon: Info },
 ];
 
@@ -186,7 +188,9 @@ export default function Layout() {
           </Button>
         </header>
 
-        <main className="flex-1 p-6 md:p-10 max-w-5xl mx-auto w-full">
+        <main
+          className={`flex-1 p-6 md:p-10 mx-auto w-full ${location.pathname === '/preventivo' ? 'max-w-[1440px]' : 'max-w-5xl'}`}
+        >
           <AnimatePresence mode="wait">
             <motion.div
               key={location.pathname}
