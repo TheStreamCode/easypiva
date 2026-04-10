@@ -74,11 +74,7 @@ export default function App() {
           <Route
             path="preventivo"
             element={
-              <Suspense
-                fallback={
-                  <div className="p-6 text-sm text-zinc-500">Caricamento preventivo...</div>
-                }
-              >
+              <Suspense fallback={<RouteFallback />}>
                 <QuoteBuilder />
               </Suspense>
             }

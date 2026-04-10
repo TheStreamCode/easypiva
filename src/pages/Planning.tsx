@@ -16,19 +16,7 @@ import {
 import { motion } from 'motion/react';
 import { buildPlanningProjection } from '@/lib/calculations';
 import { formatCurrency } from '@/lib/format';
-
-const warningCopy = {
-  'revenue-over-85000': {
-    title: 'Attenzione',
-    message:
-      "Hai superato la soglia degli 85.000€. L'anno prossimo uscirai dal regime forfettario e passerai al regime ordinario, ma per l'anno in corso mantieni i benefici fiscali.",
-  },
-  'revenue-over-100000': {
-    title: 'CRITICO',
-    message:
-      "Hai superato la soglia dei 100.000€. Esci IMMEDIATAMENTE dal regime forfettario nell'anno in corso. Dovrai applicare l'IVA sulle fatture successive all'incasso che ha causato il superamento.",
-  },
-} as const;
+import { warningCopy } from '@/lib/public-copy';
 
 const mesi = ['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu', 'Lug', 'Ago', 'Set', 'Ott', 'Nov', 'Dic'];
 

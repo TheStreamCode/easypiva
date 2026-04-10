@@ -91,7 +91,7 @@ export default function Calculator() {
     { name: 'Contributi INPS', value: stimaInps.totale, color: 'var(--color-chart-3)' },
     {
       name: 'Costi Forfettari',
-      value: values.ricavi - redditoLordo,
+      value: Math.max(0, values.ricavi - redditoLordo),
       color: 'var(--color-chart-4)',
     },
   ];

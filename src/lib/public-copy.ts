@@ -8,12 +8,12 @@ export const warningCopy: Record<WarningCode, { title: string; message: string }
   'revenue-over-85000': {
     title: 'Attenzione',
     message:
-      "I ricavi ragguagliati superano 85.000€. Uscirai dal regime forfettario l'anno prossimo.",
+      "Hai superato la soglia degli 85.000€. L'anno prossimo uscirai dal regime forfettario e passerai al regime ordinario, ma per l'anno in corso mantieni i benefici fiscali.",
   },
   'revenue-over-100000': {
     title: 'CRITICO',
     message:
-      "I ricavi superano 100.000€. Uscita immediata dal regime forfettario nell'anno in corso!",
+      "Hai superato la soglia dei 100.000€. Esci IMMEDIATAMENTE dal regime forfettario nell'anno in corso. Dovrai applicare l'IVA sulle fatture successive all'incasso che ha causato il superamento.",
   },
   'employee-costs-over-limit': {
     title: 'Attenzione',
