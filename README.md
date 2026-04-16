@@ -2,104 +2,68 @@
 
 [![CI](https://github.com/TheStreamCode/easypiva/actions/workflows/ci.yml/badge.svg)](https://github.com/TheStreamCode/easypiva/actions/workflows/ci.yml)
 
-**Simulazioni fiscali precise e aggiornate.**
+EasyPIVA è una web app client-side per simulazioni fiscali indicative dedicate alla Partita IVA italiana. Copre regime forfettario, contributi INPS, confronto tra regimi, pianificazione dei ricavi e generazione di preventivi con export PDF.
 
-EasyPIVA è un progetto open source per simulare regime forfettario, contributi INPS, confronto tra regimi fiscali italiani e pianificazione delle entrate.
-È sviluppato e mantenuto internamente da **Mikesoft**.
+Tutti i calcoli vengono eseguiti localmente nel browser. Il progetto non richiede account e non usa un backend applicativo.
 
-## Stato del progetto
+## Funzionalità principali
 
-- Progetto personale e amatoriale.
-- Mantenuto internamente da Mikesoft.
-- **Non sono accettati contributi esterni, pull request o issue della community.**
-
-## Funzionalità
-
-- Calcolo forfettario 2026 con imposta sostitutiva al 5% o 15%.
+- Calcolatore del regime forfettario 2026.
 - Confronto tra regime forfettario e ordinario.
-- Simulazione contributi INPS per Gestione Separata, Artigiani e Commercianti.
-- Calcolo inverso per trovare il fatturato necessario a un netto desiderato.
-- Pianificazione mensile per monitorare i limiti di ricavi.
-- Preventivo locale con editor, anteprima A4 e export PDF.
-- Export PDF dei risultati.
-- Salvataggio scenari nel browser con `localStorage`.
-- Modalità dark/light con circular reveal ottimizzata per mobile.
-- Layout responsive verificato con Playwright su mobile, tablet e desktop.
-- Il preventivo usa una barra mobile dedicata e controlli touch-friendly, con editor che si adatta agli schermi piccoli.
+- Simulatore contributi INPS per Gestione Separata, Artigiani e Commercianti.
+- Calcolo inverso del fatturato necessario per raggiungere un netto obiettivo.
+- Pianificazione mensile dei ricavi rispetto alle soglie del regime.
+- Preventivo locale con anteprima A4, autosalvataggio della bozza nel browser ed export PDF.
 
 ## Stack
 
-- **Frontend:** React 19, TypeScript, Vite
-- **Styling:** Tailwind CSS v4, shadcn/ui
-- **State Management:** Zustand
-- **Data & Form:** React Hook Form + Zod, Recharts
-- **Utility:** jsPDF, React Router
-- **Code Quality:** ESLint, Prettier, Vitest
+- React 19, TypeScript 5, Vite 6.
+- Tailwind CSS v4 e componenti shadcn/ui.
+- Zustand per lo stato client-side.
+- React Hook Form e Zod per i form.
+- Recharts, motion e jsPDF per visualizzazione ed export.
 
-## Verifica locale
+## Requisiti locali
 
-Prima di aprire un commit, esegui sempre la suite CI locale:
-
-```bash
-npm run ci
-```
-
-Se vuoi controllare i singoli passaggi:
-
-- `npm run format:check`
-- `npm run typecheck`
-- `npm run lint`
-- `npm run test`
-- `npm run build`
-
-Per il browser smoke test del sito:
-
-```bash
-npx playwright test tests/e2e/site-smoke.spec.ts
-```
+- Node.js 20, in linea con la CI del repository.
+- npm come package manager canonico.
 
 ## Avvio locale
 
-1. Clona il repository:
+```bash
+git clone https://github.com/TheStreamCode/easypiva.git
+cd easypiva
+npm ci
+npm run dev
+```
 
-   ```bash
-   git clone https://github.com/TheStreamCode/easypiva.git
-   cd easypiva
-   ```
+L'app viene servita in sviluppo su `http://127.0.0.1:3000`.
 
-2. Installa le dipendenze:
+## Script principali
 
-   ```bash
-   npm install
-   ```
+- `npm run dev` avvia il server di sviluppo.
+- `npm run typecheck` esegue il controllo TypeScript.
+- `npm run lint` esegue ESLint.
+- `npm run test` esegue la suite Vitest.
+- `npm run build` genera la build di produzione in `dist/`.
+- `npm run ci` esegue il flusso locale completo usato dalla CI.
 
-3. Avvia il server di sviluppo:
-   ```bash
-   npm run dev
-   ```
+## Documentazione
 
-## Note GitHub
+- [Architettura](docs/architecture.md)
+- [Privacy e storage locale](docs/privacy-and-storage.md)
+- [Assunzioni fiscali](docs/ADRs/0001-fiscal-assumptions.md)
+- [Contribution policy](CONTRIBUTING.md)
+- [Security policy](SECURITY.md)
 
-- Repository pubblico pensato come portfolio.
-- Nessun contributo esterno viene accettato.
-- Issue/discussion possono restare disabilitati lato GitHub.
+## Workflow del repository
 
-## Pubblicazione
-
-- Il progetto è pensato per GitHub come vetrina portfolio.
-- Il deploy client-side è già supportato da `vercel.json`.
-- La manutenzione resta interna e non prevede collaboratori esterni.
-
-## Identità
-
-- Il progetto mantiene un'identità visiva minimale coerente con il brand EasyPIVA.
-- L'attribuzione pubblica resta riferita a Mikesoft.
+Il repository è pubblico e rilasciato con licenza MIT, ma la manutenzione del codice segue un workflow `maintainers-only`. La policy completa è documentata in [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Disclaimer
 
-I calcoli sono basati sulle norme vigenti (Agenzia delle Entrate 2026) ma **non sostituiscono in alcun modo** la consulenza di un commercialista o di un consulente del lavoro.
-Le simulazioni hanno scopo puramente indicativo. L'autore non assume alcuna responsabilità per eventuali errori o per l'uso dei risultati.
+I risultati sono stime indicative basate sulle assunzioni fiscali documentate nel repository. Non costituiscono consulenza fiscale, legale o contabile e non sostituiscono il parere di un professionista abilitato.
 
 ## Licenza
 
-Rilasciato sotto licenza [MIT](LICENSE).
+Distribuito sotto licenza [MIT](LICENSE).

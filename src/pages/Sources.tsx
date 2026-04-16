@@ -16,13 +16,13 @@ export default function Sources() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto flex flex-col gap-12 pb-16 pt-8">
+    <div className="mx-auto flex max-w-3xl flex-col gap-12 pb-16 pt-8">
       <div className="flex flex-col gap-4">
-        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+        <h1 className="text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 md:text-4xl">
           Informativa e Privacy
         </h1>
         <p className="text-lg text-zinc-600 dark:text-zinc-400">
-          Termini di utilizzo, trattamento dei dati (GDPR) e fonti normative.
+          Condizioni d'uso, privacy by design, storage locale e fonti normative.
         </p>
       </div>
 
@@ -34,169 +34,152 @@ export default function Sources() {
       >
         <motion.div
           variants={itemVariants}
-          className="p-6 md:p-8 rounded-2xl bg-blue-50/50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900/50"
+          className="rounded-2xl border border-blue-200 bg-blue-50/50 p-6 dark:border-blue-900/50 dark:bg-blue-950/20 md:p-8"
         >
-          <div className="flex items-center gap-3 mb-4">
-            <ShieldAlert className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+          <div className="mb-4 flex items-center gap-3">
+            <ShieldAlert className="h-6 w-6 text-blue-600 dark:text-blue-400" />
             <h2 className="text-xl font-medium text-blue-900 dark:text-blue-100">
-              Termini di Servizio e Disclaimer
+              Condizioni di utilizzo e disclaimer
             </h2>
           </div>
-          <div className="space-y-4 text-blue-900/80 dark:text-blue-200/80 leading-relaxed">
+          <div className="space-y-4 leading-relaxed text-blue-900/80 dark:text-blue-200/80">
             <p>
               <strong className="font-semibold text-blue-900 dark:text-blue-100">EasyPIVA</strong> è
-              un'applicazione web fornita a scopo puramente informativo e divulgativo.
+              uno strumento informativo per simulazioni fiscali indicative e per la creazione di
+              preventivi locali.
             </p>
             <p>
-              I calcoli, le stime e le simulazioni generati da questo strumento sono basati
-              sull'interpretazione delle norme fiscali vigenti (inclusa la Legge di Bilancio 2026)
-              ma{' '}
+              I risultati mostrati dall'app derivano da assunzioni fiscali documentate e da dati
+              inseriti dall'utente, ma{' '}
               <strong className="font-semibold text-blue-900 dark:text-blue-100">
-                NON costituiscono parere professionale, legale o fiscale
+                non costituiscono consulenza fiscale, legale o contabile
               </strong>
-              , né sostituiscono in alcun modo la consulenza di un commercialista o di un consulente
-              del lavoro iscritto all'albo.
+              .
             </p>
             <p>
-              L'utente utilizza l'applicazione a proprio rischio. Il progetto è mantenuto
-              internamente da Mikesoft e non prevede collaboratori esterni; il progetto non assume
-              alcuna responsabilità per eventuali errori, inesattezze, omissioni o per decisioni
-              finanziarie e fiscali prese sulla base dei risultati forniti da EasyPIVA.
+              Prima di prendere decisioni economiche o fiscali, è opportuno verificare i risultati
+              con un commercialista o con un consulente del lavoro abilitato.
             </p>
           </div>
         </motion.div>
 
         <div className="flex flex-col gap-12">
           <motion.div variants={itemVariants} className="flex flex-col gap-4">
-            <div className="flex items-center gap-3 border-b border-zinc-200 dark:border-zinc-800 pb-2">
-              <Lock className="w-5 h-5 text-zinc-500" />
+            <div className="flex items-center gap-3 border-b border-zinc-200 pb-2 dark:border-zinc-800">
+              <Lock className="h-5 w-5 text-zinc-500" />
               <h2 className="text-lg font-medium text-zinc-900 dark:text-zinc-100">
-                Privacy Policy (GDPR)
+                Privacy by design
               </h2>
             </div>
-            <div className="space-y-4 text-zinc-600 dark:text-zinc-400 leading-relaxed">
+            <div className="space-y-4 leading-relaxed text-zinc-600 dark:text-zinc-400">
               <p>
-                Nel rispetto del Regolamento (UE) 2016/679 (GDPR), ti informiamo che{' '}
+                EasyPIVA adotta un modello{' '}
                 <strong className="font-medium text-zinc-900 dark:text-zinc-100">
-                  EasyPIVA è progettata per garantire la massima privacy &quot;by design&quot;
+                  local-first
                 </strong>
-                .
+                : i calcoli e la generazione del preventivo avvengono nel browser, senza account
+                utente e senza backend applicativo dedicato.
               </p>
-              <ul className="list-disc list-inside space-y-2 ml-2 text-zinc-700 dark:text-zinc-300">
+              <ul className="ml-2 list-inside list-disc space-y-2 text-zinc-700 dark:text-zinc-300">
+                <li>L'app non richiede registrazione e non crea profili utente.</li>
                 <li>
-                  <strong className="font-medium text-zinc-900 dark:text-zinc-100">
-                    Nessun dato personale:
-                  </strong>{' '}
-                  L'applicazione non richiede registrazione, non raccoglie dati anagrafici (nome,
-                  email, ecc.) e non profila gli utenti.
+                  I dati inseriti nei calcolatori vengono elaborati localmente sul dispositivo in
+                  uso.
                 </li>
+                <li>Il codice applicativo non implementa analytics o cookie di profilazione.</li>
                 <li>
-                  <strong className="font-medium text-zinc-900 dark:text-zinc-100">
-                    Elaborazione locale:
-                  </strong>{' '}
-                  Tutti i dati finanziari inseriti nei calcolatori (ricavi, costi, ecc.) vengono
-                  elaborati esclusivamente in locale sul tuo dispositivo (browser).
-                </li>
-                <li>
-                  <strong className="font-medium text-zinc-900 dark:text-zinc-100">
-                    Nessun trasferimento:
-                  </strong>{' '}
-                  Nessun dato finanziario o personale viene inviato, salvato o elaborato su server
-                  esterni o database di terze parti.
+                  Eventuali link verso siti esterni vengono aperti solo su azione esplicita
+                  dell'utente.
                 </li>
               </ul>
             </div>
           </motion.div>
 
           <motion.div variants={itemVariants} className="flex flex-col gap-4">
-            <div className="flex items-center gap-3 border-b border-zinc-200 dark:border-zinc-800 pb-2">
-              <Database className="w-5 h-5 text-zinc-500" />
+            <div className="flex items-center gap-3 border-b border-zinc-200 pb-2 dark:border-zinc-800">
+              <Database className="h-5 w-5 text-zinc-500" />
               <h2 className="text-lg font-medium text-zinc-900 dark:text-zinc-100">
-                Cookie Policy e Local Storage
+                Storage locale nel browser
               </h2>
             </div>
-            <div className="space-y-4 text-zinc-600 dark:text-zinc-400 leading-relaxed">
+            <div className="space-y-4 leading-relaxed text-zinc-600 dark:text-zinc-400">
               <p>
-                EasyPIVA{' '}
+                EasyPIVA usa il{' '}
                 <strong className="font-medium text-zinc-900 dark:text-zinc-100">
-                  non utilizza cookie di profilazione o tracciamento
+                  localStorage
                 </strong>{' '}
-                (es. Google Analytics, Meta Pixel).
+                del browser solo per finalità tecniche e di continuità d'uso.
               </p>
-              <p>
-                L'applicazione fa uso esclusivamente della tecnologia{' '}
-                <strong className="font-medium text-zinc-900 dark:text-zinc-100">
-                  Local Storage
-                </strong>{' '}
-                del tuo browser per finalità strettamente tecniche e di funzionamento:
-              </p>
-              <ul className="list-disc list-inside space-y-2 ml-2 text-zinc-700 dark:text-zinc-300">
+              <ul className="ml-2 list-inside list-disc space-y-2 text-zinc-700 dark:text-zinc-300">
+                <li>Memorizza l'accettazione del disclaimer iniziale.</li>
+                <li>Memorizza la preferenza del tema chiaro o scuro.</li>
                 <li>
-                  Memorizzare l'accettazione del disclaimer iniziale per non riproporlo ad ogni
-                  visita.
+                  Salva automaticamente la bozza del preventivo, inclusi i dati che l'utente decide
+                  di inserire nel form.
                 </li>
-                <li>Salvare la preferenza del tema chiaro o scuro.</li>
               </ul>
+              <div className="rounded-xl border border-amber-200 bg-amber-50/70 p-4 text-amber-900 dark:border-amber-900/60 dark:bg-amber-950/20 dark:text-amber-100">
+                La bozza del preventivo può contenere dati personali o aziendali, come nominativi,
+                indirizzi, email, partita IVA, codice fiscale, dettagli di pagamento, note ed
+                eventuale logo. Questi dati restano nel browser finché non vengono rimossi.
+              </div>
               <p>
-                Puoi cancellare questi dati in qualsiasi momento svuotando la cache e i dati dei
-                siti web dalle impostazioni del tuo browser.
+                Se utilizzi un dispositivo condiviso, è consigliabile cancellare i dati del sito al
+                termine dell'uso.
               </p>
             </div>
           </motion.div>
 
           <motion.div variants={itemVariants} className="flex flex-col gap-4">
-            <div className="flex items-center gap-3 border-b border-zinc-200 dark:border-zinc-800 pb-2">
-              <Info className="w-5 h-5 text-zinc-500" />
+            <div className="flex items-center gap-3 border-b border-zinc-200 pb-2 dark:border-zinc-800">
+              <Info className="h-5 w-5 text-zinc-500" />
               <h2 className="text-lg font-medium text-zinc-900 dark:text-zinc-100">
-                Fonti Normative 2026
+                Fonti normative 2026
               </h2>
             </div>
-            <div className="space-y-4 text-zinc-600 dark:text-zinc-400 leading-relaxed">
-              <p>I calcoli si basano sui seguenti riferimenti normativi (aggiornati al 2026):</p>
-              <ul className="list-disc list-inside space-y-2 ml-2 text-zinc-700 dark:text-zinc-300">
+            <div className="space-y-4 leading-relaxed text-zinc-600 dark:text-zinc-400">
+              <p>
+                I calcoli si basano sulle assunzioni fiscali documentate nel progetto e sui
+                principali riferimenti istituzionali aggiornati al 2026.
+              </p>
+              <ul className="ml-2 list-inside list-disc space-y-2 text-zinc-700 dark:text-zinc-300">
                 <li>
                   <strong className="font-medium text-zinc-900 dark:text-zinc-100">
-                    Regime Forfettario:
+                    Regime forfettario:
                   </strong>{' '}
-                  Limite ricavi confermato a 85.000€ (uscita immediata a 100.000€). Imposta
-                  sostitutiva al 15% (5% per le startup nei primi 5 anni).
+                  limite ricavi a 85.000 euro, uscita immediata a 100.000 euro, imposta sostitutiva
+                  al 15% o al 5% nei casi agevolati previsti.
                 </li>
                 <li>
                   <strong className="font-medium text-zinc-900 dark:text-zinc-100">
-                    Scaglioni IRPEF (Regime Ordinario):
+                    Regime ordinario:
                   </strong>{' '}
-                  Fino a 28.000€ (23%), da 28.001€ a 50.000€ (33%), oltre 50.000€ (43%).
+                  scaglioni IRPEF 2026 e confronto netto fiscale contributivo.
                 </li>
                 <li>
                   <strong className="font-medium text-zinc-900 dark:text-zinc-100">
-                    INPS Gestione Separata:
+                    Contributi INPS:
                   </strong>{' '}
-                  Aliquota stimata al 26,07%.
-                </li>
-                <li>
-                  <strong className="font-medium text-zinc-900 dark:text-zinc-100">
-                    INPS Artigiani e Commercianti:
-                  </strong>{' '}
-                  Contributo fisso minimale stimato su un reddito di ~18.415€. Riduzione del 35%
-                  applicabile su richiesta per i forfettari.
+                  Gestione Separata, Artigiani e Commercianti secondo le ipotesi correnti del
+                  progetto.
                 </li>
               </ul>
-              <div className="flex gap-4 mt-4">
+              <div className="mt-4 flex gap-4">
                 <a
                   href="https://www.agenziaentrate.gov.it/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
+                  className="inline-flex items-center gap-1.5 text-sm font-medium text-blue-600 transition-colors hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
                 >
-                  Agenzia delle Entrate <ExternalLink className="w-4 h-4" />
+                  Agenzia delle Entrate <ExternalLink className="h-4 w-4" />
                 </a>
                 <a
                   href="https://www.inps.it/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
+                  className="inline-flex items-center gap-1.5 text-sm font-medium text-blue-600 transition-colors hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
                 >
-                  INPS <ExternalLink className="w-4 h-4" />
+                  INPS <ExternalLink className="h-4 w-4" />
                 </a>
               </div>
             </div>

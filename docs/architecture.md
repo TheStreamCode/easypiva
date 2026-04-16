@@ -2,64 +2,88 @@
 
 ## Panoramica
 
-- Applicazione single-page React basata su Vite, TypeScript e React Router.
-- Tutti i calcoli fiscali vengono eseguiti localmente nel browser.
-- Lo stato persistente è limitato alle preferenze utente in `localStorage`.
+EasyPIVA è una single-page application React basata su Vite e TypeScript. L'app è progettata per eseguire simulazioni fiscali e generazione di preventivi direttamente nel browser, senza backend applicativo, account utente o persistenza lato server.
 
-## Struttura progetto
+L'architettura separa in modo netto UI, logica fiscale pura, stato client-side e generazione del preventivo. Le assunzioni fiscali restano centralizzate nel codice e documentate tramite ADR dedicato.
 
-```
+## Runtime applicativo
+
+- Il routing è gestito con `react-router-dom` in `src/App.tsx`.
+- Le pagine principali sono lazy-loaded per ridurre il carico iniziale.
+- La build di produzione viene generata in `dist/` tramite `npm run build`.
+- `vercel.json` applica la rewrite verso `index.html` per supportare il routing client-side su hosting statico.
+- La CI GitHub usa Node.js 20 ed esegue `npm run ci` definito in `package.json`.
+
+## Mappa delle route
+
+| Route               | Pagina                        | Responsabilità                                                        |
+| ------------------- | ----------------------------- | --------------------------------------------------------------------- |
+| `/`                 | `src/pages/Home.tsx`          | Dashboard e navigazione verso i calcolatori                           |
+| `/calcolatore`      | `src/pages/Calculator.tsx`    | Simulazione regime forfettario                                        |
+| `/confronto`        | `src/pages/Comparison.tsx`    | Confronto forfettario vs ordinario                                    |
+| `/contributi`       | `src/pages/Contributions.tsx` | Simulatore contributi INPS                                            |
+| `/quanto-fatturare` | `src/pages/TargetNet.tsx`     | Calcolo inverso fatturato per netto obiettivo                         |
+| `/pianificazione`   | `src/pages/Planning.tsx`      | Pianificazione ricavi mensili                                         |
+| `/preventivo`       | `src/pages/QuoteBuilder.tsx`  | Editor preventivo, anteprima A4, autosalvataggio locale ed export PDF |
+| `/informativa`      | `src/pages/Sources.tsx`       | Disclaimer, privacy e fonti normative                                 |
+| `*`                 | `src/pages/NotFound.tsx`      | Fallback 404                                                          |
+
+## Struttura del codice
+
+```text
 src/
-├── pages/          # Pagina calcolatori e informativa
-├── components/     # Layout, quote builder, UI condivisa
-├── lib/
-│   ├── calculations/   # Logica fiscale (forfettario, INPS, comparison, targetNet, planning)
-│   ├── fiscal-data.ts  # Costanti fiscali 2026 (IRPEF, INPS, ATECO, limiti)
-│   ├── public-copy.ts  # Copy centralizzata per gli avvisi di soglia
-│   ├── format.ts       # Formattazione numeri/currency
-│   └── theme.ts        # Gestione tema light/dark
-├── store/          # Zustand stores (disclaimer, tema)
-├── test/           # Setup test
-├── components/quote/   # Editor, preview, renderer e export del preventivo
-components/ui/      # Componenti shadcn/ui (7 utilizzati)
+  App.tsx                  # Router e lazy loading delle pagine
+  pages/                   # Route pubbliche
+  components/              # Layout e componenti applicativi condivisi
+  lib/
+    calculations/          # Logica fiscale pura e testata
+    quote/                 # Modello preventivo, paginazione ed export PDF
+    fiscal-data.ts         # Costanti fiscali 2026
+    public-copy.ts         # Copy centralizzata per warning e messaggi pubblici
+    theme.ts               # Inizializzazione e persistenza del tema
+  store/                   # Zustand store per disclaimer e tema
+  test/                    # Setup Vitest
+components/ui/             # Primitivi UI condivisi
+tests/e2e/                 # Test end-to-end Playwright
 ```
-
-## Aree principali
-
-- `src/pages/` ospita i calcolatori pubblici, il preventivo e le pagine informative.
-- `src/lib/calculations/` contiene formule e soglie fiscali.
-- `src/lib/quote/` contiene il modello dati, la paginazione e l'export del preventivo.
-- `src/components/quote/` contiene editor, preview, shell, renderer e pezzi condivisi del preventivo.
-- `src/store/` conserva le preferenze di disclaimer e tema.
-- `components/ui/` fornisce i primitivi UI condivisi.
 
 ## Flusso dati
 
-1. L'utente inserisce i dati in un componente di pagina.
-2. La pagina richiama un helper di calcolo da `src/lib/calculations/`.
-3. L'helper restituisce un risultato tipizzato e gli eventuali avvisi di soglia.
-4. La pagina renderizza localmente il risultato, i grafici e i messaggi.
+### Calcolatori fiscali
 
-## Routing
+1. La pagina raccoglie gli input dell'utente.
+2. I dati vengono passati agli helper in `src/lib/calculations/`.
+3. La logica restituisce risultati tipizzati ed eventuali warning.
+4. La UI renderizza risultati, grafici e copy senza round-trip verso server.
 
-- `/` - Home (dashboard)
-- `/calcolatore` - Forfettario 2026 (3-step wizard)
-- `/confronto` - Forfettario vs Ordinario
-- `/contributi` - Simulatore INPS
-- `/quanto-fatturare` - Calcolo inverso fatturato
-- `/pianificazione` - Proiezione mensile ricavi
-- `/preventivo` - Quote builder locale con anteprima A4 e export PDF
-- `/preventivo` - Quote builder locale con anteprima A4, export PDF e layout responsive per mobile/tablet
-- `/informativa` - Privacy, disclaimer, fonti normative
-- `/*` - 404 (NotFound)
+### Preventivo
 
-## Copy centralizzata
+1. `src/pages/QuoteBuilder.tsx` gestisce il form tramite React Hook Form.
+2. La bozza viene salvata automaticamente in `localStorage` con debounce.
+3. L'anteprima A4 deriva dallo stato corrente del form.
+4. L'export PDF usa il DOM renderizzato come fonte di verità.
 
-Gli avvisi di soglia fiscali sono centralizzati in `src/lib/public-copy.ts`. Il resto della copy pubblica principale resta definito nei componenti e nelle pagine che la espongono.
+## Persistenza client-side
 
-## Vincoli
+L'app non salva dati su server, ma usa `localStorage` per tre casi precisi.
 
-- Nessuna persistenza lato server.
-- Nessun sistema di account.
-- La copia legale e fiscale deve restare allineata alle assunzioni di calcolo.
-- Il preventivo resta local-first: bozza in `localStorage`, preview come fonte di verità per l'export PDF, con controlli touch-friendly su mobile.
+| Chiave                        | Modulo responsabile                              | Contenuto                                                                           |
+| ----------------------------- | ------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| `easypiva-disclaimer-storage` | `src/store/useStore.ts`                          | Stato di accettazione del disclaimer                                                |
+| `easypiva-theme-mode`         | `src/store/useThemeStore.ts`, `src/lib/theme.ts` | Preferenza tema `light` o `dark`                                                    |
+| `easypiva.quote-draft`        | `src/pages/QuoteBuilder.tsx`                     | Bozza del preventivo, incluse anagrafiche, righe, pagamenti, note ed eventuale logo |
+
+La chiave legacy `easypiva-storage` viene letta solo per migrare vecchi dati del disclaimer e non viene più usata come storage principale.
+
+## Qualità e test
+
+- I test unitari e di integrazione UI sono eseguiti con Vitest.
+- I test end-to-end sono raccolti in `tests/e2e/` con Playwright.
+- Il comando di riferimento per la verifica locale completa è `npm run ci`.
+
+## Vincoli architetturali
+
+- Nessun backend applicativo o sistema di autenticazione.
+- Tutte le formule fiscali devono restare pure e verificabili.
+- La documentazione su privacy e storage deve riflettere il comportamento reale di `localStorage`.
+- Ogni modifica alle assunzioni fiscali richiede aggiornamento coordinato tra codice, ADR e copy pubblica.
