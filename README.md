@@ -2,9 +2,24 @@
 
 [![CI](https://github.com/TheStreamCode/easypiva/actions/workflows/ci.yml/badge.svg)](https://github.com/TheStreamCode/easypiva/actions/workflows/ci.yml)
 
+Versione corrente del repository: `0.1.0`.
+
 EasyPIVA è una web app client-side per simulazioni fiscali indicative dedicate alla Partita IVA italiana. Copre regime forfettario, contributi INPS, confronto tra regimi, pianificazione dei ricavi e generazione di preventivi con export PDF.
 
 Tutti i calcoli vengono eseguiti localmente nel browser. Il progetto non richiede account e non usa un backend applicativo.
+
+## Branding e packaging
+
+- Brand prodotto: `EasyPIVA`.
+- Maintainer e autore del repository: `Mikesoft`.
+- Packaging supportato: applicazione web statica buildata con Vite.
+- Questo repository non è una VS Code extension: non usa `vsce`, non genera `.vsix` e non richiede icone separate per Activity Bar, sidebar o Marketplace.
+
+## Release 0.1.0
+
+- Formalizza la prima release documentata del repository.
+- Allinea versione, changelog e README allo stato reale del progetto.
+- Conferma che il branch `main` è l'unico ramo remoto attivo e che non risultano PR aperte o branch Dependabot da integrare al momento della release.
 
 ## Funzionalità principali
 
@@ -53,6 +68,7 @@ L'app viene servita in sviluppo su `http://127.0.0.1:3000`.
 - [Architettura](docs/architecture.md)
 - [Privacy e storage locale](docs/privacy-and-storage.md)
 - [Assunzioni fiscali](docs/ADRs/0001-fiscal-assumptions.md)
+- [Changelog](CHANGELOG.md)
 - [Contribution policy](CONTRIBUTING.md)
 - [Security policy](SECURITY.md)
 
