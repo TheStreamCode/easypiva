@@ -1,7 +1,7 @@
 import { formatCurrency } from '@/lib/format';
 import { calculateQuoteTotals } from '@/lib/quote/calculations';
 
-import { getVatLabel, type QuoteDraft } from './quotePreviewData';
+import { formatQuoteDate, getVatLabel, type QuoteDraft } from './quotePreviewData';
 
 export function PartyBlock({
   label,
@@ -100,11 +100,11 @@ export function QuoteMetaBlock({ quote }: { quote: QuoteDraft }) {
           </div>
           <div className="flex items-center justify-between gap-4">
             <span>Data</span>
-            <span>{quote.issueDate}</span>
+            <span>{formatQuoteDate(quote.issueDate)}</span>
           </div>
           <div className="flex items-center justify-between gap-4">
             <span>Regime fiscale</span>
-            <span className="text-right">{quote.vatMode}</span>
+            <span className="text-right">{getVatLabel(quote.vatMode)}</span>
           </div>
         </div>
       </section>

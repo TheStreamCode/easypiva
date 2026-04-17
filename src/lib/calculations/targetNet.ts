@@ -1,6 +1,7 @@
+import { LIMITS } from '../fiscal-data';
 import { getAtecoCoefficient, INPS_RATES } from '../fiscal-data';
 import { calculateInps } from './inps';
-import type { TargetNetInput, TargetNetResult } from './types';
+import type { TargetNetInput, TargetNetResult, WarningCode } from './types';
 
 function calculateNetForRevenue(
   ricavi: number,
@@ -18,6 +19,27 @@ function calculateNetForRevenue(
     inps: inps.totale,
     tasse,
     netto: ricavi - tasse - inps.totale,
+  };
+}
+
+function buildTargetAvailability(ricaviNecessari: number) {
+  if (ricaviNecessari > LIMITS.uscitaImmediata) {
+    return {
+      available: false,
+      warnings: ['revenue-over-100000'] as WarningCode[],
+    };
+  }
+
+  if (ricaviNecessari > LIMITS.ricavi) {
+    return {
+      available: true,
+      warnings: ['revenue-over-85000'] as WarningCode[],
+    };
+  }
+
+  return {
+    available: true,
+    warnings: [] as WarningCode[],
   };
 }
 
@@ -43,6 +65,7 @@ export function calculateTargetNet(input: TargetNetInput): TargetNetResult {
       inpsStimato: detail.inps,
       tasseStimate: detail.tasse,
       costiForfettari: ricaviNecessari - detail.redditoLordo,
+      ...buildTargetAvailability(ricaviNecessari),
     };
   }
 
@@ -65,15 +88,23 @@ export function calculateTargetNet(input: TargetNetInput): TargetNetResult {
       inpsStimato: detail.inps,
       tasseStimate: detail.tasse,
       costiForfettari: ricaviNecessari - detail.redditoLordo,
+      ...buildTargetAvailability(ricaviNecessari),
     };
   }
 
   const rates = INPS_RATES[input.tipoInps];
   const riduzione = input.riduzioneInps ? 0.65 : 1;
 
-  let low = nettoAnnuo;
-  let high = nettoAnnuo * 3;
+  let low = Math.max(0, nettoAnnuo);
+  let high = Math.max(nettoAnnuo, 1);
   let mid = 0;
+
+  while (
+    calculateNetForRevenue(high, coefficiente, aliquotaImposta, input.tipoInps, input.riduzioneInps)
+      .netto < nettoAnnuo
+  ) {
+    high *= 2;
+  }
 
   for (let i = 0; i < 50; i++) {
     mid = (low + high) / 2;
@@ -107,5 +138,6 @@ export function calculateTargetNet(input: TargetNetInput): TargetNetResult {
     inpsStimato,
     tasseStimate,
     costiForfettari: ricaviNecessari - redditoLordo,
+    ...buildTargetAvailability(ricaviNecessari),
   };
 }

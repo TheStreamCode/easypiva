@@ -1,4 +1,5 @@
-import { IRPEF_BRACKETS_2026, getAtecoCoefficient } from '../fiscal-data';
+import { IRPEF_BRACKETS_2026 } from '../fiscal-data';
+import { calculateForfettario } from './forfettario';
 import { calculateInps } from './inps';
 import type { ComparisonInput, ComparisonResult, RegimeResult } from './types';
 
@@ -22,17 +23,25 @@ function calculateIrpef(imponibile: number) {
 }
 
 export function compareRegimes(input: ComparisonInput): ComparisonResult {
-  const coefficiente = getAtecoCoefficient(input.atecoId) / 100;
-  const redditoLordoForf = input.ricavi * coefficiente;
   const tipoInps = input.tipoInps ?? 'gestioneSeparata';
   const riduzioneInps = input.riduzioneInps ?? false;
-  const inpsForf = calculateInps(redditoLordoForf, tipoInps, riduzioneInps).totale;
-  const imponibileForf = Math.max(0, redditoLordoForf - inpsForf);
-  const impostaForf = imponibileForf * (input.nuovaAttivita ? 0.05 : 0.15);
-  const nettoForf = input.ricavi - impostaForf - inpsForf;
+  const forfettarioResult = calculateForfettario({
+    ricavi: input.ricavi,
+    atecoId: input.atecoId,
+    contributiVersati: 0,
+    mesiAttivita: 12,
+    nuovaAttivita: input.nuovaAttivita,
+    tipoInps,
+    riduzioneInps,
+    speseDipendenti: 0,
+    redditoDipendente: 0,
+  });
+  const inpsForf = forfettarioResult.contributiConsiderati;
+  const impostaForf = forfettarioResult.impostaSostitutiva;
+  const nettoForf = forfettarioResult.nettoStimato;
 
   const redditoLordoOrd = Math.max(0, input.ricavi - input.costiReali);
-  const inpsOrd = calculateInps(redditoLordoOrd, tipoInps, riduzioneInps).totale;
+  const inpsOrd = calculateInps(redditoLordoOrd, tipoInps, false).totale;
   const imponibileOrd = Math.max(0, redditoLordoOrd - inpsOrd);
   const irpefOrd = calculateIrpef(imponibileOrd);
   const addizionaliOrd = imponibileOrd * 0.02;
@@ -40,10 +49,11 @@ export function compareRegimes(input: ComparisonInput): ComparisonResult {
 
   const forfettario: RegimeResult = {
     ricavi: input.ricavi,
-    costi: input.ricavi - redditoLordoForf,
+    costi: input.ricavi - forfettarioResult.redditoLordo,
     inps: inpsForf,
     tasse: impostaForf,
     netto: nettoForf,
+    available: forfettarioResult.available,
   };
 
   const ordinario: RegimeResult = {
@@ -52,12 +62,19 @@ export function compareRegimes(input: ComparisonInput): ComparisonResult {
     inps: inpsOrd,
     tasse: irpefOrd + addizionaliOrd,
     netto: nettoOrd,
+    available: true,
   };
 
-  const deltaNetto = nettoForf - nettoOrd;
+  const deltaNetto = forfettario.available ? nettoForf - nettoOrd : -Math.abs(nettoOrd);
 
   return {
-    winner: deltaNetto > 0 ? 'forfettario' : deltaNetto < 0 ? 'ordinario' : 'pareggio',
+    winner: !forfettario.available
+      ? 'ordinario'
+      : deltaNetto > 0
+        ? 'forfettario'
+        : deltaNetto < 0
+          ? 'ordinario'
+          : 'pareggio',
     deltaNetto,
     forfettario,
     ordinario,

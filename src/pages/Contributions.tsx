@@ -66,7 +66,7 @@ export default function Contributions() {
                 type="number"
                 inputMode="numeric"
                 value={redditoLordo}
-                onChange={(e) => setRedditoLordo(Number(e.target.value))}
+                onChange={(e) => setRedditoLordo(Math.max(0, Number(e.target.value)))}
                 className="text-lg"
               />
             </div>

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { createSafePersistStorage } from '@/lib/browser-storage';
 import { applyThemeMode, initializeThemeMode, type ThemeMode, themeStorageKey } from '@/lib/theme';
 
 interface ThemeState {
@@ -26,6 +27,7 @@ export const useThemeStore = create<ThemeState>()(
     }),
     {
       name: themeStorageKey,
+      storage: createSafePersistStorage<ThemeState>(),
       partialize: ({ mode }) => ({ mode }),
       onRehydrateStorage: () => (state) => {
         if (state) {

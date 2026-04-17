@@ -1,3 +1,5 @@
+import { readStorageItem } from '@/lib/browser-storage';
+
 export type ThemeMode = 'light' | 'dark';
 
 export const themeStorageKey = 'easypiva-theme-mode';
@@ -12,7 +14,7 @@ export function getThemeRevealRadius(
 }
 
 function canUseBrowserStorage() {
-  return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
+  return readStorageItem(themeStorageKey) !== null || typeof window !== 'undefined';
 }
 
 export function getSystemThemeMode(): ThemeMode {
@@ -28,7 +30,7 @@ export function readPersistedThemeMode(): ThemeMode | null {
     return null;
   }
 
-  const stored = window.localStorage.getItem(themeStorageKey);
+  const stored = readStorageItem(themeStorageKey);
   if (stored === 'dark' || stored === 'light') {
     return stored;
   }

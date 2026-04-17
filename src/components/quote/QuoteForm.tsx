@@ -24,6 +24,8 @@ const VAT_MODE_OPTIONS: Array<{ value: QuoteVatMode; label: string }> = [
   { value: 'vat22', label: 'IVA 22%' },
 ];
 
+const MAX_LOGO_FILE_SIZE_BYTES = 1_000_000;
+
 function createItemId(counter: { current: number }) {
   counter.current += 1;
   return `item-new-${counter.current}`;
@@ -59,13 +61,13 @@ function FormField({
 }
 
 export function QuoteForm({
+  formId,
   onSubmit,
-  onExport,
   onExportStateChange,
   isExporting = false,
 }: {
-  onSubmit?: (data: QuoteFormValues) => void;
-  onExport?: () => void;
+  formId?: string;
+  onSubmit?: (data: QuoteFormValues) => void | Promise<void>;
   onExportStateChange?: (state: { isExporting: boolean }) => void;
   isExporting?: boolean;
 }) {
@@ -89,6 +91,14 @@ export function QuoteForm({
     const file = event.target.files?.[0];
     if (!file) return;
 
+    if (file.size > MAX_LOGO_FILE_SIZE_BYTES) {
+      setValue('logoDataUrl', '', { shouldValidate: false });
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+      return;
+    }
+
     const reader = new FileReader();
     reader.onload = () => {
       const result = reader.result;
@@ -106,9 +116,9 @@ export function QuoteForm({
     }
   };
 
-  const onSubmitValidated = (values: QuoteFormValues) => {
+  const onSubmitValidated = async (values: QuoteFormValues) => {
     onExportStateChange?.({ isExporting: true });
-    onSubmit?.(values);
+    await onSubmit?.(values);
   };
 
   const sanitizeNumber = (raw: string): number => {
@@ -119,7 +129,7 @@ export function QuoteForm({
   const p = quotePlaceholder;
 
   return (
-    <form onSubmit={rhfHandleSubmit(onSubmitValidated)} className="space-y-8">
+    <form id={formId} onSubmit={rhfHandleSubmit(onSubmitValidated)} className="space-y-8">
       {/* Business Details */}
       <fieldset className="space-y-4">
         <legend className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
@@ -565,10 +575,9 @@ export function QuoteForm({
       {/* Submit */}
       <div className="flex justify-end border-t border-zinc-200 pt-6 dark:border-zinc-800">
         <Button
-          type="button"
+          type="submit"
           data-testid="quote-export-button"
           disabled={isExporting}
-          onClick={onExport}
           size="lg"
           className="h-11 w-full sm:w-auto"
         >

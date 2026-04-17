@@ -6,12 +6,14 @@ export function calculateInps(
   tipoInps: InpsType,
   riduzioneInps = false,
 ): InpsCalculation {
+  const imponibile = Math.max(0, redditoLordo);
+
   if (tipoInps === 'nessuno') {
     return { fisso: 0, variabile: 0, totale: 0 };
   }
 
   if (tipoInps === 'gestioneSeparata') {
-    const totale = redditoLordo * INPS_RATES.gestioneSeparata.rate;
+    const totale = imponibile * INPS_RATES.gestioneSeparata.rate;
 
     return { fisso: 0, variabile: totale, totale };
   }
@@ -20,8 +22,8 @@ export function calculateInps(
   const riduzione = riduzioneInps ? 0.65 : 1;
   const fisso = rates.minimalContribution * riduzione;
   const variabile =
-    redditoLordo > rates.minimalIncome
-      ? (redditoLordo - rates.minimalIncome) * rates.rateOverMinimal * riduzione
+    imponibile > rates.minimalIncome
+      ? (imponibile - rates.minimalIncome) * rates.rateOverMinimal * riduzione
       : 0;
 
   return {

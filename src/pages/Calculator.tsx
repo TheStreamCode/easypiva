@@ -77,12 +77,14 @@ export default function Calculator() {
   const result = calculateForfettario({ ...values, riduzioneInps: values.riduzioneInps ?? false });
   const {
     coefficiente,
+    contributiConsiderati,
     redditoLordo,
     redditoNettoImponibile,
     aliquotaImposta,
     impostaSostitutiva,
     inps: stimaInps,
     nettoStimato,
+    available,
     warnings,
   } = result;
   const chartData = [
@@ -96,6 +98,10 @@ export default function Calculator() {
     },
   ];
   const handleExportPDF = () => {
+    if (!available) {
+      return;
+    }
+
     const doc = new jsPDF();
     doc.setFontSize(20);
     doc.text('Report EasyPIVA - Calcolo Forfettario 2026', 20, 20);
@@ -103,14 +109,14 @@ export default function Calculator() {
     doc.text(`Ricavi: ${formatCurrency(values.ricavi)}`, 20, 40);
     doc.text(`Coefficiente Redditività: ${coefficiente * 100}%`, 20, 50);
     doc.text(`Reddito Lordo: ${formatCurrency(redditoLordo)}`, 20, 60);
-    doc.text(`Contributi Dedotti: ${formatCurrency(values.contributiVersati)}`, 20, 70);
+    doc.text(`Contributi Dedotti: ${formatCurrency(contributiConsiderati)}`, 20, 70);
     doc.text(`Reddito Imponibile: ${formatCurrency(redditoNettoImponibile)}`, 20, 80);
     doc.text(
       `Imposta Sostitutiva (${aliquotaImposta * 100}%): ${formatCurrency(impostaSostitutiva)}`,
       20,
       90,
     );
-    doc.text(`Stima INPS: ${formatCurrency(stimaInps.totale)}`, 20, 100);
+    doc.text(`Stima INPS: ${formatCurrency(contributiConsiderati)}`, 20, 100);
     doc.text(`Netto Stimato: ${formatCurrency(nettoStimato)}`, 20, 110);
     doc.save('easypiva-report.pdf');
   };
@@ -308,7 +314,9 @@ export default function Calculator() {
                 <div className="space-y-1">
                   {' '}
                   <Label htmlFor="contributiVersati">Contributi Versati (€)</Label>{' '}
-                  <p className="text-sm text-zinc-500">Deducibili dal reddito lordo.</p>{' '}
+                  <p className="text-sm text-zinc-500">
+                    Lascia 0 per usare automaticamente la stima INPS della cassa selezionata.
+                  </p>{' '}
                 </div>{' '}
                 <Input
                   id="contributiVersati"
@@ -459,8 +467,8 @@ export default function Calculator() {
                     </div>{' '}
                     <div className="flex justify-between items-center text-zinc-600 dark:text-zinc-400">
                       {' '}
-                      <span>Stima INPS Anno</span>{' '}
-                      <span>-{formatCurrency(stimaInps.totale)}</span>{' '}
+                      <span>Contributi considerati</span>{' '}
+                      <span>-{formatCurrency(contributiConsiderati)}</span>{' '}
                     </div>{' '}
                     <div className="h-px bg-zinc-900 dark:bg-zinc-100 my-2" />{' '}
                     <div className="flex justify-between items-center text-lg">
@@ -527,10 +535,16 @@ export default function Calculator() {
               {/* Azioni */}{' '}
               <div className="flex flex-wrap gap-4 pt-8 border-t border-zinc-200 dark:border-zinc-800">
                 {' '}
-                <Button onClick={handleExportPDF} variant="outline" className="gap-2">
-                  {' '}
-                  <Download className="w-4 h-4" /> Esporta PDF{' '}
-                </Button>{' '}
+                {available ? (
+                  <Button onClick={handleExportPDF} variant="outline" className="gap-2">
+                    {' '}
+                    <Download className="w-4 h-4" /> Esporta PDF{' '}
+                  </Button>
+                ) : (
+                  <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                    Simulazione non esportabile.
+                  </p>
+                )}{' '}
                 <Button onClick={() => setStep(1)} variant="ghost" className="ml-auto">
                   {' '}
                   Ricalcola{' '}

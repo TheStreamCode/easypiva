@@ -16,11 +16,17 @@ export function DisclaimerModal() {
   return (
     <Dialog
       open={!hasAcceptedDisclaimer}
-      onOpenChange={(open) => {
-        if (!open) acceptDisclaimer();
+      disablePointerDismissal
+      onOpenChange={(open, eventDetails) => {
+        if (!open) {
+          eventDetails.cancel();
+        }
       }}
     >
-      <DialogContent className="sm:max-w-[480px] p-6 sm:p-8 gap-6 border-border/40 shadow-2xl">
+      <DialogContent
+        showCloseButton={false}
+        className="sm:max-w-[480px] p-6 sm:p-8 gap-6 border-border/40 shadow-2xl"
+      >
         <DialogHeader className="space-y-4">
           <div className="mx-auto bg-primary/5 p-3 rounded-2xl w-fit mb-2 ring-1 ring-primary/10">
             <Info className="w-6 h-6 text-primary" strokeWidth={1.5} />

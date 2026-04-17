@@ -53,15 +53,26 @@ tests/e2e/                 # Test end-to-end Playwright
 
 1. La pagina raccoglie gli input dell'utente.
 2. I dati vengono passati agli helper in `src/lib/calculations/`.
-3. La logica restituisce risultati tipizzati ed eventuali warning.
+3. La logica restituisce risultati tipizzati, disponibilita del regime ed eventuali warning.
 4. La UI renderizza risultati, grafici e copy senza round-trip verso server.
+
+Note operative:
+
+- Nel calcolatore forfettario, `contributiVersati` funziona come override opzionale; se vale `0`, il dominio usa la stima INPS della cassa selezionata come contributo dedotto e mostrato in UI.
+- Le viste `Calculator`, `Comparison` e `TargetNet` usano lo stato `available` per distinguere tra simulazione valida e caso oltre soglia di uscita immediata.
 
 ### Preventivo
 
-1. `src/pages/QuoteBuilder.tsx` gestisce il form tramite React Hook Form.
+1. `src/pages/QuoteBuilder.tsx` gestisce il form tramite React Hook Form e `zodResolver`.
 2. La bozza viene salvata automaticamente in `localStorage` con debounce.
 3. L'anteprima A4 deriva dallo stato corrente del form.
-4. L'export PDF usa il DOM renderizzato come fonte di verità.
+4. L'export PDF usa il DOM renderizzato come fonte di verità, ma passa sempre dalla validazione del form.
+
+Note operative:
+
+- Se lo storage locale non e disponibile o esaurisce lo spazio, la UI mostra un warning esplicito invece di fallire in silenzio.
+- Il logo del preventivo viene salvato nella bozza solo entro un limite dimensionale conservativo per ridurre errori di persistenza.
+- Il disclaimer iniziale e modellato come dialog non dismissibile: si chiude solo dopo conferma esplicita.
 
 ## Persistenza client-side
 

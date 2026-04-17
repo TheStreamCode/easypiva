@@ -9,8 +9,13 @@ vi.mock('@/lib/quote/export-pdf', () => ({
 }));
 
 const STORAGE_KEY = 'easypiva.quote-draft';
+const localStorageDescriptor = Object.getOwnPropertyDescriptor(window, 'localStorage');
 
 beforeEach(() => {
+  if (localStorageDescriptor) {
+    Object.defineProperty(window, 'localStorage', localStorageDescriptor);
+    Object.defineProperty(globalThis, 'localStorage', localStorageDescriptor);
+  }
   localStorage.clear();
 });
 
@@ -182,6 +187,37 @@ describe('QuoteBuilder safe defaults', () => {
     expect(screen.getByTestId('quote-preview-root')).toBeInTheDocument();
   });
 
+  test('falls back to defaults when localStorage access throws during load', () => {
+    const failingStorage = {
+      getItem: vi.fn(() => {
+        throw new DOMException('Blocked', 'SecurityError');
+      }),
+      setItem: vi.fn(() => {
+        throw new DOMException('Blocked', 'SecurityError');
+      }),
+      removeItem: vi.fn(() => {
+        throw new DOMException('Blocked', 'SecurityError');
+      }),
+      clear: vi.fn(),
+      key: vi.fn(() => null),
+      length: 0,
+    } satisfies Storage;
+
+    Object.defineProperty(window, 'localStorage', {
+      configurable: true,
+      value: failingStorage,
+    });
+    Object.defineProperty(globalThis, 'localStorage', {
+      configurable: true,
+      value: failingStorage,
+    });
+
+    render(<QuoteBuilder />);
+
+    expect(screen.getByLabelText(/Ragione Sociale/i)).toHaveValue('');
+    expect(screen.getByTestId('quote-preview-root')).toBeInTheDocument();
+  });
+
   test('renders the export container off-screen but not hidden', () => {
     render(<QuoteBuilder />);
 
@@ -190,13 +226,57 @@ describe('QuoteBuilder safe defaults', () => {
     expect(exportRoot).toHaveStyle({ position: 'absolute', left: '-10000px', opacity: '1' });
   });
 
-  test('exports pdf from the form button without validation blocking it', async () => {
+  test('does not export pdf from the form button when required fields are missing', async () => {
     const user = userEvent.setup();
     render(<QuoteBuilder />);
 
     await user.click(screen.getByTestId('quote-export-button'));
 
     const { exportQuoteToPdf } = await import('@/lib/quote/export-pdf');
-    expect(exportQuoteToPdf).toHaveBeenCalledTimes(1);
+    expect(exportQuoteToPdf).not.toHaveBeenCalled();
+  });
+
+  test('shows validation errors when export is blocked by invalid fields', async () => {
+    const user = userEvent.setup();
+    render(<QuoteBuilder />);
+
+    await user.click(screen.getByTestId('quote-export-button'));
+
+    expect(await screen.findByText(/ragione sociale obbligatoria/i)).toBeInTheDocument();
+    expect(screen.getByText(/email obbligatoria/i)).toBeInTheDocument();
+    expect(screen.getByText(/nome cliente obbligatorio/i)).toBeInTheDocument();
+  });
+
+  test('shows a persistence warning when autosave fails', async () => {
+    const user = userEvent.setup();
+    const setItem = vi.fn(() => {
+      throw new DOMException('Quota exceeded', 'QuotaExceededError');
+    });
+    const failingStorage = {
+      getItem: vi.fn(() => null),
+      setItem,
+      removeItem: vi.fn(),
+      clear: vi.fn(),
+      key: vi.fn(() => null),
+      length: 0,
+    } satisfies Storage;
+
+    Object.defineProperty(window, 'localStorage', {
+      configurable: true,
+      value: failingStorage,
+    });
+    Object.defineProperty(globalThis, 'localStorage', {
+      configurable: true,
+      value: failingStorage,
+    });
+
+    render(<QuoteBuilder />);
+
+    await user.type(screen.getByLabelText(/Ragione Sociale/i), 'Studio Test');
+
+    await waitFor(() => {
+      expect(setItem).toHaveBeenCalled();
+      expect(screen.getByText(/bozza non salvata/i)).toBeInTheDocument();
+    });
   });
 });

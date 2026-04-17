@@ -36,11 +36,13 @@ export type ForfettarioResult = {
   coefficiente: number;
   ricaviRagguagliati: number;
   redditoLordo: number;
+  contributiConsiderati: number;
   redditoNettoImponibile: number;
   aliquotaImposta: number;
   impostaSostitutiva: number;
   inps: InpsCalculation;
   nettoStimato: number;
+  available: boolean;
   warnings: DomainWarning[];
 };
 
@@ -59,6 +61,7 @@ export type RegimeResult = {
   inps: number;
   tasse: number;
   netto: number;
+  available: boolean;
 };
 
 export type ComparisonResult = {
@@ -82,6 +85,8 @@ export type TargetNetResult = {
   inpsStimato: number;
   tasseStimate: number;
   costiForfettari: number;
+  available: boolean;
+  warnings: WarningCode[];
 };
 
 export type PlanningResult = {

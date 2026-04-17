@@ -193,7 +193,13 @@ export default function Comparison() {
           <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-2">
               <h2 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-100">
-                Conviene il {result.winner === 'forfettario' ? 'Forfettario' : 'Ordinario'}!
+                Conviene il{' '}
+                {result.winner === 'forfettario'
+                  ? 'Forfettario'
+                  : result.winner === 'ordinario'
+                    ? 'Ordinario'
+                    : 'Pareggio'}
+                !
               </h2>
               <p className="text-zinc-600 dark:text-zinc-400">
                 Differenza netta:{' '}
@@ -205,9 +211,15 @@ export default function Comparison() {
             </div>
 
             <p className="text-sm text-zinc-500 dark:text-zinc-400">
-              Il confronto applica la stessa gestione INPS a entrambi i regimi per mantenere la
-              simulazione coerente.
+              Il confronto applica la stessa gestione INPS a entrambi i regimi. La riduzione del 35%
+              viene considerata solo per il forfettario quando applicabile.
             </p>
+
+            {!result.forfettario.available ? (
+              <p className="text-sm text-amber-700 dark:text-amber-300">
+                Con questi ricavi il regime forfettario non e piu disponibile per l'anno in corso.
+              </p>
+            ) : null}
 
             <div className="h-[400px] w-full mt-4">
               <ResponsiveContainer width="100%" height="100%">
@@ -273,6 +285,11 @@ export default function Comparison() {
                 Regime Forfettario
               </h3>
               <div className="flex flex-col gap-3 text-sm">
+                {!result.forfettario.available ? (
+                  <p className="text-sm text-amber-700 dark:text-amber-300">
+                    Simulazione mostrata solo a scopo comparativo storico: regime non disponibile.
+                  </p>
+                ) : null}
                 <div className="flex justify-between items-center">
                   <span className="text-zinc-600 dark:text-zinc-400">Ricavi:</span>
                   <span className="font-medium text-zinc-900 dark:text-zinc-100">

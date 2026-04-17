@@ -168,6 +168,16 @@ export default function TargetNet() {
                 {formatCurrency(result.ricaviNecessari)}
               </p>
               <p className="text-sm text-zinc-500 mt-2">all'anno</p>
+              {!result.available ? (
+                <p className="mt-4 text-sm text-amber-700 dark:text-amber-300">
+                  Questo obiettivo supera la soglia di uscita immediata dal forfettario.
+                </p>
+              ) : result.warnings.includes('revenue-over-85000') ? (
+                <p className="mt-4 text-sm text-amber-700 dark:text-amber-300">
+                  Questo obiettivo supera la soglia di permanenza del forfettario per l'anno
+                  successivo.
+                </p>
+              ) : null}
             </div>
 
             <div className="space-y-4 text-sm pt-6 border-t border-zinc-200 dark:border-zinc-800">

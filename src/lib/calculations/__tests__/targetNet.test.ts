@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { calculateForfettario } from '../forfettario';
 import { calculateTargetNet } from '../targetNet';
 
 describe('calculateTargetNet', () => {
@@ -61,5 +62,43 @@ describe('calculateTargetNet', () => {
     expect(target.ricaviNecessari).toBeGreaterThan(36000);
     expect(target.inpsStimato).toBeGreaterThan(0);
     expect(target.tasseStimate + target.inpsStimato).toBeLessThan(target.ricaviNecessari);
+  });
+
+  it('flags targets that exceed the forfettario thresholds', () => {
+    const target = calculateTargetNet({
+      nettoMensile: 10000,
+      atecoId: '8',
+      nuovaAttivita: false,
+      tipoInps: 'gestioneSeparata',
+      riduzioneInps: false,
+    });
+
+    expect(target.available).toBe(false);
+    expect(target.warnings).toContain('revenue-over-100000');
+  });
+
+  it('stays consistent with the direct forfettario calculation', () => {
+    const target = calculateTargetNet({
+      nettoMensile: 2000,
+      atecoId: '8',
+      nuovaAttivita: false,
+      tipoInps: 'gestioneSeparata',
+      riduzioneInps: false,
+    });
+
+    const forfettario = calculateForfettario({
+      ricavi: target.ricaviNecessari,
+      atecoId: '8',
+      contributiVersati: 0,
+      mesiAttivita: 12,
+      nuovaAttivita: false,
+      tipoInps: 'gestioneSeparata',
+      riduzioneInps: false,
+      speseDipendenti: 0,
+      redditoDipendente: 0,
+    });
+
+    expect(forfettario.nettoStimato).toBeCloseTo(target.nettoAnnuo, 0);
+    expect(forfettario.impostaSostitutiva).toBeCloseTo(target.tasseStimate, 3);
   });
 });

@@ -52,4 +52,12 @@ describe('QuotePreview slider', () => {
     expect(screen.getAllByText(/Pagina \d+ \//i).length).toBeGreaterThanOrEqual(1);
     expect(screen.getByTestId('quote-preview-root')).toBeInTheDocument();
   });
+
+  test('renders formatted date and vat label in the preview', () => {
+    render(<QuotePreview quote={baseDraft} />);
+
+    expect(screen.getByText('04/04/2026')).toBeInTheDocument();
+    expect(screen.getAllByText(/Operazione non soggetta a IVA/i).length).toBeGreaterThan(0);
+    expect(screen.queryByText(/^none$/i)).not.toBeInTheDocument();
+  });
 });

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Download } from 'lucide-react';
 import { motion } from 'motion/react';
@@ -8,9 +9,12 @@ import { QuoteForm, type QuoteFormValues } from '../components/quote/QuoteForm';
 import { QuotePreview } from '../components/quote/QuotePreview';
 import { QuoteExportPages } from '../components/quote/QuoteExportPages';
 import type { QuoteDraft } from '../components/quote/quotePreviewData';
+import { quoteFormSchema } from '../components/quote/quoteFormSchema';
+import { readStorageItem, writeStorageItem } from '@/lib/browser-storage';
 import { quotePlaceholder } from '@/lib/quote/placeholders';
 
 const STORAGE_KEY = 'easypiva.quote-draft';
+const FORM_ID = 'quote-builder-form';
 
 const DEBOUNCE_MS = 400;
 
@@ -50,11 +54,7 @@ function defaultFormValues(): QuoteFormValues {
 }
 
 function loadDraft(): QuoteFormValues {
-  if (typeof window === 'undefined' || !window.localStorage) {
-    return defaultFormValues();
-  }
-
-  const raw = window.localStorage.getItem(STORAGE_KEY);
+  const raw = readStorageItem(STORAGE_KEY);
   if (!raw) {
     return defaultFormValues();
   }
@@ -178,51 +178,56 @@ function formValuesToDraft(values: QuoteFormValues): QuoteDraft {
 
 export default function QuoteBuilder() {
   const [isExporting, setIsExporting] = useState(false);
+  const [hasDraftSaveError, setHasDraftSaveError] = useState(false);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const form = useForm<QuoteFormValues>({
+    resolver: zodResolver(quoteFormSchema),
     defaultValues: loadDraft(),
-    mode: 'onChange',
+    mode: 'onSubmit',
+    reValidateMode: 'onChange',
   });
 
   const watchedValues = form.watch();
 
   // Persist draft on change (debounced)
   useEffect(() => {
-    if (debounceRef.current) {
-      clearTimeout(debounceRef.current);
-    }
-
-    debounceRef.current = setTimeout(() => {
-      try {
-        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(watchedValues));
-      } catch {
-        // Storage full or unavailable — silent fail
+    const subscription = form.watch((values) => {
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current);
       }
-    }, DEBOUNCE_MS);
+
+      debounceRef.current = setTimeout(() => {
+        const didSave = writeStorageItem(STORAGE_KEY, JSON.stringify(values));
+        setHasDraftSaveError(!didSave);
+      }, DEBOUNCE_MS);
+    });
 
     return () => {
       if (debounceRef.current) {
         clearTimeout(debounceRef.current);
       }
+
+      subscription.unsubscribe();
     };
-  }, [watchedValues]);
+  }, [form]);
 
   const quoteDraft = useMemo(() => formValuesToDraft(watchedValues), [watchedValues]);
 
-  const handleExport = useCallback(async () => {
+  const handleExport = useCallback(async (values: QuoteFormValues) => {
     setIsExporting(true);
     try {
+      const draft = formValuesToDraft(values);
       const { exportQuoteToPdf } = await import('@/lib/quote/export-pdf');
       await exportQuoteToPdf('#quote-export-root', {
-        filename: `preventivo-${quoteDraft.quoteNumber}.pdf`,
+        filename: `preventivo-${draft.quoteNumber}.pdf`,
       });
     } catch (error) {
       console.error('PDF export failed:', error);
     } finally {
       setIsExporting(false);
     }
-  }, [quoteDraft.quoteNumber]);
+  }, []);
 
   return (
     <motion.div
@@ -240,6 +245,15 @@ export default function QuoteBuilder() {
           Compila i dati per generare un preventivo professionale. La bozza viene salvata
           automaticamente nel browser.
         </p>
+        {hasDraftSaveError ? (
+          <p
+            role="alert"
+            className="mt-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-900/60 dark:bg-amber-950/20 dark:text-amber-100"
+          >
+            Bozza non salvata: lo storage locale del browser non e disponibile o ha esaurito lo
+            spazio.
+          </p>
+        ) : null}
       </div>
 
       {/* Mobile actions bar — visible on all sizes, primary CTA on mobile */}
@@ -251,7 +265,7 @@ export default function QuoteBuilder() {
           Anteprima pronta
         </span>
         <div className="ml-auto flex items-center gap-2">
-          <Button type="button" size="sm" disabled={isExporting} onClick={handleExport}>
+          <Button type="submit" form={FORM_ID} size="sm" disabled={isExporting}>
             <Download className="mr-1.5 h-4 w-4" />
             {isExporting ? 'Preparazione PDF...' : 'Esporta PDF'}
           </Button>
@@ -263,7 +277,7 @@ export default function QuoteBuilder() {
         {/* Form */}
         <div className="min-w-0">
           <FormProvider {...form}>
-            <QuoteForm onExport={handleExport} isExporting={isExporting} />
+            <QuoteForm formId={FORM_ID} onSubmit={handleExport} isExporting={isExporting} />
           </FormProvider>
         </div>
 

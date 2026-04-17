@@ -31,6 +31,10 @@ EasyPIVA usa `localStorage` per un set limitato di informazioni.
 
 La bozza del preventivo puo contenere dati personali o aziendali immessi volontariamente dall'utente. Questi dati restano sul dispositivo e nel profilo browser in uso finché non vengono rimossi.
 
+Se `localStorage` non e disponibile o non ha spazio sufficiente, l'app continua a funzionare ma mostra un avviso visibile che indica il fallimento dell'autosalvataggio della bozza.
+
+Per ridurre il rischio di errori di persistenza, il logo caricato nel preventivo viene accettato solo entro un limite dimensionale definito nel frontend prima della conversione in data URL.
+
 ## Cosa non fa il codice dell'app
 
 - Non crea account o sessioni utente.

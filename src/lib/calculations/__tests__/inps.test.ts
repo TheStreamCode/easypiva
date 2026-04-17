@@ -25,4 +25,12 @@ describe('calculateInps', () => {
     expect(result.variabile).toBeCloseTo(252.2052);
     expect(result.totale).toBeCloseTo(3187.2347, 4);
   });
+
+  it('clamps negative incomes to zero', () => {
+    const result = calculateInps(-1000, 'gestioneSeparata');
+
+    expect(result.fisso).toBe(0);
+    expect(result.variabile).toBe(0);
+    expect(result.totale).toBe(0);
+  });
 });

@@ -79,6 +79,8 @@ test('completes a preventivo with logo and exports a pdf', async ({ page }) => {
   expect(pdfText).toContain('Studio Gamma');
   expect(pdfText).toContain('Cliente Demo');
   expect(pdfText).toContain('PREV-2026-001');
+  expect(pdfText).not.toContain('EasyPIVA Studio Creativo');
+  expect(pdfText).not.toContain('Atelier Luce Srl');
 
   expect(download.suggestedFilename()).toMatch(/^preventivo.*\.pdf$/i);
 });

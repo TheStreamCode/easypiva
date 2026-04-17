@@ -1,15 +1,17 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import {
+  createSafePersistStorage,
+  readStorageItem,
+  removeStorageItem,
+  writeStorageItem,
+} from '@/lib/browser-storage';
 
 const legacyDisclaimerStorageKey = 'easypiva-storage';
 const disclaimerStorageKey = 'easypiva-disclaimer-storage';
 
 function getInitialDisclaimerAccepted() {
-  if (typeof window === 'undefined' || typeof window.localStorage === 'undefined') {
-    return false;
-  }
-
-  const currentValue = window.localStorage.getItem(disclaimerStorageKey);
+  const currentValue = readStorageItem(disclaimerStorageKey);
   if (currentValue) {
     try {
       const parsed = JSON.parse(currentValue) as { state?: { hasAcceptedDisclaimer?: boolean } };
@@ -19,7 +21,7 @@ function getInitialDisclaimerAccepted() {
     }
   }
 
-  const legacyValue = window.localStorage.getItem(legacyDisclaimerStorageKey);
+  const legacyValue = readStorageItem(legacyDisclaimerStorageKey);
   if (!legacyValue) {
     return false;
   }
@@ -29,11 +31,11 @@ function getInitialDisclaimerAccepted() {
     const accepted = parsed.state?.hasAcceptedDisclaimer ?? false;
 
     if (accepted) {
-      window.localStorage.setItem(
+      writeStorageItem(
         disclaimerStorageKey,
         JSON.stringify({ state: { hasAcceptedDisclaimer: true } }),
       );
-      window.localStorage.removeItem(legacyDisclaimerStorageKey);
+      removeStorageItem(legacyDisclaimerStorageKey);
     }
 
     return accepted;
@@ -55,6 +57,7 @@ export const useStore = create<AppState>()(
     }),
     {
       name: disclaimerStorageKey,
+      storage: createSafePersistStorage<AppState>(),
     },
   ),
 );
