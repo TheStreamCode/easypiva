@@ -12,6 +12,7 @@ import {
   Moon,
   Sun,
   Home,
+  Github,
 } from 'lucide-react';
 import { useState, type MouseEvent } from 'react';
 import { flushSync } from 'react-dom';
@@ -226,6 +227,15 @@ export default function Layout() {
                   Mikesoft
                 </a>
               </p>
+              <a
+                href="https://github.com/TheStreamCode/easypiva"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub repository EasyPIVA"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-md text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-950 dark:text-zinc-400 dark:hover:bg-zinc-800/50 dark:hover:text-zinc-50"
+              >
+                <Github className="h-5 w-5" />
+              </a>
             </div>
           </div>
         </footer>
