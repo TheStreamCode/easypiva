@@ -12,12 +12,12 @@ test('renders the main public pages', async ({ page }) => {
   await page.goto('/');
   await dismissWelcomeModal(page);
 
-  await expect(page.getByText('Calcolatore Forfettario')).toBeVisible();
-  await expect(page.getByText('Confronto Regimi')).toBeVisible();
-  await expect(page.getByText('Contributi INPS')).toBeVisible();
-  await expect(page.getByText('Pianificazione')).toBeVisible();
-  await expect(page.getByText('Preventivo')).toBeVisible();
-  await expect(page.getByText('Informativa')).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Calcolatore Forfettario' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Confronto Regimi' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Contributi INPS' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Pianificazione', exact: true })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Preventivo' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Informativa' })).toBeVisible();
 
   const routes = [
     ['/calcolatore', /Calcolatore Forfettario/i],
