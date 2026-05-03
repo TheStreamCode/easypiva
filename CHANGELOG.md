@@ -4,8 +4,11 @@ Tutte le modifiche rilevanti a EasyPIVA vengono tracciate in questo file.
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-05-03
+
 - aggiunta governance GitHub con Dependabot, Dependency Review, template issue, template pull request e Code of Conduct;
 - irrigidita la CI con permessi minimi, concurrency e test Playwright inclusi nel flusso `npm run ci`;
+- aggiornate le GitHub Actions ufficiali a major compatibili con runtime Node 24;
 - aggiornate README, CONTRIBUTING, SECURITY, architettura e AGENTS per documentare workflow npm, E2E e manutenzione supply-chain;
 - corrette le scadenze INPS 2026 mostrate nella pagina contributi;
 - centralizzata la normalizzazione degli input numerici non negativi nei calcolatori;

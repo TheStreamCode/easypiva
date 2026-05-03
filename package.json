@@ -1,7 +1,7 @@
 {
   "name": "easypiva",
   "private": true,
-  "version": "0.1.0",
+  "version": "1.0.0",
   "type": "module",
   "description": "Simulazioni fiscali italiane open source 2026 per regime forfettario, INPS e confronto regimi",
   "author": {

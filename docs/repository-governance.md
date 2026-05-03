@@ -36,6 +36,14 @@ Queste impostazioni non sono versionate nel repository e vanno configurate dalla
 4. Aggiornare documentazione e changelog se cambia comportamento pubblico, workflow o assunzioni fiscali.
 5. Eseguire merge solo quando la verifica automatica è verde.
 
+## Processo di release
+
+1. Aggiornare `package.json`, `package-lock.json`, README e changelog con la nuova versione.
+2. Eseguire `npm run ci` in locale.
+3. Pubblicare su `main` solo dopo verifica completa.
+4. Attendere il workflow `CI / build` verde su GitHub.
+5. Creare una GitHub Release taggata `vX.Y.Z` con note sintetiche e riferimento alle verifiche eseguite.
+
 ## Supply chain
 
 - Le dipendenze npm vengono aggiornate settimanalmente da Dependabot.
