@@ -8,6 +8,8 @@ EasyPIVA è una web app client-side per simulazioni fiscali indicative dedicate 
 
 Tutti i calcoli vengono eseguiti localmente nel browser. Il progetto non richiede account e non usa un backend applicativo.
 
+![Screenshot della dashboard EasyPIVA con strumenti per simulazioni fiscali Partita IVA 2026](docs/assets/easypiva-dashboard.png)
+
 ## Branding e packaging
 
 - Brand prodotto: `EasyPIVA`.
