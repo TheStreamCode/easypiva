@@ -1,0 +1,52 @@
+name: Bug report
+description: Segnala un comportamento riproducibile dell'app.
+title: '[Bug]: '
+labels: ['bug', 'triage']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Il repository segue un workflow maintainer-only. Le issue pubbliche sono usate solo per triage strutturato, non come canale di supporto.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Sintesi
+      description: Descrivi il problema in modo concreto.
+      placeholder: 'Esempio: il calcolo del netto mostra...'
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Passaggi per riprodurre
+      description: Elenca i passaggi minimi.
+      placeholder: |
+        1. Apri ...
+        2. Inserisci ...
+        3. Osserva ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Comportamento atteso
+      description: Cosa ti aspettavi succedesse?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Comportamento effettivo
+      description: Cosa succede invece?
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser e versione
+      placeholder: 'Chrome 147, Edge 147, Firefox ...'
+  - type: textarea
+    id: context
+    attributes:
+      label: Contesto aggiuntivo
+      description: Screenshot, log, dati inseriti o note utili. Non includere dati personali reali.

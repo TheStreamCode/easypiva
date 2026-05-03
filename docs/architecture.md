@@ -39,6 +39,7 @@ src/
     calculations/          # Logica fiscale pura e testata
     quote/                 # Modello preventivo, paginazione ed export PDF
     fiscal-data.ts         # Costanti fiscali 2026
+    number-input.ts        # Normalizzazione input numerici non negativi
     public-copy.ts         # Copy centralizzata per warning e messaggi pubblici
     theme.ts               # Inizializzazione e persistenza del tema
   store/                   # Zustand store per disclaimer e tema
@@ -89,8 +90,16 @@ La chiave legacy `easypiva-storage` viene letta solo per migrare vecchi dati del
 ## Qualità e test
 
 - I test unitari e di integrazione UI sono eseguiti con Vitest.
-- I test end-to-end sono raccolti in `tests/e2e/` con Playwright.
-- Il comando di riferimento per la verifica locale completa è `npm run ci`.
+- I test end-to-end sono raccolti in `tests/e2e/` con Playwright e girano su `http://127.0.0.1:4173` tramite `npm run dev:e2e`.
+- Il comando di riferimento per la verifica locale completa è `npm run ci`, che include format check, TypeScript, ESLint, Vitest, build e Playwright.
+- GitHub Actions installa Chromium prima della CI, così gli E2E sono parte della verifica automatica su push e pull request.
+
+## Automazioni GitHub
+
+- `.github/workflows/ci.yml` esegue la pipeline applicativa con permessi minimi.
+- `.github/workflows/dependency-review.yml` controlla le pull request che modificano dipendenze.
+- `.github/dependabot.yml` mantiene aggiornati npm e GitHub Actions con pull request schedulate.
+- `.github/ISSUE_TEMPLATE/` e `.github/pull_request_template.md` standardizzano triage e review mantenendo il workflow `maintainers-only`.
 
 ## Vincoli architetturali
 

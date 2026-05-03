@@ -1,5 +1,6 @@
 import { LIMITS } from '../fiscal-data';
 import { getAtecoCoefficient, INPS_RATES } from '../fiscal-data';
+import { parseNonNegativeNumber } from '../number-input';
 import { calculateInps } from './inps';
 import type { TargetNetInput, TargetNetResult, WarningCode } from './types';
 
@@ -46,7 +47,7 @@ function buildTargetAvailability(ricaviNecessari: number) {
 export function calculateTargetNet(input: TargetNetInput): TargetNetResult {
   const coefficiente = getAtecoCoefficient(input.atecoId) / 100;
   const aliquotaImposta = input.nuovaAttivita ? 0.05 : 0.15;
-  const nettoAnnuo = input.nettoMensile * 12;
+  const nettoAnnuo = parseNonNegativeNumber(input.nettoMensile) * 12;
 
   if (input.tipoInps === 'nessuno') {
     const denom = 1 - coefficiente * aliquotaImposta;

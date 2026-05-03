@@ -1,161 +1,79 @@
 # AGENTS.md - EasyPIVA Coding Guidelines
 
-## Build / Lint / Test Commands
+## Build, Lint, Test
 
 ```bash
-# Development
-bun dev              # Start dev server on port 3000
-
-# Build & Preview
-bun run build        # Production build to dist/
-bun run preview      # Preview production build
-
-# Quality Checks
-bun run typecheck    # TypeScript check (tsc --noEmit)
-bun run lint         # ESLint check
-bun run test         # Run all tests (vitest run)
-bun run test:watch   # Watch mode for tests
-
-# Single test file
-bun test src/lib/calculations/index.test.ts
-
-# Single test by name
-bun test -- --testNamePattern="calculateForfettario"
-
-# Formatting
-bun run format       # Prettier write
-bun run format:check # Prettier check
-
-# CI pipeline
-bun run ci           # format:check + typecheck + lint + test + build
+npm run dev          # Start Vite dev server on port 3000
+npm run build        # Production build to dist/
+npm run preview      # Preview production build
+npm run typecheck    # TypeScript check
+npm run lint         # ESLint check
+npm run test         # Vitest unit/integration tests
+npm run test:e2e     # Playwright end-to-end tests on port 4173
+npm run format       # Prettier write
+npm run format:check # Prettier check
+npm run ci           # Full local/CI verification pipeline
 ```
+
+Install dependencies with `npm ci`. npm is the canonical package manager for this repository.
 
 ## Tech Stack
 
-- **React 19** + **TypeScript 5.8** + **Vite 6**
-- **Tailwind CSS v4** with `@tailwindcss/vite`
-- **Zustand** for state management (with persist middleware)
-- **React Hook Form** + **Zod** for forms and validation
-- **Recharts** for charts, **motion** (framer-motion) for animations
-- **jsPDF** + **html2canvas** for PDF export
-- **shadcn/ui** components (located in `/components/ui/`)
+- React 19, TypeScript 5, Vite 6.
+- Tailwind CSS v4 with `@tailwindcss/vite`.
+- Base UI / shadcn-style primitives in `components/ui/`.
+- Zustand for local client state.
+- React Hook Form and Zod for validated forms.
+- Recharts, motion, jsPDF, and html2canvas for charts, animation, and PDF export.
+- Vitest for unit/UI tests and Playwright for E2E.
 
 ## Project Structure
 
-```
+```text
 src/
-  pages/           # Route pages (lazy loaded)
-  components/      # React components (non-ui)
+  pages/           # Route pages, lazy loaded in App.tsx
+  components/      # App components
   lib/
-    calculations/  # Pure business logic (well tested)
-    quote/         # Quote builder logic
-    fiscal-data.ts # Tax constants and ATECO categories
-    format.ts      # Currency/date formatting
-    public-copy.ts # UI text constants
+    calculations/  # Pure fiscal domain logic
+    quote/         # Quote builder model, pagination, export
+    fiscal-data.ts # Fiscal constants and ATECO categories
+    number-input.ts # Numeric input normalization helpers
+    public-copy.ts # Public warning/disclaimer copy
   store/           # Zustand stores
-  test/setup.ts    # Vitest setup
-components/ui/     # shadcn/ui components (Button, Input, etc.)
+  test/            # Vitest setup and storage mocks
+components/ui/     # Shared UI primitives
+tests/e2e/         # Playwright tests
+docs/              # Architecture, privacy, fiscal assumptions
 ```
 
-## Code Style Guidelines
+## Coding Rules
 
-### Imports
+- Keep fiscal calculations pure and covered by tests.
+- Centralize tax thresholds and rates in `src/lib/fiscal-data.ts`.
+- When changing fiscal assumptions, update code, `docs/ADRs/0001-fiscal-assumptions.md`, and public copy together.
+- Normalize numeric form inputs through shared helpers instead of ad hoc `Number(...)` parsing.
+- Use the `DomainWarning` pattern plus `warningCopy` for user-facing fiscal warnings.
+- Keep browser storage access behind `src/lib/browser-storage.ts`.
+- Preserve the local-first/no-backend architecture unless explicitly changing product scope.
 
-- Use `@/` alias for src imports: `import { Button } from '@/components/ui/button'`
-- Use `@/components/` for shadcn UI components (resolves to `./components/`)
-- Group imports: React, external libs, internal (@/), types, styles
-- Use `type` imports: `import type { ForfettarioInput } from './types'`
+## Testing Rules
 
-### Formatting (Prettier)
+- Add or update Vitest tests for every fiscal behavior change.
+- Add UI tests when form validation or user-visible copy changes.
+- Keep Playwright on its dedicated port via `npm run dev:e2e`; do not reuse port 3000 for E2E.
+- Run `npm run ci` before considering work complete.
 
-- semi: true
-- singleQuote: true
-- trailingComma: 'all'
-- printWidth: 100
-- No parentheses around single arrow function params
+## GitHub Repository Hygiene
 
-### Types & Naming
+- Keep `.github/workflows/ci.yml`, `.github/dependabot.yml`, and `.github/workflows/dependency-review.yml` aligned with `package.json` scripts.
+- Update `docs/repository-governance.md` when repository settings, branch protection recommendations, or supply-chain policy change.
+- Use the PR template checklist for maintainer reviews.
+- Do not route security reports through public issues; follow `SECURITY.md`.
 
-- **Types**: PascalCase, descriptive: `ForfettarioInput`, `InpsCalculation`
-- **Functions**: camelCase, verb-noun: `calculateInps`, `formatCurrency`
-- **Components**: PascalCase, noun: `Button`, `QuoteBuilder`
-- **Constants**: UPPER_SNAKE_CASE for true constants: `LIMITS.ricavi`
-- **Files**: kebab-case for utilities, PascalCase for components
-- Use explicit return types for exported functions
-- Prefer `interface` for object shapes, `type` for unions/aliases
+## Style
 
-### Error Handling
-
-- Guard clauses for early returns (see `calculateInps`)
-- Use Zod for runtime validation
-- Type narrowing with `typeof` checks
-- Optional chaining for nested access: `parsed.state?.hasAcceptedDisclaimer`
-
-### Components
-
-- Use `cva` (class-variance-authority) for variant-based components
-- Forward refs where needed
-- Use `cn()` utility from `@/lib/utils` for class merging
-- Dark mode: use `dark:` prefix classes, not conditional logic
-
-### Business Logic
-
-- Keep calculations pure (no side effects)
-- Input types in `types.ts`, implementations in named files
-- Test business logic thoroughly (see `src/lib/calculations/*.test.ts`)
-- Use `DomainWarning` pattern for validation feedback
-
-### State Management
-
-- Zustand stores in `src/store/`
-- Use `persist` middleware for localStorage
-- Handle SSR safely: `typeof window === 'undefined'` checks
-
-### Testing
-
-- Vitest with jsdom environment
-- Tests alongside source files: `*.test.ts`
-- E2E tests in `tests/e2e/` (Playwright)
-- Use `@testing-library/react` for component tests
-- Mock external libs (html2canvas, localStorage)
-
-## Key Patterns
-
-### View Transitions API
-
-```typescript
-// Type augmentation exists in src/types/view-transitions.d.ts
-if (document.startViewTransition) {
-  const transition = document.startViewTransition(() => {
-    flushSync(() => toggleThemeMode());
-  });
-  transition.finished.finally(() => {
-    /* cleanup */
-  });
-}
-```
-
-### Currency Formatting
-
-```typescript
-import { formatCurrency } from '@/lib/format';
-formatCurrency(value, 0); // "€1.234"
-```
-
-### Warning Pattern
-
-```typescript
-type DomainWarning = { code: WarningCode; severity: 'warning' | 'critical' };
-// Use warningCopy from '@/lib/public-copy' for UI text
-```
-
-## Performance Notes
-
-- HMR disabled in AI Studio (DISABLE_HMR env var)
-- Lazy load pages in App.tsx
-- html2canvas is dynamically imported only when needed
-
-## Italian Language
-
-- All UI copy is in Italian
-- Comments should be in English for code clarity
+- UI copy is Italian.
+- Prefer `@/` imports for `src/` and `@/components/` for UI primitives.
+- Use `type` imports for type-only imports.
+- Use `cn()` for class merging.
+- Keep comments sparse and useful; avoid restating obvious code.

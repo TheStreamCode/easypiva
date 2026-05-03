@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security report
+    url: mailto:info@mikesoft.it?subject=EasyPIVA%20Security%20Report
+    about: Segnala vulnerabilità o problemi privacy seguendo SECURITY.md.
+  - name: Contatto operativo
+    url: mailto:info@mikesoft.it?subject=EasyPIVA%20Repository
+    about: Usa questo canale per comunicazioni operative non legate alla sicurezza.

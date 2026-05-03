@@ -28,6 +28,7 @@ import { jsPDF } from 'jspdf';
 import { motion, AnimatePresence } from 'motion/react';
 import { calculateForfettario } from '@/lib/calculations';
 import { formatCurrency } from '@/lib/format';
+import { parseNonNegativeNumber } from '@/lib/number-input';
 import { warningCopy } from '@/lib/public-copy';
 const formSchema = z.object({
   atecoId: z.string().min(1, 'Seleziona una categoria ATECO'),
@@ -210,7 +211,7 @@ export default function Calculator() {
                     type="number"
                     placeholder="es. 45000"
                     value={values.ricavi || ''}
-                    onChange={(e) => setValue('ricavi', Number(e.target.value))}
+                    onChange={(e) => setValue('ricavi', parseNonNegativeNumber(e.target.value))}
                     className="text-lg"
                   />{' '}
                 </div>{' '}
@@ -223,7 +224,12 @@ export default function Calculator() {
                     min="1"
                     max="12"
                     value={values.mesiAttivita}
-                    onChange={(e) => setValue('mesiAttivita', Number(e.target.value))}
+                    onChange={(e) =>
+                      setValue(
+                        'mesiAttivita',
+                        Math.min(12, Math.max(1, parseNonNegativeNumber(e.target.value))),
+                      )
+                    }
                     className="text-lg"
                   />{' '}
                 </div>{' '}
@@ -323,7 +329,9 @@ export default function Calculator() {
                   type="number"
                   placeholder="es. 3500"
                   value={values.contributiVersati || ''}
-                  onChange={(e) => setValue('contributiVersati', Number(e.target.value))}
+                  onChange={(e) =>
+                    setValue('contributiVersati', parseNonNegativeNumber(e.target.value))
+                  }
                   className="text-lg"
                 />{' '}
               </div>{' '}
@@ -361,7 +369,9 @@ export default function Calculator() {
                   id="speseDipendenti"
                   type="number"
                   value={values.speseDipendenti || ''}
-                  onChange={(e) => setValue('speseDipendenti', Number(e.target.value))}
+                  onChange={(e) =>
+                    setValue('speseDipendenti', parseNonNegativeNumber(e.target.value))
+                  }
                   className="text-lg"
                 />{' '}
               </div>{' '}
@@ -379,7 +389,9 @@ export default function Calculator() {
                   id="redditoDipendente"
                   type="number"
                   value={values.redditoDipendente || ''}
-                  onChange={(e) => setValue('redditoDipendente', Number(e.target.value))}
+                  onChange={(e) =>
+                    setValue('redditoDipendente', parseNonNegativeNumber(e.target.value))
+                  }
                   className="text-lg"
                 />{' '}
               </div>{' '}

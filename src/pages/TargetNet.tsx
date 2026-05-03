@@ -14,6 +14,7 @@ import { Target } from 'lucide-react';
 import { motion } from 'motion/react';
 import { calculateTargetNet } from '@/lib/calculations';
 import { formatCurrency } from '@/lib/format';
+import { parseNonNegativeNumber } from '@/lib/number-input';
 import type { InpsType } from '@/lib/fiscal-data';
 
 export default function TargetNet() {
@@ -80,7 +81,7 @@ export default function TargetNet() {
                 inputMode="numeric"
                 className="text-xl font-semibold h-12"
                 value={nettoMensile}
-                onChange={(e) => setNettoMensile(Number(e.target.value))}
+                onChange={(e) => setNettoMensile(parseNonNegativeNumber(e.target.value))}
               />
               <p className="text-sm text-zinc-500">
                 Netto annuo:{' '}

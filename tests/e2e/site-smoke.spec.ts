@@ -42,6 +42,19 @@ test('exports a preventivo pdf from the preview page', async ({ page }) => {
   await expect(page.getByTestId('quote-preview-root')).toBeVisible();
   await expect(page.getByTestId('quote-export-button')).toBeVisible();
 
+  await page.locator('#providerName').fill('Studio Smoke');
+  await page.locator('#providerEmail').fill('smoke@example.com');
+  await page.locator('#providerAddress').fill('Via Smoke 1');
+  await page.locator('#providerCity').fill('Roma');
+  await page.locator('#providerVatNumber').fill('IT12345678901');
+  await page.locator('#clientName').fill('Cliente Smoke');
+  await page.locator('#clientEmail').fill('cliente-smoke@example.com');
+  await page.locator('#clientAddress').fill('Via Cliente 2');
+  await page.locator('#quoteNumber').fill('SMOKE-001');
+  await page.locator('#title').fill('Preventivo smoke');
+  await page.locator('#lineItems\\.0\\.description').fill('Servizio smoke test');
+  await page.locator('#lineItems\\.0\\.unitPrice').fill('100');
+
   const downloadPromise = page.waitForEvent('download');
   await page.getByTestId('quote-export-button').click();
   const download = await downloadPromise;

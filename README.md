@@ -19,7 +19,7 @@ Tutti i calcoli vengono eseguiti localmente nel browser. Il progetto non richied
 
 - Formalizza la prima release documentata del repository.
 - Allinea versione, changelog e README allo stato reale del progetto.
-- Conferma che il branch `main` è l'unico ramo remoto attivo e che non risultano PR aperte o branch Dependabot da integrare al momento della release.
+- Conferma che il branch `main` è il ramo di riferimento per release, CI e automazioni GitHub.
 
 ## Funzionalità principali
 
@@ -57,24 +57,37 @@ L'app viene servita in sviluppo su `http://127.0.0.1:3000`.
 ## Script principali
 
 - `npm run dev` avvia il server di sviluppo.
+- `npm run dev:e2e` avvia Vite su `http://127.0.0.1:4173` per Playwright.
 - `npm run typecheck` esegue il controllo TypeScript.
 - `npm run lint` esegue ESLint.
 - `npm run test` esegue la suite Vitest.
+- `npm run test:e2e` esegue la suite Playwright.
 - `npm run build` genera la build di produzione in `dist/`.
-- `npm run ci` esegue il flusso locale completo usato dalla CI.
+- `npm run ci` esegue il flusso completo usato dalla CI: format check, typecheck, lint, Vitest, build e Playwright.
 
 ## Documentazione
 
 - [Architettura](docs/architecture.md)
 - [Privacy e storage locale](docs/privacy-and-storage.md)
 - [Assunzioni fiscali](docs/ADRs/0001-fiscal-assumptions.md)
+- [Governance repository](docs/repository-governance.md)
 - [Changelog](CHANGELOG.md)
 - [Contribution policy](CONTRIBUTING.md)
+- [Code of Conduct](CODE_OF_CONDUCT.md)
 - [Security policy](SECURITY.md)
 
 ## Workflow del repository
 
 Il repository è pubblico e rilasciato con licenza MIT, ma la manutenzione del codice segue un workflow `maintainers-only`. La policy completa è documentata in [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+## Governance GitHub
+
+- La CI principale è in `.github/workflows/ci.yml` e usa permessi minimi in sola lettura.
+- Playwright usa una porta dedicata per evitare collisioni con server locali su `3000`.
+- Dependabot è configurato per npm e GitHub Actions in `.github/dependabot.yml`.
+- Le pull request eseguono anche `Dependency Review` per intercettare vulnerabilità introdotte da cambi di dipendenze.
+- Issue e pull request usano template strutturati in `.github/` per rendere il triage riproducibile.
+- Le vulnerabilità vanno segnalate privatamente seguendo [`SECURITY.md`](SECURITY.md), non tramite issue pubbliche.
 
 ## Disclaimer
 

@@ -12,6 +12,7 @@ import { Switch } from '@/components/ui/switch';
 import { motion } from 'motion/react';
 import { calculateInps } from '@/lib/calculations';
 import { formatCurrency } from '@/lib/format';
+import { parseNonNegativeNumber } from '@/lib/number-input';
 import type { InpsType } from '@/lib/fiscal-data';
 
 export default function Contributions() {
@@ -66,7 +67,7 @@ export default function Contributions() {
                 type="number"
                 inputMode="numeric"
                 value={redditoLordo}
-                onChange={(e) => setRedditoLordo(Math.max(0, Number(e.target.value)))}
+                onChange={(e) => setRedditoLordo(parseNonNegativeNumber(e.target.value))}
                 className="text-lg"
               />
             </div>
@@ -143,7 +144,7 @@ export default function Contributions() {
                 </h4>
                 <ul className="space-y-3 text-sm text-zinc-600 dark:text-zinc-400">
                   <li className="flex justify-between items-center">
-                    <span>16 Maggio 2026</span>
+                    <span>18 Maggio 2026</span>
                     <span className="font-medium text-zinc-900 dark:text-zinc-100">
                       {formatCurrency(result.fisso / 4)}
                     </span>
@@ -155,7 +156,7 @@ export default function Contributions() {
                     </span>
                   </li>
                   <li className="flex justify-between items-center">
-                    <span>16 Novembre 2026</span>
+                    <span>17 Novembre 2026</span>
                     <span className="font-medium text-zinc-900 dark:text-zinc-100">
                       {formatCurrency(result.fisso / 4)}
                     </span>

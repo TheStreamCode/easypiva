@@ -28,4 +28,12 @@ describe('buildPlanningProjection', () => {
     ]);
     expect(warningCodes).toEqual(['revenue-over-100000']);
   });
+
+  it('clamps negative monthly revenues to zero', () => {
+    const result = buildPlanningProjection([-1000, 2000]);
+
+    expect(result.projection[0]).toEqual({ month: 'Gen', revenue: 0, cumulativeRevenue: 0 });
+    expect(result.projection[1]).toEqual({ month: 'Feb', revenue: 2000, cumulativeRevenue: 2000 });
+    expect(result.totaleAnnuo).toBe(2000);
+  });
 });

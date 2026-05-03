@@ -24,6 +24,7 @@ import { Switch } from '@/components/ui/switch';
 import { motion } from 'motion/react';
 import { compareRegimes } from '@/lib/calculations';
 import { formatCurrency } from '@/lib/format';
+import { parseNonNegativeNumber } from '@/lib/number-input';
 
 export default function Comparison() {
   const [ricavi, setRicavi] = useState(50000);
@@ -101,7 +102,7 @@ export default function Comparison() {
                 type="number"
                 inputMode="numeric"
                 value={ricavi}
-                onChange={(e) => setRicavi(Number(e.target.value))}
+                onChange={(e) => setRicavi(parseNonNegativeNumber(e.target.value))}
                 className="text-lg"
               />
             </div>
@@ -118,7 +119,7 @@ export default function Comparison() {
                 type="number"
                 inputMode="numeric"
                 value={costiReali}
-                onChange={(e) => setCostiReali(Number(e.target.value))}
+                onChange={(e) => setCostiReali(parseNonNegativeNumber(e.target.value))}
                 className="text-lg"
               />
             </div>

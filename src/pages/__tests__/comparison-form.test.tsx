@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { describe, expect, test, vi } from 'vitest';
 
@@ -20,5 +20,14 @@ describe('Comparison page form', () => {
     render(<Comparison />);
 
     expect(screen.getByLabelText(/Gestione INPS/i)).toBeInTheDocument();
+  });
+
+  test('normalizza i ricavi negativi a zero', async () => {
+    render(<Comparison />);
+
+    const ricaviInput = screen.getByLabelText(/Ricavi Annui Stimati/i);
+    fireEvent.change(ricaviInput, { target: { value: '-100' } });
+
+    expect(ricaviInput).toHaveValue(0);
   });
 });

@@ -1,0 +1,41 @@
+name: Fiscal assumption update
+description: Segnala una possibile modifica normativa o assunzione fiscale da verificare.
+title: '[Fiscal]: '
+labels: ['fiscal-assumption', 'triage']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        EasyPIVA fornisce stime indicative. Questa issue serve a raccogliere riferimenti verificabili, non a fornire consulenza fiscale.
+  - type: textarea
+    id: assumption
+    attributes:
+      label: Assunzione da verificare
+      description: Indica soglia, aliquota, scadenza o formula interessata.
+      placeholder: 'Esempio: aliquota Gestione Separata 2026...'
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Fonte primaria
+      description: Link a fonte istituzionale o documento ufficiale.
+      placeholder: 'Agenzia Entrate, INPS, Gazzetta Ufficiale...'
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impatto atteso
+      description: Quali pagine, calcoli o documenti dovrebbero cambiare?
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Conferme
+      options:
+        - label: Ho incluso una fonte primaria o istituzionale.
+          required: true
+        - label: Capisco che EasyPIVA non fornisce consulenza fiscale.
+          required: true

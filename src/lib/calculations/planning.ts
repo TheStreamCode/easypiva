@@ -1,4 +1,5 @@
 import { LIMITS } from '../fiscal-data';
+import { parseNonNegativeNumber } from '../number-input';
 import type { PlanningResult } from './types';
 
 export const mesi = [
@@ -19,11 +20,12 @@ export const mesi = [
 export function buildPlanningProjection(ricaviMensili: number[]): PlanningResult {
   let cumulato = 0;
   const projection = mesi.map((mese, index) => {
-    cumulato += ricaviMensili[index] ?? 0;
+    const revenue = parseNonNegativeNumber(ricaviMensili[index]);
+    cumulato += revenue;
 
     return {
       month: mese,
-      revenue: ricaviMensili[index] ?? 0,
+      revenue,
       cumulativeRevenue: cumulato,
     };
   });

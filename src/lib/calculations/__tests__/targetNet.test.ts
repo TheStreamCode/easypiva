@@ -101,4 +101,19 @@ describe('calculateTargetNet', () => {
     expect(forfettario.nettoStimato).toBeCloseTo(target.nettoAnnuo, 0);
     expect(forfettario.impostaSostitutiva).toBeCloseTo(target.tasseStimate, 3);
   });
+
+  it('clamps negative net targets to zero', () => {
+    const target = calculateTargetNet({
+      nettoMensile: -2000,
+      atecoId: '8',
+      nuovaAttivita: false,
+      tipoInps: 'gestioneSeparata',
+      riduzioneInps: false,
+    });
+
+    expect(target.nettoAnnuo).toBe(0);
+    expect(target.ricaviNecessari).toBe(0);
+    expect(target.inpsStimato).toBe(0);
+    expect(target.tasseStimate).toBe(0);
+  });
 });

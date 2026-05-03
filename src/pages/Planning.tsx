@@ -16,6 +16,7 @@ import {
 import { motion } from 'motion/react';
 import { buildPlanningProjection } from '@/lib/calculations';
 import { formatCurrency } from '@/lib/format';
+import { parseNonNegativeNumber } from '@/lib/number-input';
 import { warningCopy } from '@/lib/public-copy';
 
 const mesi = ['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu', 'Lug', 'Ago', 'Set', 'Ott', 'Nov', 'Dic'];
@@ -26,7 +27,7 @@ export default function Planning() {
 
   const handleRicavoChange = (index: number, value: string) => {
     const newRicavi = [...ricaviMensili];
-    newRicavi[index] = Number(value) || 0;
+    newRicavi[index] = parseNonNegativeNumber(value);
     setRicaviMensili(newRicavi);
   };
 
