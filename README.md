@@ -92,6 +92,10 @@ Il repository è pubblico e rilasciato con licenza MIT, ma la manutenzione del c
 - Issue e pull request usano template strutturati in `.github/` per rendere il triage riproducibile.
 - Le vulnerabilità vanno segnalate privatamente seguendo [`SECURITY.md`](SECURITY.md), non tramite issue pubbliche.
 
+## Supporta il progetto
+
+Se EasyPIVA ti aiuta nelle simulazioni fiscali o nella pianificazione della Partita IVA, puoi supportare lo sviluppo continuo tramite GitHub Sponsors: [github.com/sponsors/TheStreamCode](https://github.com/sponsors/TheStreamCode).
+
 ## Disclaimer
 
 I risultati sono stime indicative basate sulle assunzioni fiscali documentate nel repository. Non costituiscono consulenza fiscale, legale o contabile e non sostituiscono il parere di un professionista abilitato.
