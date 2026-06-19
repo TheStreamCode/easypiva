@@ -14,7 +14,7 @@ describe('Contributions page', () => {
 
     expect(await screen.findByText('18 Maggio 2026')).toBeInTheDocument();
     expect(screen.getByText('20 Agosto 2026')).toBeInTheDocument();
-    expect(screen.getByText('17 Novembre 2026')).toBeInTheDocument();
+    expect(screen.getByText('16 Novembre 2026')).toBeInTheDocument();
     expect(screen.getByText('16 Febbraio 2027')).toBeInTheDocument();
   });
 });

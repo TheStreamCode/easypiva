@@ -156,7 +156,7 @@ export default function Contributions() {
                     </span>
                   </li>
                   <li className="flex justify-between items-center">
-                    <span>17 Novembre 2026</span>
+                    <span>16 Novembre 2026</span>
                     <span className="font-medium text-zinc-900 dark:text-zinc-100">
                       {formatCurrency(result.fisso / 4)}
                     </span>
