@@ -9,6 +9,7 @@ Tutte le modifiche rilevanti a EasyPIVA vengono tracciate in questo file.
 - migliorato il confronto con il regime ordinario aggiungendo la detrazione per redditi di lavoro autonomo (art. 13 TUIR) e documentando l'aliquota media delle addizionali;
 - corretta l'incoerenza del grafico del calcolatore quando si inseriscono manualmente i contributi versati;
 - corretta la data della terza rata fissa INPS nella pagina contributi (16 novembre 2026);
+- reso deterministico lo smoke test E2E restringendo i link alla navigazione, rimuovendo l'ambiguità con le card della home;
 - allineate documentazione (ADR assunzioni fiscali) e pagina informativa ai dati 2026.
 
 ## [1.0.0] - 2026-05-03

@@ -12,12 +12,15 @@ test('renders the main public pages', async ({ page }) => {
   await page.goto('/');
   await dismissWelcomeModal(page);
 
-  await expect(page.getByRole('link', { name: 'Calcolatore Forfettario' })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Confronto Regimi' })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Contributi INPS' })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Pianificazione', exact: true })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Preventivo' })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Informativa' })).toBeVisible();
+  // Scope ai link della navigazione: i nomi delle voci (es. "Preventivo")
+  // coincidono con le card della home, quindi senza scope il match è ambiguo.
+  const nav = page.getByRole('navigation');
+  await expect(nav.getByRole('link', { name: 'Calcolatore Forfettario' })).toBeVisible();
+  await expect(nav.getByRole('link', { name: 'Confronto Regimi' })).toBeVisible();
+  await expect(nav.getByRole('link', { name: 'Contributi INPS' })).toBeVisible();
+  await expect(nav.getByRole('link', { name: 'Pianificazione', exact: true })).toBeVisible();
+  await expect(nav.getByRole('link', { name: 'Preventivo' })).toBeVisible();
+  await expect(nav.getByRole('link', { name: 'Informativa' })).toBeVisible();
 
   const routes = [
     ['/calcolatore', /Calcolatore Forfettario/i],
