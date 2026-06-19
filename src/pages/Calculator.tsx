@@ -83,7 +83,6 @@ export default function Calculator() {
     redditoNettoImponibile,
     aliquotaImposta,
     impostaSostitutiva,
-    inps: stimaInps,
     nettoStimato,
     available,
     warnings,
@@ -91,7 +90,7 @@ export default function Calculator() {
   const chartData = [
     { name: 'Netto Stimato', value: Math.max(0, nettoStimato), color: 'var(--color-chart-1)' },
     { name: 'Imposta Sostitutiva', value: impostaSostitutiva, color: 'var(--color-chart-2)' },
-    { name: 'Contributi INPS', value: stimaInps.totale, color: 'var(--color-chart-3)' },
+    { name: 'Contributi INPS', value: contributiConsiderati, color: 'var(--color-chart-3)' },
     {
       name: 'Costi Forfettari',
       value: Math.max(0, values.ricavi - redditoLordo),

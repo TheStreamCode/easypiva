@@ -54,4 +54,17 @@ describe('compareRegimes', () => {
     expect(result.forfettario.tasse).toBeCloseTo(4324.905, 3);
     expect(result.forfettario.netto).toBeCloseTo(35507.795, 3);
   });
+
+  it('applies the self-employment income deduction to the ordinario IRPEF', () => {
+    const result = compareRegimes({
+      ricavi: 50000,
+      costiReali: 10000,
+      atecoId: '8',
+      nuovaAttivita: false,
+      tipoInps: 'gestioneSeparata',
+    });
+
+    // imponibile ordinario 29.572 → IRPEF lorda 6958,76 − detrazione 464,27 + addizionali 591,44
+    expect(result.ordinario.tasse).toBeCloseTo(7085.927, 2);
+  });
 });

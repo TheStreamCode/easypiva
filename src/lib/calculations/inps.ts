@@ -13,7 +13,8 @@ export function calculateInps(
   }
 
   if (tipoInps === 'gestioneSeparata') {
-    const totale = imponibile * INPS_RATES.gestioneSeparata.rate;
+    const base = Math.min(imponibile, INPS_RATES.gestioneSeparata.massimale);
+    const totale = base * INPS_RATES.gestioneSeparata.rate;
 
     return { fisso: 0, variabile: totale, totale };
   }
@@ -21,10 +22,20 @@ export function calculateInps(
   const rates = INPS_RATES[tipoInps];
   const riduzione = riduzioneInps ? 0.65 : 1;
   const fisso = rates.minimalContribution * riduzione;
-  const variabile =
-    imponibile > rates.minimalIncome
-      ? (imponibile - rates.minimalIncome) * rates.rateOverMinimal * riduzione
-      : 0;
+
+  // Il contributo variabile si calcola sull'eccedenza oltre il minimale, fino al massimale.
+  // Oltre la soglia surchargeThreshold l'aliquota IVS aumenta di surchargeRate (+1%).
+  const cappedIncome = Math.min(imponibile, rates.massimale);
+  let variabile = 0;
+  if (cappedIncome > rates.minimalIncome) {
+    const baseBand = Math.min(cappedIncome, rates.surchargeThreshold) - rates.minimalIncome;
+    variabile += Math.max(0, baseBand) * rates.rateOverMinimal * riduzione;
+
+    if (cappedIncome > rates.surchargeThreshold) {
+      const surchargeBand = cappedIncome - rates.surchargeThreshold;
+      variabile += surchargeBand * (rates.rateOverMinimal + rates.surchargeRate) * riduzione;
+    }
+  }
 
   return {
     fisso,

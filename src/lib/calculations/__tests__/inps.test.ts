@@ -13,17 +13,40 @@ describe('calculateInps', () => {
   it('calculates Artigiani contributions below the minimale', () => {
     const result = calculateInps(18000, 'artigiani');
 
-    expect(result.fisso).toBeCloseTo(4427.04);
+    expect(result.fisso).toBeCloseTo(4521.36);
     expect(result.variabile).toBe(0);
-    expect(result.totale).toBeCloseTo(4427.04);
+    expect(result.totale).toBeCloseTo(4521.36);
   });
 
   it('calculates Commercianti contributions above the minimale with reduction', () => {
     const result = calculateInps(20000, 'commercianti', true);
 
-    expect(result.fisso).toBeCloseTo(2935.0295);
-    expect(result.variabile).toBeCloseTo(252.2052);
-    expect(result.totale).toBeCloseTo(3187.2347, 4);
+    expect(result.fisso).toBeCloseTo(2997.566);
+    expect(result.variabile).toBeCloseTo(189.67104);
+    expect(result.totale).toBeCloseTo(3187.23704, 4);
+  });
+
+  it('applies the +1% surcharge on income above the threshold (56.224 €)', () => {
+    const result = calculateInps(70000, 'artigiani');
+
+    // fisso 4521.36 + base band (56224-18808)*24% + surcharge band (70000-56224)*25%
+    expect(result.fisso).toBeCloseTo(4521.36);
+    expect(result.variabile).toBeCloseTo(12423.84, 2);
+    expect(result.totale).toBeCloseTo(16945.2, 2);
+  });
+
+  it('caps the taxable income at the massimale (122.295 €)', () => {
+    const result = calculateInps(130000, 'commercianti');
+
+    // income capped at 122295: base band 24,48% + surcharge band 25,48%
+    expect(result.variabile).toBeCloseTo(25994.3276, 2);
+    expect(result.totale).toBeCloseTo(30605.9676, 2);
+  });
+
+  it('caps Gestione Separata at the massimale', () => {
+    const result = calculateInps(150000, 'gestioneSeparata');
+
+    expect(result.totale).toBeCloseTo(122295 * 0.2607, 2);
   });
 
   it('clamps negative incomes to zero', () => {

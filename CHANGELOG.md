@@ -4,6 +4,12 @@ Tutte le modifiche rilevanti a EasyPIVA vengono tracciate in questo file.
 
 ## [Unreleased]
 
+- aggiornati i contributi INPS artigiani e commercianti ai valori 2026 (minimale 18.808 €, contributo fisso 4.521,36 € / 4.611,64 €) secondo la Circolare INPS 14/2026;
+- introdotte l'aliquota IVS aggiuntiva del +1% sul reddito oltre 56.224 € e l'applicazione del massimale contributivo annuo;
+- migliorato il confronto con il regime ordinario aggiungendo la detrazione per redditi di lavoro autonomo (art. 13 TUIR) e documentando l'aliquota media delle addizionali;
+- corretta l'incoerenza del grafico del calcolatore quando si inseriscono manualmente i contributi versati;
+- allineate documentazione (ADR assunzioni fiscali) e pagina informativa ai dati 2026.
+
 ## [1.0.0] - 2026-05-03
 
 - aggiunta governance GitHub con Dependabot, Dependency Review, template issue, template pull request e Code of Conduct;

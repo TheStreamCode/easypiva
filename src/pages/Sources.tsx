@@ -154,14 +154,17 @@ export default function Sources() {
                   <strong className="font-medium text-zinc-900 dark:text-zinc-100">
                     Regime ordinario:
                   </strong>{' '}
-                  scaglioni IRPEF 2026 e confronto netto fiscale contributivo.
+                  scaglioni IRPEF 2026 (23% / 33% / 43%), detrazione per redditi di lavoro autonomo
+                  e addizionali stimate con un'aliquota media del 2%. È un confronto semplificato e
+                  non considera tutte le detrazioni, deduzioni o la residenza specifica.
                 </li>
                 <li>
                   <strong className="font-medium text-zinc-900 dark:text-zinc-100">
                     Contributi INPS:
                   </strong>{' '}
-                  Gestione Separata, Artigiani e Commercianti secondo le ipotesi correnti del
-                  progetto.
+                  Gestione Separata 26,07%; Artigiani e Commercianti con minimale 2026 di 18.808€,
+                  aliquota aggiuntiva +1% oltre 56.224€ ed eventuale riduzione del 35% per i
+                  forfettari.
                 </li>
               </ul>
               <div className="mt-4 flex gap-4">

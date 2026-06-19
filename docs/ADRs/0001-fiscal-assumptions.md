@@ -22,18 +22,27 @@ EasyPIVA fornisce simulazioni fiscali indicative per utenti con Partita IVA ital
 - Da 28.001€ a 50.000€: 33%
 - Oltre 50.000€: 43%
 
-## Contributi INPS
+## Contributi INPS (valori 2026)
 
-- Gestione Separata: 26,07%
-- Artigiani: minimale 18.415€, aliquota 24% oltre il minimale
-- Commercianti: minimale 18.415€, aliquota 24,48% oltre il minimale
-- Riduzione 35% per forfettari (artigiani/commercianti)
+- Gestione Separata: 26,07% (Circ. INPS 8/2026), entro il massimale di 122.295€.
+- Artigiani: minimale reddito 18.808€, contributo fisso 4.521,36€, aliquota 24% oltre il minimale.
+- Commercianti: minimale reddito 18.808€, contributo fisso 4.611,64€, aliquota 24,48% oltre il minimale.
+- Aliquota aggiuntiva +1% sul reddito oltre 56.224€ (25% / 25,48%), fino al massimale 122.295€ (Circ. INPS 14/2026).
+- Riduzione 35% per forfettari (artigiani/commercianti).
+
+## Regime Ordinario (confronto)
+
+- IRPEF a scaglioni 2026 (vedi sopra).
+- Detrazione per redditi di lavoro autonomo (art. 13 c. 5-5bis TUIR), decrescente e azzerata oltre 50.000€.
+- Addizionali regionali + comunali stimate con un'aliquota media rappresentativa del 2% (le aliquote reali variano per regione e comune).
+- Il confronto è una stima semplificata: non considera detrazioni e deduzioni ulteriori, IRAP, ISA o la specifica residenza.
 
 ## Regime Forfettario
 
-- Limite ricavi: 85.000€
-- Uscita immediata: 100.000€
-- Imposta sostitutiva: 15% (5% per startup primi 5 anni)
+- Limite ricavi: 85.000€ (ragguagliato ad anno per le nuove attività).
+- Uscita immediata: 100.000€ (sui ricavi effettivamente incassati, non ragguagliati).
+- Limite reddito da lavoro dipendente/pensione anno precedente: 35.000€ (confermato per il 2026).
+- Imposta sostitutiva: 15% (5% per startup primi 5 anni).
 
 ## Conseguenze
 

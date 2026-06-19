@@ -93,9 +93,6 @@ export function calculateTargetNet(input: TargetNetInput): TargetNetResult {
     };
   }
 
-  const rates = INPS_RATES[input.tipoInps];
-  const riduzione = input.riduzioneInps ? 0.65 : 1;
-
   let low = Math.max(0, nettoAnnuo);
   let high = Math.max(nettoAnnuo, 1);
   let mid = 0;
@@ -126,11 +123,7 @@ export function calculateTargetNet(input: TargetNetInput): TargetNetResult {
 
   const ricaviNecessari = mid;
   const redditoLordo = ricaviNecessari * coefficiente;
-  const inpsStimato =
-    rates.minimalContribution * riduzione +
-    (redditoLordo > rates.minimalIncome
-      ? (redditoLordo - rates.minimalIncome) * rates.rateOverMinimal * riduzione
-      : 0);
+  const inpsStimato = calculateInps(redditoLordo, input.tipoInps, input.riduzioneInps).totale;
   const tasseStimate = Math.max(0, redditoLordo - inpsStimato) * aliquotaImposta;
 
   return {

@@ -30,21 +30,35 @@ export const ATECO_CATEGORIES: AtecoCategory[] = [
   },
 ];
 
+// Valori 2026 — Circ. INPS 8/2026 (Gestione Separata) e 14/2026 (Artigiani/Commercianti).
+// surchargeThreshold: oltre questa soglia di reddito l'aliquota IVS sale di +1% (25% / 25,48%).
+// massimale: reddito massimo annuo imponibile (iscritti dal 1996).
 export const INPS_RATES = {
   gestioneSeparata: {
     rate: 0.2607,
+    massimale: 122295,
   },
   artigiani: {
-    minimalIncome: 18415,
-    minimalContribution: 4427.04,
+    minimalIncome: 18808,
+    minimalContribution: 4521.36,
     rateOverMinimal: 0.24,
+    surchargeThreshold: 56224,
+    surchargeRate: 0.01,
+    massimale: 122295,
   },
   commercianti: {
-    minimalIncome: 18415,
-    minimalContribution: 4515.43,
+    minimalIncome: 18808,
+    minimalContribution: 4611.64,
     rateOverMinimal: 0.2448,
+    surchargeThreshold: 56224,
+    surchargeRate: 0.01,
+    massimale: 122295,
   },
 } as const;
+
+// Aliquota media addizionali regionali + comunali usata nel confronto col regime ordinario.
+// È una stima rappresentativa: le aliquote reali variano per regione (~1,23%–3,33%) e comune (0%–0,9%).
+export const ADDIZIONALI_MEDIE = 0.02;
 
 export const IRPEF_BRACKETS_2026 = [
   { max: 28000, rate: 0.23 },
