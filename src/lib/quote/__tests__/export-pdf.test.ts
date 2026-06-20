@@ -10,13 +10,17 @@ const mockHtml = vi.fn().mockResolvedValue(undefined);
 const mockHtml2Canvas = vi.fn();
 
 vi.mock('jspdf', () => ({
-  jsPDF: vi.fn().mockImplementation(() => ({
-    save: mockSave,
-    addImage: mockAddImage,
-    addPage: mockAddPage,
-    text: mockText,
-    html: mockHtml,
-  })),
+  // vitest 4 requires a constructable implementation (function/class) for
+  // mocks used with `new`; an arrow function is not a constructor.
+  jsPDF: vi.fn().mockImplementation(function () {
+    return {
+      save: mockSave,
+      addImage: mockAddImage,
+      addPage: mockAddPage,
+      text: mockText,
+      html: mockHtml,
+    };
+  }),
 }));
 
 vi.mock('html2canvas', () => ({
