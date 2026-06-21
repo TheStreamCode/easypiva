@@ -1,9 +1,9 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite it as below."
-title: "EasyPIVA"
+message: 'If you use this software, please cite it as below.'
+title: 'EasyPIVA'
 authors:
   - family-names: Gasperini
     given-names: Michael
-url: "https://github.com/TheStreamCode/easypiva"
-version: "1.0.0"
+url: 'https://github.com/TheStreamCode/easypiva'
+version: '1.0.0'
 license: MIT
