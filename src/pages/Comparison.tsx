@@ -66,7 +66,7 @@ export default function Comparison() {
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' as const } },
   };
 
   return (
@@ -163,7 +163,7 @@ export default function Comparison() {
               <Label htmlFor="atecoId" className="text-zinc-700 dark:text-zinc-300">
                 Categoria ATECO (per Forfettario)
               </Label>
-              <Select value={atecoId} onValueChange={setAtecoId}>
+              <Select value={atecoId} onValueChange={(val) => val && setAtecoId(val)}>
                 <SelectTrigger id="atecoId">
                   <SelectValue />
                 </SelectTrigger>
@@ -250,7 +250,7 @@ export default function Comparison() {
                     tick={{ fill: '#71717a' }}
                   />
                   <RechartsTooltip
-                    formatter={(value: number) => formatCurrency(value)}
+                    formatter={(value) => formatCurrency(Number(value ?? 0))}
                     cursor={{ fill: 'transparent' }}
                     contentStyle={{
                       borderRadius: '8px',

@@ -37,7 +37,7 @@ export default function Planning() {
   };
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' as const } },
   };
 
   return (
@@ -167,7 +167,7 @@ export default function Planning() {
                     dx={-10}
                   />
                   <RechartsTooltip
-                    formatter={(value: number) => formatCurrency(value)}
+                    formatter={(value) => formatCurrency(Number(value ?? 0))}
                     contentStyle={{
                       borderRadius: '8px',
                       border: 'none',

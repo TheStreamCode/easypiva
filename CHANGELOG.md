@@ -4,6 +4,7 @@ Tutte le modifiche rilevanti a EasyPIVA vengono tracciate in questo file.
 
 ## [Unreleased]
 
+- ripristinata la type safety dopo gli aggiornamenti delle dipendenze e di TypeScript 6 (tipizzazione esplicita delle varianti Motion, gestione nullable dei callback Base UI Select, formatter Recharts tolleranti ai valori undefined, narrowing corretto nella paginazione preventivi, dichiarazione tipo per import CSS side-effect e generics Zustand persist allineati allo stato parzializzato);
 - aggiornati TypeScript 5.8 → 6.0, ESLint 9 → 10 e `@eslint/js` 9 → 10; migrato `eslint-plugin-import` → `eslint-plugin-import-x` (supporto ESLint 10), con adeguamento di `eslint.config.js`;
 - aggiornati i contributi INPS artigiani e commercianti ai valori 2026 (minimale 18.808 €, contributo fisso 4.521,36 € / 4.611,64 €) secondo la Circolare INPS 14/2026;
 - introdotte l'aliquota IVS aggiuntiva del +1% sul reddito oltre 56.224 € e l'applicazione del massimale contributivo annuo;

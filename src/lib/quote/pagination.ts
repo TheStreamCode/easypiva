@@ -124,7 +124,7 @@ function heightsMatchWithinTolerance(total: number, expected: number) {
 
 function validateBlockContract(block: QuotePaginationBlock) {
   if (block.kind === 'item-row') {
-    if (block.splitHeights) {
+    if ((block as { splitHeights?: unknown }).splitHeights) {
       throw new Error(
         `Item row ${block.id} must use descriptionContinuationHeights instead of splitHeights.`,
       );
@@ -133,7 +133,7 @@ function validateBlockContract(block: QuotePaginationBlock) {
     return;
   }
 
-  if (block.descriptionContinuationHeights) {
+  if ((block as { descriptionContinuationHeights?: unknown }).descriptionContinuationHeights) {
     throw new Error(`Block ${block.id} can only use descriptionContinuationHeights on item rows.`);
   }
 

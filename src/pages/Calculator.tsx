@@ -122,8 +122,8 @@ export default function Calculator() {
   };
   const stepVariants = {
     hidden: { opacity: 0, x: 20 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.4, ease: 'easeOut' } },
-    exit: { opacity: 0, x: -20, transition: { duration: 0.3, ease: 'easeIn' } },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.4, ease: 'easeOut' as const } },
+    exit: { opacity: 0, x: -20, transition: { duration: 0.3, ease: 'easeIn' as const } },
   };
   return (
     <div className="max-w-3xl mx-auto flex flex-col gap-12 pb-16 pt-8">
@@ -180,7 +180,10 @@ export default function Calculator() {
               <div className="space-y-4">
                 {' '}
                 <Label htmlFor="atecoId">Categoria ATECO</Label>{' '}
-                <Select value={values.atecoId} onValueChange={(val) => setValue('atecoId', val)}>
+                <Select
+                  value={values.atecoId}
+                  onValueChange={(val) => val && setValue('atecoId', val)}
+                >
                   {' '}
                   <SelectTrigger id="atecoId" className="w-full">
                     {' '}
@@ -277,7 +280,9 @@ export default function Calculator() {
                 <Label htmlFor="tipoInps">Cassa Previdenziale</Label>{' '}
                 <Select
                   value={values.tipoInps}
-                  onValueChange={(val: FormValues['tipoInps']) => setValue('tipoInps', val)}
+                  onValueChange={(val) => {
+                    if (val) setValue('tipoInps', val as FormValues['tipoInps']);
+                  }}
                 >
                   {' '}
                   <SelectTrigger id="tipoInps">
@@ -530,7 +535,7 @@ export default function Calculator() {
                           ))}{' '}
                         </Pie>{' '}
                         <RechartsTooltip
-                          formatter={(value: number) => formatCurrency(value)}
+                          formatter={(value) => formatCurrency(Number(value ?? 0))}
                           contentStyle={{
                             borderRadius: '8px',
                             border: '1px solid #e4e4e7',

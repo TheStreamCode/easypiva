@@ -27,7 +27,7 @@ export const useThemeStore = create<ThemeState>()(
     }),
     {
       name: themeStorageKey,
-      storage: createSafePersistStorage<ThemeState>(),
+      storage: createSafePersistStorage<{ mode: ThemeMode }>(),
       partialize: ({ mode }) => ({ mode }),
       onRehydrateStorage: () => (state) => {
         if (state) {
