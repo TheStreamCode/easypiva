@@ -71,6 +71,7 @@ L'app viene servita in sviluppo su `http://127.0.0.1:3000`.
 ## Documentazione
 
 - [Architettura](docs/architecture.md)
+- [Provenienza dell'asset dashboard](docs/asset-provenance.md)
 - [Privacy e storage locale](docs/privacy-and-storage.md)
 - [Assunzioni fiscali](docs/ADRs/0001-fiscal-assumptions.md)
 - [Governance repository](docs/repository-governance.md)
