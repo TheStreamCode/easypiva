@@ -13,7 +13,7 @@ Tutti i calcoli vengono eseguiti localmente nel browser. Il progetto non richied
 ## Branding e packaging
 
 - Brand prodotto: `EasyPIVA`.
-- Maintainer e autore del repository: `Mikesoft`.
+- Maintainer e autore del repository: `Michael Gasperini (Mikesoft)`.
 - Packaging supportato: applicazione web statica buildata con Vite.
 - Questo repository non è una VS Code extension: non usa `vsce`, non genera `.vsix` e non richiede icone separate per Activity Bar, sidebar o Marketplace.
 
