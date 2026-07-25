@@ -14,10 +14,11 @@ concurrency:
 jobs:
   dependency-review:
     runs-on: ubuntu-latest
-    # Dependabot PRs run with a restricted token that can't reach the
-    # dependency-review API, so the check always fails for them. Skip it for
-    # Dependabot (its bumps are curated) while keeping it for human PRs.
-    if: ${{ github.actor != 'dependabot[bot]' }}
+    # No actor filter. Skipping Dependabot made this a no-op: every dependency
+    # change in this repo comes from Dependabot, and because the job is a required
+    # status check, a `skipped` run *satisfies* it -- the gate reported green while
+    # reviewing nothing. On a public repository the dependency-review API is
+    # readable with the Dependabot token, so the job runs for those PRs too.
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
