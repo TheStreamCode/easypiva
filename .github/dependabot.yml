@@ -8,6 +8,8 @@ updates:
       time: '08:00'
       timezone: Europe/Rome
     open-pull-requests-limit: 5
+    # Majors are deliberately left out of every group: they stay individual pull
+    # requests so a breaking bump is never bundled with routine ones.
     groups:
       npm-production-minor-patch:
         dependency-type: production
@@ -28,3 +30,8 @@ updates:
       time: '08:30'
       timezone: Europe/Rome
     open-pull-requests-limit: 5
+    groups:
+      github-actions-minor-patch:
+        update-types:
+          - minor
+          - patch
