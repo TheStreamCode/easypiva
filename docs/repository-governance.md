@@ -38,7 +38,7 @@ Le impostazioni non versionate vanno verificate periodicamente dalla UI GitHub o
 
 ## Processo di release
 
-1. Aggiornare `package.json`, `package-lock.json`, README e changelog con la nuova versione.
+1. Aggiornare `package.json`, `package-lock.json`, `CITATION.cff`, README e changelog con la nuova versione.
 2. Eseguire `npm run ci` in locale.
 3. Pubblicare su `main` solo dopo verifica completa.
 4. Attendere il workflow `CI / build` verde su GitHub.

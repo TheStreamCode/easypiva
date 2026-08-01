@@ -1,12 +1,15 @@
 # EasyPIVA 2026
 
 [![CI](https://github.com/TheStreamCode/easypiva/actions/workflows/ci.yml/badge.svg)](https://github.com/TheStreamCode/easypiva/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Versione corrente del repository: `1.0.0`.
+Versione corrente del repository: `1.1.0`.
 
 EasyPIVA è una web app client-side per simulazioni fiscali indicative dedicate alla Partita IVA italiana. Copre regime forfettario, contributi INPS, confronto tra regimi, pianificazione dei ricavi e generazione di preventivi con export PDF.
 
 Tutti i calcoli vengono eseguiti localmente nel browser. Il progetto non richiede account e non usa un backend applicativo.
+
+**App online:** [easypiva.vercel.app](https://easypiva.vercel.app)
 
 ![Screenshot della dashboard EasyPIVA con strumenti per simulazioni fiscali Partita IVA 2026](docs/assets/easypiva-dashboard.png)
 
@@ -17,12 +20,15 @@ Tutti i calcoli vengono eseguiti localmente nel browser. Il progetto non richied
 - Packaging supportato: applicazione web statica buildata con Vite.
 - Questo repository non è una VS Code extension: non usa `vsce`, non genera `.vsix` e non richiede icone separate per Activity Bar, sidebar o Marketplace.
 
-## Release 1.0.0
+## Release 1.1.0
 
-- Promuove EasyPIVA a baseline stabile del repository.
-- Include correzioni fiscali 2026, validazione coerente degli input numerici e copertura E2E Playwright.
-- Consolida governance GitHub, Dependabot, Dependency Review, template issue/PR e documentazione di manutenzione.
-- Conferma che il branch `main` è il ramo di riferimento per release, CI e automazioni GitHub.
+- Allinea i contributi INPS 2026 (minimale, contributi fissi, aliquota aggiuntiva +1% e massimale) alle Circolari INPS 8/2026 e 14/2026.
+- Migliora il confronto con il regime ordinario introducendo la detrazione per redditi di lavoro autonomo.
+- Aggiorna runtime e toolchain: Node.js 24 LTS, TypeScript 6, ESLint 10, `react-router` 8.
+- Elimina la richiesta runtime a Google Fonts self-hostando i font nel bundle, in coerenza con l'architettura local-first.
+- Ripulisce le dipendenze di sviluppo non utilizzate e allinea metadata, citazione e documentazione.
+
+Il dettaglio completo è nel [changelog](CHANGELOG.md).
 
 ## Funzionalità principali
 
@@ -67,6 +73,30 @@ L'app viene servita in sviluppo su `http://127.0.0.1:3000`.
 - `npm run test:e2e` esegue la suite Playwright.
 - `npm run build` genera la build di produzione in `dist/`.
 - `npm run ci` esegue il flusso completo usato dalla CI: format check, typecheck, lint, Vitest, build e Playwright.
+
+Per gli end-to-end in locale può servire una sola volta `npx playwright install chromium`.
+
+## Struttura del repository
+
+```text
+src/
+  pages/            # Route pubbliche, lazy loaded da App.tsx
+  components/       # Layout, disclaimer e componenti del preventivo
+  lib/
+    calculations/   # Logica fiscale pura e testata
+    quote/          # Modello preventivo, paginazione ed export PDF
+    fiscal-data.ts  # Costanti fiscali 2026 (soglie, aliquote, coefficienti)
+  store/            # Store Zustand (disclaimer, tema)
+components/ui/      # Primitivi UI condivisi
+tests/e2e/          # Test end-to-end Playwright
+docs/               # Architettura, privacy, ADR fiscale, governance
+```
+
+## Deployment
+
+- La build statica prodotta da `npm run build` in `dist/` viene pubblicata su Vercel: <https://easypiva.vercel.app>.
+- `vercel.json` applica la rewrite `/(.*) → /index.html` necessaria al routing client-side su hosting statico.
+- Non esiste un backend applicativo né una configurazione di deploy alternativa nel repository.
 
 ## Documentazione
 

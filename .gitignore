@@ -10,4 +10,6 @@ coverage/
 .worktrees/
 test-results/
 playwright-report/
+.playwright-mcp/
 tsconfig.tsbuildinfo
+.vercel/

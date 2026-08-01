@@ -4,6 +4,17 @@ Tutte le modifiche rilevanti a EasyPIVA vengono tracciate in questo file.
 
 ## [Unreleased]
 
+Nessuna modifica in attesa di rilascio.
+
+## [1.1.0] - 2026-08-01
+
+- rimosse le devDependencies inutilizzate `@types/express` (nessun uso di Express nel progetto) e `autoprefixer` (il progetto non ha una pipeline PostCSS: Tailwind CSS v4 passa da `@tailwindcss/vite`), per un totale di 14 pacchetti in meno nell'albero di installazione;
+- aggiunti i metadata `bugs` e `keywords` in `package.json`, allineati ai topic GitHub del repository;
+- aggiunti `repository-code` e `date-released` a `CITATION.cff` e allineata la versione citabile;
+- ignorati `.playwright-mcp/` e `.vercel/` per evitare che artefatti locali di tooling finiscano nel branch principale;
+- README esteso con link alla web app pubblicata, sezione di deployment su Vercel e struttura del repository;
+- `AGENTS.md` riscritto come guida operativa completa per agenti e maintainer (architettura, comandi verificati, file generati, aree fiscali delicate, versioning, release e deployment);
+- aggiunto `CITATION.cff` alla checklist di release in `docs/repository-governance.md`;
 - aggiornato il runtime di sviluppo e CI da Node.js 20 EOL a Node.js 24 LTS, con `.nvmrc`, vincoli `engines`, npm dichiarato e tipi Node allineati;
 - migrato il routing dichiarativo da `react-router-dom` 7 a `react-router` 8, eliminando l'alert di sicurezza relativo ai percorsi RSC non usati dall'app;
 - corretto il calcolo inverso del fatturato affinché rispetti il massimale INPS anche per obiettivi elevati;
