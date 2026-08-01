@@ -35,7 +35,7 @@ Tutti i calcoli vengono eseguiti localmente nel browser. Il progetto non richied
 
 ## Stack
 
-- React 19, TypeScript 5, Vite 6.
+- React 19, React Router 8, TypeScript 6, Vite 6.
 - Tailwind CSS v4 e componenti shadcn/ui.
 - Zustand per lo stato client-side.
 - React Hook Form e Zod per i form.
@@ -43,7 +43,7 @@ Tutti i calcoli vengono eseguiti localmente nel browser. Il progetto non richied
 
 ## Requisiti locali
 
-- Node.js 20, in linea con la CI del repository.
+- Node.js 24 LTS e npm 11, in linea con `.nvmrc`, `package.json` e CI.
 - npm come package manager canonico.
 
 ## Avvio locale
@@ -88,8 +88,9 @@ Il repository è pubblico e rilasciato con licenza MIT, ma la manutenzione del c
 
 - La CI principale è in `.github/workflows/ci.yml` e usa permessi minimi in sola lettura.
 - Playwright usa una porta dedicata per evitare collisioni con server locali su `3000`.
-- Dependabot è configurato per npm e GitHub Actions in `.github/dependabot.yml`.
+- Dependabot apre solo aggiornamenti di sicurezza; gli aggiornamenti di versione ordinari sono disabilitati per evitare rumore e vengono pianificati manualmente.
 - Le pull request eseguono anche `Dependency Review` per intercettare vulnerabilità introdotte da cambi di dipendenze.
+- Le GitHub Actions sono fissate a commit SHA verificati e gli install script npm sono limitati a una allowlist esplicita.
 - Issue e pull request usano template strutturati in `.github/` per rendere il triage riproducibile.
 - Le vulnerabilità vanno segnalate privatamente seguendo [`SECURITY.md`](SECURITY.md), non tramite issue pubbliche.
 

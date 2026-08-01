@@ -132,6 +132,10 @@ describe('calculateForfettario', () => {
     });
 
     expect(result.warnings.map((warning) => warning.code)).not.toContain('revenue-over-100000');
+    expect(result.warnings).toContainEqual({
+      code: 'revenue-over-85000',
+      severity: 'warning',
+    });
   });
 
   it('marks results as unavailable when actual revenues exceed 100000 euro', () => {

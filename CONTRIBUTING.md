@@ -28,6 +28,6 @@ EasyPIVA è un repository pubblico con licenza MIT, ma il codice viene gestito c
 ## Package manager e ambiente
 
 - Usa `npm` come package manager del repository.
-- Per coerenza con la CI, lavora con Node.js 20.
+- Per coerenza con la CI, lavora con Node.js 24 LTS e npm 11; `.nvmrc` e `package.json` sono le fonti di verità.
 - Installa dipendenze con `npm ci` quando vuoi riprodurre la CI.
 - Se Playwright segnala browser mancanti dopo un aggiornamento, esegui `npx playwright install chromium` in locale; la CI installa Chromium automaticamente.

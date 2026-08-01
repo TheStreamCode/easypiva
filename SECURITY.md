@@ -11,7 +11,7 @@ EasyPIVA accetta segnalazioni relative a:
 
 ## Come segnalare
 
-Invia una mail a `info@mikesoft.it` con oggetto `EasyPIVA Security Report`.
+Usa preferibilmente il pulsante **Report a vulnerability** nella sezione Security del repository, che apre una segnalazione privata. In alternativa, invia una mail a `info@mikesoft.it` con oggetto `EasyPIVA Security Report`.
 
 Non aprire issue pubbliche per vulnerabilità, proof of concept sfruttabili o problemi che possano esporre dati locali dell'utente.
 
@@ -38,8 +38,9 @@ L'obiettivo è confermare la ricezione entro 5 giorni lavorativi e fornire aggio
 Il repository usa:
 
 - CI GitHub con `npm run ci`;
-- Dependabot per aggiornamenti npm e GitHub Actions;
+- Dependabot Alerts e pull request automatiche per gli aggiornamenti di sicurezza;
 - Dependency Review sulle pull request che modificano dipendenze.
+- CodeQL, secret scanning e push protection su GitHub.
 
 Questi controlli riducono il rischio supply-chain, ma non sostituiscono la segnalazione privata di vulnerabilità reali.
 

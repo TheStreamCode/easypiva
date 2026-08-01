@@ -8,24 +8,24 @@ La governance applicabile tramite repository è definita da questi file:
 
 - `.github/workflows/ci.yml`: verifica applicativa completa su push a `main` e pull request.
 - `.github/workflows/dependency-review.yml`: controllo supply-chain sulle pull request.
-- `.github/dependabot.yml`: aggiornamenti schedulati per npm e GitHub Actions.
+- `.github/dependabot.yml`: aggiornamenti di sicurezza automatici, con version update ordinari disabilitati.
+- `.github/CODEOWNERS`: ownership esplicita per codice, logica fiscale, ADR e automazioni.
 - `.github/ISSUE_TEMPLATE/`: issue strutturate per bug riproducibili e assunzioni fiscali.
 - `.github/pull_request_template.md`: checklist di review per maintainer.
 - `CODE_OF_CONDUCT.md`: regole minime di interazione pubblica.
 - `SECURITY.md`: canale privato per vulnerabilità e problemi privacy.
 - `CONTRIBUTING.md`: policy di contribuzione e manutenzione.
 
-## Regole raccomandate su GitHub
+## Impostazioni GitHub applicate
 
-Queste impostazioni non sono versionate nel repository e vanno configurate dalla UI GitHub o tramite API/CLI da un maintainer con permessi adeguati:
+Le impostazioni non versionate vanno verificate periodicamente dalla UI GitHub o tramite API/CLI:
 
-- proteggere `main` richiedendo pull request prima del merge;
-- richiedere i check `CI` e `Dependency Review` prima del merge;
-- richiedere branch aggiornato prima del merge quando il branch è divergente;
-- bloccare force push e cancellazione di `main`;
-- abilitare Dependabot alerts, Dependabot security updates e dependency graph;
-- abilitare secret scanning per repository pubblico;
-- mantenere squash merge come strategia preferita per storia lineare;
+- `main` richiede pull request, un'approvazione, conversazioni risolte e branch aggiornato;
+- i check `build` e `dependency-review` sono obbligatori;
+- force push e cancellazione di `main` sono bloccati e la storia lineare è obbligatoria;
+- l'eccezione amministratore resta disponibile per evitare il deadlock di approvazione nel workflow con singolo maintainer;
+- Dependabot alerts e security updates, CodeQL, secret scanning, push protection e private vulnerability reporting sono abilitati;
+- squash merge è l'unica strategia di merge abilitata e i branch vengono eliminati dopo il merge;
 - usare topic GitHub coerenti, ad esempio `react`, `vite`, `typescript`, `partita-iva`, `forfettario`, `tax-calculator`, `italy`, `open-source`.
 
 ## Processo di aggiornamento
@@ -46,7 +46,8 @@ Queste impostazioni non sono versionate nel repository e vanno configurate dalla
 
 ## Supply chain
 
-- Le dipendenze npm vengono aggiornate settimanalmente da Dependabot.
-- Gli aggiornamenti patch/minor possono essere raggruppati.
+- Dependabot apre pull request solo quando esiste un aggiornamento di sicurezza; gli update ordinari restano una manutenzione manuale pianificata.
+- Le GitHub Actions sono referenziate tramite commit SHA completi, mantenendo il tag leggibile in commento.
+- `allowScripts` in `package.json` autorizza solo gli install script necessari e nega quelli non richiesti dal runtime.
 - Le major release vanno trattate come manutenzione pianificata, con test completi e nota changelog.
 - Ogni modifica a `package-lock.json` deve passare `npm run ci` e Dependency Review.

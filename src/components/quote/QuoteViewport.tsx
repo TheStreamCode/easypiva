@@ -1,5 +1,4 @@
 import {
-  useEffect,
   useLayoutEffect,
   useMemo,
   useRef,
@@ -22,6 +21,7 @@ type QuoteViewportProps = {
 };
 
 const MM_TO_PX = 3.7795275591;
+const ORIGIN = { x: 0, y: 0 };
 
 export function QuoteViewport({
   children,
@@ -42,8 +42,11 @@ export function QuoteViewport({
     startPanY: 0,
   });
   const [viewportSize, setViewportSize] = useState({ width: 0, height: 0 });
-  const [scale, setScale] = useState(1);
-  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [viewState, setViewState] = useState({
+    fitScale: 1,
+    scale: 1,
+    pan: ORIGIN,
+  });
 
   useLayoutEffect(() => {
     const element = viewportRef.current;
@@ -74,10 +77,9 @@ export function QuoteViewport({
     return Math.max(minScale, Math.min(maxScale, Math.min(scaleX, scaleY)));
   }, [maxScale, minScale, pageHeightMm, pageWidthMm, viewportSize.height, viewportSize.width]);
 
-  useEffect(() => {
-    setScale(fitScale);
-    setPan({ x: 0, y: 0 });
-  }, [fitScale]);
+  const currentView =
+    viewState.fitScale === fitScale ? viewState : { fitScale, scale: fitScale, pan: ORIGIN };
+  const { scale, pan } = currentView;
 
   const handleWheel = (event: WheelEvent<HTMLDivElement>) => {
     if (!viewportRef.current) return;
@@ -91,11 +93,14 @@ export function QuoteViewport({
     const pointerY = event.clientY - rect.top;
     const scaleRatio = nextScale / scale;
 
-    setPan((current) => ({
-      x: pointerX - (pointerX - current.x) * scaleRatio,
-      y: pointerY - (pointerY - current.y) * scaleRatio,
-    }));
-    setScale(nextScale);
+    setViewState({
+      fitScale,
+      scale: nextScale,
+      pan: {
+        x: pointerX - (pointerX - pan.x) * scaleRatio,
+        y: pointerY - (pointerY - pan.y) * scaleRatio,
+      },
+    });
   };
 
   const handlePointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
@@ -130,9 +135,13 @@ export function QuoteViewport({
     const dragState = dragStateRef.current;
     if (!dragState.dragging || dragState.pointerId !== event.pointerId) return;
 
-    setPan({
-      x: dragState.startPanX + (event.clientX - dragState.startX),
-      y: dragState.startPanY + (event.clientY - dragState.startY),
+    setViewState({
+      fitScale,
+      scale,
+      pan: {
+        x: dragState.startPanX + (event.clientX - dragState.startX),
+        y: dragState.startPanY + (event.clientY - dragState.startY),
+      },
     });
   };
 

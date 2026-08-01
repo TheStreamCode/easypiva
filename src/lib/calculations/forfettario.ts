@@ -15,7 +15,7 @@ export function calculateForfettario(input: ForfettarioInput): ForfettarioResult
   const warnings: DomainWarning[] = [];
   const hasImmediateExit = input.ricavi > LIMITS.uscitaImmediata;
 
-  if (ricaviRagguagliati > LIMITS.ricavi && ricaviRagguagliati <= LIMITS.uscitaImmediata) {
+  if (ricaviRagguagliati > LIMITS.ricavi && !hasImmediateExit) {
     warnings.push({
       code: 'revenue-over-85000',
       severity: 'warning',

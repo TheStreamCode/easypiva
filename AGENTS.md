@@ -19,7 +19,7 @@ Install dependencies with `npm ci`. npm is the canonical package manager for thi
 
 ## Tech Stack
 
-- React 19, TypeScript 5, Vite 6.
+- React 19, React Router 8, TypeScript 6, Vite 6.
 - Tailwind CSS v4 with `@tailwindcss/vite`.
 - Base UI / shadcn-style primitives in `components/ui/`.
 - Zustand for local client state.
@@ -66,6 +66,7 @@ docs/              # Architecture, privacy, fiscal assumptions
 ## GitHub Repository Hygiene
 
 - Keep `.github/workflows/ci.yml`, `.github/dependabot.yml`, and `.github/workflows/dependency-review.yml` aligned with `package.json` scripts.
+- Keep Dependabot version updates disabled with `open-pull-requests-limit: 0`; security updates remain enabled and require maintainer review.
 - Update `docs/repository-governance.md` when repository settings, branch protection recommendations, or supply-chain policy change.
 - Use the PR template checklist for maintainer reviews.
 - Do not route security reports through public issues; follow `SECURITY.md`.

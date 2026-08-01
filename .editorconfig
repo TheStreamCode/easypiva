@@ -10,6 +10,11 @@ trim_trailing_whitespace = true
 indent_style = space
 indent_size = 2
 
-[*.{sh,bat,ps1}]
+[*.sh]
+indent_style = space
+indent_size = 2
+
+[*.{bat,cmd,ps1}]
+end_of_line = crlf
 indent_style = space
 indent_size = 2

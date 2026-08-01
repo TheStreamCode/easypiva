@@ -1,6 +1,6 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 
-async function dismissWelcomeModal(page: any) {
+async function dismissWelcomeModal(page: Page) {
   const acceptButton = page.getByRole('button', { name: /Ho compreso, inizia/i });
 
   if (await acceptButton.isVisible().catch(() => false)) {

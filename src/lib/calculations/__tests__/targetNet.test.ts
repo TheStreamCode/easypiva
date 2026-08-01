@@ -102,6 +102,31 @@ describe('calculateTargetNet', () => {
     expect(forfettario.impostaSostitutiva).toBeCloseTo(target.tasseStimate, 3);
   });
 
+  it('respects the Gestione Separata contribution cap for high targets', () => {
+    const target = calculateTargetNet({
+      nettoMensile: 15000,
+      atecoId: '8',
+      nuovaAttivita: false,
+      tipoInps: 'gestioneSeparata',
+      riduzioneInps: false,
+    });
+
+    const forfettario = calculateForfettario({
+      ricavi: target.ricaviNecessari,
+      atecoId: '8',
+      contributiVersati: 0,
+      mesiAttivita: 12,
+      nuovaAttivita: false,
+      tipoInps: 'gestioneSeparata',
+      riduzioneInps: false,
+      speseDipendenti: 0,
+      redditoDipendente: 0,
+    });
+
+    expect(target.inpsStimato).toBeCloseTo(122295 * 0.2607, 2);
+    expect(forfettario.nettoStimato).toBeCloseTo(target.nettoAnnuo, 2);
+  });
+
   it('clamps negative net targets to zero', () => {
     const target = calculateTargetNet({
       nettoMensile: -2000,

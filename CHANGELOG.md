@@ -4,6 +4,12 @@ Tutte le modifiche rilevanti a EasyPIVA vengono tracciate in questo file.
 
 ## [Unreleased]
 
+- aggiornato il runtime di sviluppo e CI da Node.js 20 EOL a Node.js 24 LTS, con `.nvmrc`, vincoli `engines`, npm dichiarato e tipi Node allineati;
+- migrato il routing dichiarativo da `react-router-dom` 7 a `react-router` 8, eliminando l'alert di sicurezza relativo ai percorsi RSC non usati dall'app;
+- corretto il calcolo inverso del fatturato affinché rispetti il massimale INPS anche per obiettivi elevati;
+- corretto l'avviso per nuove attività con ricavi annualizzati oltre 85.000 euro ma ricavi effettivi sotto la soglia di uscita immediata;
+- aggiunti `.gitattributes`, CODEOWNERS, pin SHA delle Actions e allowlist degli install script npm; riallineata la policy Dependabot agli aggiornamenti di sola sicurezza;
+- rimossa la richiesta runtime a Google Fonts self-hostando Newsreader nel bundle, in coerenza con l'architettura local-first;
 - ripristinata la type safety dopo gli aggiornamenti delle dipendenze e di TypeScript 6 (tipizzazione esplicita delle varianti Motion, gestione nullable dei callback Base UI Select, formatter Recharts tolleranti ai valori undefined, narrowing corretto nella paginazione preventivi, dichiarazione tipo per import CSS side-effect e generics Zustand persist allineati allo stato parzializzato);
 - aggiornati TypeScript 5.8 → 6.0, ESLint 9 → 10 e `@eslint/js` 9 → 10; migrato `eslint-plugin-import` → `eslint-plugin-import-x` (supporto ESLint 10), con adeguamento di `eslint.config.js`;
 - aggiornati i contributi INPS artigiani e commercianti ai valori 2026 (minimale 18.808 €, contributo fisso 4.521,36 € / 4.611,64 €) secondo la Circolare INPS 14/2026;

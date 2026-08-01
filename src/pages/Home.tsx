@@ -1,5 +1,5 @@
 import { Calculator, Scale, PiggyBank, Target, Calendar, FileText, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { motion } from 'motion/react';
 
 const tools = [

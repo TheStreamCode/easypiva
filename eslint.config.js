@@ -42,11 +42,6 @@ export default tseslint.config(
       'import-x/no-unresolved': 'error',
       ...reactHooks.configs.recommended.rules,
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
-      // react-hooks v7's recommended set promotes the React Compiler rule
-      // set-state-in-effect to an error. Two pre-existing effects (QuotePreview,
-      // QuoteViewport) trip it; keep it as a warning so it stays visible for a
-      // later refactor without blocking CI.
-      'react-hooks/set-state-in-effect': 'warn',
     },
   },
   {
@@ -61,6 +56,13 @@ export default tseslint.config(
     files: ['components/ui/**/*.{ts,tsx}'],
     rules: {
       'react-refresh/only-export-components': 'off',
+    },
+  },
+  {
+    files: ['src/pages/Calculator.tsx', 'src/pages/QuoteBuilder.tsx'],
+    rules: {
+      // React Hook Form's watch API intentionally opts these forms out of compiler memoization.
+      'react-hooks/incompatible-library': 'off',
     },
   },
 );

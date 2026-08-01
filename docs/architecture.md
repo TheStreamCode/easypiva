@@ -8,11 +8,11 @@ L'architettura separa in modo netto UI, logica fiscale pura, stato client-side e
 
 ## Runtime applicativo
 
-- Il routing è gestito con `react-router-dom` in `src/App.tsx`.
+- Il routing dichiarativo è gestito con `react-router` in `src/App.tsx`.
 - Le pagine principali sono lazy-loaded per ridurre il carico iniziale.
 - La build di produzione viene generata in `dist/` tramite `npm run build`.
 - `vercel.json` applica la rewrite verso `index.html` per supportare il routing client-side su hosting statico.
-- La CI GitHub usa Node.js 20 ed esegue `npm run ci` definito in `package.json`.
+- La CI GitHub usa Node.js 24 LTS, definito in `.nvmrc`, ed esegue `npm run ci` da `package.json`.
 
 ## Mappa delle route
 
@@ -98,7 +98,7 @@ La chiave legacy `easypiva-storage` viene letta solo per migrare vecchi dati del
 
 - `.github/workflows/ci.yml` esegue la pipeline applicativa con permessi minimi.
 - `.github/workflows/dependency-review.yml` controlla le pull request che modificano dipendenze.
-- `.github/dependabot.yml` mantiene aggiornati npm e GitHub Actions con pull request schedulate.
+- `.github/dependabot.yml` personalizza le pull request di sicurezza e disabilita gli aggiornamenti di versione ordinari con `open-pull-requests-limit: 0`.
 - `.github/ISSUE_TEMPLATE/` e `.github/pull_request_template.md` standardizzano triage e review mantenendo il workflow `maintainers-only`.
 
 ## Vincoli architetturali

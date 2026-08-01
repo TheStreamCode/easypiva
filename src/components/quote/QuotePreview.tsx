@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -32,14 +32,11 @@ export function QuotePreview({ quote }: { quote: QuoteDraft }) {
   const [isZoomOpen, setIsZoomOpen] = useState(false);
 
   const totalPages = pagination.pages.length;
-  const activePage = pagination.pages[Math.min(activePageIndex, Math.max(0, totalPages - 1))];
+  const visiblePageIndex = Math.min(activePageIndex, Math.max(0, totalPages - 1));
+  const activePage = pagination.pages[visiblePageIndex];
   const activePageContent = activePage
     ? renderPageContent(activePage, quote, pagination, splitTextByBlockId)
     : [];
-
-  useEffect(() => {
-    setActivePageIndex((current) => Math.min(current, Math.max(0, totalPages - 1)));
-  }, [totalPages]);
 
   return (
     <div
@@ -63,8 +60,8 @@ export function QuotePreview({ quote }: { quote: QuoteDraft }) {
             type="button"
             variant="outline"
             size="icon-sm"
-            onClick={() => setActivePageIndex((current) => Math.max(0, current - 1))}
-            disabled={activePageIndex === 0}
+            onClick={() => setActivePageIndex(Math.max(0, visiblePageIndex - 1))}
+            disabled={visiblePageIndex === 0}
             aria-label="Pagina precedente"
             className="h-11 w-11"
           >
@@ -74,8 +71,8 @@ export function QuotePreview({ quote }: { quote: QuoteDraft }) {
             type="button"
             variant="outline"
             size="icon-sm"
-            onClick={() => setActivePageIndex((current) => Math.min(totalPages - 1, current + 1))}
-            disabled={activePageIndex >= totalPages - 1}
+            onClick={() => setActivePageIndex(Math.min(totalPages - 1, visiblePageIndex + 1))}
+            disabled={visiblePageIndex >= totalPages - 1}
             aria-label="Pagina successiva"
             className="h-11 w-11"
           >
@@ -107,7 +104,7 @@ export function QuotePreview({ quote }: { quote: QuoteDraft }) {
         data-testid="quote-preview-page-counter"
         className="mt-3 flex items-center justify-center gap-3 text-base text-zinc-500"
       >
-        <span>{activePageIndex + 1}</span>
+        <span>{visiblePageIndex + 1}</span>
         <span>/</span>
         <span>{totalPages}</span>
       </div>

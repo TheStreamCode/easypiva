@@ -1,5 +1,5 @@
 import { LIMITS } from '../fiscal-data';
-import { getAtecoCoefficient, INPS_RATES } from '../fiscal-data';
+import { getAtecoCoefficient } from '../fiscal-data';
 import { parseNonNegativeNumber } from '../number-input';
 import { calculateInps } from './inps';
 import type { TargetNetInput, TargetNetResult, WarningCode } from './types';
@@ -49,6 +49,18 @@ export function calculateTargetNet(input: TargetNetInput): TargetNetResult {
   const aliquotaImposta = input.nuovaAttivita ? 0.05 : 0.15;
   const nettoAnnuo = parseNonNegativeNumber(input.nettoMensile) * 12;
 
+  if (nettoAnnuo === 0) {
+    return {
+      nettoAnnuo,
+      ricaviNecessari: 0,
+      inpsStimato: 0,
+      tasseStimate: 0,
+      costiForfettari: 0,
+      available: true,
+      warnings: [],
+    };
+  }
+
   if (input.tipoInps === 'nessuno') {
     const denom = 1 - coefficiente * aliquotaImposta;
     const ricaviNecessari = nettoAnnuo / denom;
@@ -70,32 +82,8 @@ export function calculateTargetNet(input: TargetNetInput): TargetNetResult {
     };
   }
 
-  if (input.tipoInps === 'gestioneSeparata') {
-    const aliquotaInps = INPS_RATES.gestioneSeparata.rate;
-    const denom =
-      1 - coefficiente * aliquotaInps - coefficiente * (1 - aliquotaInps) * aliquotaImposta;
-    const ricaviNecessari = nettoAnnuo / denom;
-    const detail = calculateNetForRevenue(
-      ricaviNecessari,
-      coefficiente,
-      aliquotaImposta,
-      input.tipoInps,
-      input.riduzioneInps,
-    );
-
-    return {
-      nettoAnnuo,
-      ricaviNecessari,
-      inpsStimato: detail.inps,
-      tasseStimate: detail.tasse,
-      costiForfettari: ricaviNecessari - detail.redditoLordo,
-      ...buildTargetAvailability(ricaviNecessari),
-    };
-  }
-
   let low = Math.max(0, nettoAnnuo);
   let high = Math.max(nettoAnnuo, 1);
-  let mid = 0;
 
   while (
     calculateNetForRevenue(high, coefficiente, aliquotaImposta, input.tipoInps, input.riduzioneInps)
@@ -105,7 +93,7 @@ export function calculateTargetNet(input: TargetNetInput): TargetNetResult {
   }
 
   for (let i = 0; i < 50; i++) {
-    mid = (low + high) / 2;
+    const mid = (low + high) / 2;
     const detail = calculateNetForRevenue(
       mid,
       coefficiente,
@@ -121,17 +109,21 @@ export function calculateTargetNet(input: TargetNetInput): TargetNetResult {
     }
   }
 
-  const ricaviNecessari = mid;
-  const redditoLordo = ricaviNecessari * coefficiente;
-  const inpsStimato = calculateInps(redditoLordo, input.tipoInps, input.riduzioneInps).totale;
-  const tasseStimate = Math.max(0, redditoLordo - inpsStimato) * aliquotaImposta;
+  const ricaviNecessari = high;
+  const detail = calculateNetForRevenue(
+    ricaviNecessari,
+    coefficiente,
+    aliquotaImposta,
+    input.tipoInps,
+    input.riduzioneInps,
+  );
 
   return {
     nettoAnnuo,
     ricaviNecessari,
-    inpsStimato,
-    tasseStimate,
-    costiForfettari: ricaviNecessari - redditoLordo,
+    inpsStimato: detail.inps,
+    tasseStimate: detail.tasse,
+    costiForfettari: ricaviNecessari - detail.redditoLordo,
     ...buildTargetAvailability(ricaviNecessari),
   };
 }

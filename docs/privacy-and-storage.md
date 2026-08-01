@@ -8,6 +8,7 @@ EasyPIVA è progettata con un approccio `local-first`.
 - La generazione del preventivo e l'export PDF avvengono localmente.
 - Il progetto non richiede account utente.
 - Il codice del repository non invia automaticamente i dati dei calcolatori o del preventivo a backend applicativi.
+- I font Geist e Newsreader sono inclusi nella build e serviti dalla stessa origine, senza richieste a provider di font esterni.
 
 ## Dati elaborati localmente
 
