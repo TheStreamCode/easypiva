@@ -51,8 +51,10 @@ export default function Layout() {
   const isDark = mode === 'dark';
 
   const toggleTheme = (event: MouseEvent<HTMLButtonElement>) => {
-    // Fallback for browsers that don't support View Transitions
-    if (!document.startViewTransition) {
+    const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
+    // Fallback for browsers that don't support View Transitions and for users who reduce motion.
+    if (!document.startViewTransition || prefersReducedMotion) {
       toggleThemeMode();
       return;
     }
@@ -116,6 +118,7 @@ export default function Layout() {
                     <Link
                       key={item.name}
                       to={item.href}
+                      aria-current={isActive ? 'page' : undefined}
                       onClick={() => setSidebarOpen(false)}
                       className={`flex min-h-11 items-center gap-3 px-4 py-3 text-sm rounded-md transition-colors ${
                         isActive
@@ -146,6 +149,7 @@ export default function Layout() {
               <Link
                 key={item.name}
                 to={item.href}
+                aria-current={isActive ? 'page' : undefined}
                 className={`flex items-center gap-3 px-3 py-2 text-sm rounded-md transition-colors ${
                   isActive
                     ? 'bg-zinc-200/50 text-zinc-900 dark:bg-zinc-800/50 dark:text-zinc-100 font-medium'
@@ -184,7 +188,13 @@ export default function Layout() {
             </Button>
             <Logo className="text-xl" />
           </div>
-          <Button variant="ghost" size="icon" onClick={toggleTheme} className="h-11 w-11 -mr-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleTheme}
+            className="h-11 w-11 -mr-2"
+            aria-label={isDark ? 'Attiva modalità chiara' : 'Attiva modalità scura'}
+          >
             {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </Button>
         </header>

@@ -6,7 +6,7 @@ Tutte le modifiche rilevanti a EasyPIVA vengono tracciate in questo file.
 
 Nessuna modifica in attesa di rilascio.
 
-## [1.1.0] - 2026-08-01
+## [1.1.0] - 2026-08-02
 
 - rimosse le devDependencies inutilizzate `@types/express` (nessun uso di Express nel progetto) e `autoprefixer` (il progetto non ha una pipeline PostCSS: Tailwind CSS v4 passa da `@tailwindcss/vite`), per un totale di 14 pacchetti in meno nell'albero di installazione;
 - aggiunti i metadata `bugs` e `keywords` in `package.json`, allineati ai topic GitHub del repository;
@@ -31,7 +31,10 @@ Nessuna modifica in attesa di rilascio.
 - reso deterministico lo smoke test E2E restringendo i link alla navigazione, rimuovendo l'ambiguità con le card della home;
 - allineate documentazione (ADR assunzioni fiscali) e pagina informativa ai dati 2026;
 - uniformata la formattazione del codice sorgente con Prettier;
-- risolte 12 vulnerabilità `npm audit` locali aggiornando le dipendenze nei range consentiti.
+- risolte 12 vulnerabilità `npm audit` locali aggiornando le dipendenze nei range consentiti;
+- aggiunti header HTTP di sicurezza al deployment Vercel (CSP, anti-framing, anti-MIME-sniffing, referrer e permissions policy), con test di regressione sulla configurazione;
+- migliorata l'accessibilità della navigazione e dell'anteprima preventivo con nome accessibile del toggle tema mobile, `aria-current` sulle route attive e scope espliciti sulle intestazioni della tabella;
+- rispettata la preferenza `prefers-reduced-motion` nelle animazioni Motion, nella transizione del tema e nel fallback CSS.
 
 ## [1.0.0] - 2026-05-03
 

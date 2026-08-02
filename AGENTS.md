@@ -107,6 +107,8 @@ Non esiste uno script di deploy nel repository: il deployment è gestito da Verc
 - Il progetto **non usa variabili d'ambiente applicative** e non ha `.env.example`: non introdurne senza una necessità reale. Qualsiasi valore inserito in un bundle Vite (`VITE_*`) è pubblico.
 - `.env*` è già in `.gitignore`. Non committare mai token, chiavi o dati di clienti.
 - Le GitHub Actions sono fissate a commit SHA completi con il tag in commento: mantieni questa convenzione.
+- Gli header HTTP in `vercel.json` sono parte della superficie di sicurezza pubblica e sono coperti da `src/test/deployment-security.test.ts`: non indebolirli senza una motivazione verificata.
+- Le animazioni devono rispettare `prefers-reduced-motion`; conserva sia `MotionConfig reducedMotion="user"` sia il fallback CSS globale.
 - `allowScripts` in `package.json` è l'allowlist npm 11 degli install script: aggiungi voci solo dopo aver revisionato lo script (`npm approve-scripts --allow-scripts-pending` elenca i pendenti).
 - Dependabot apre solo aggiornamenti di sicurezza (`open-pull-requests-limit: 0` sui version update): non riattivare i version update senza una decisione esplicita del maintainer.
 - Le vulnerabilità si segnalano privatamente secondo `SECURITY.md`, mai via issue pubbliche.

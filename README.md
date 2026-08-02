@@ -95,7 +95,7 @@ docs/               # Architettura, privacy, ADR fiscale, governance
 ## Deployment
 
 - La build statica prodotta da `npm run build` in `dist/` viene pubblicata su Vercel: <https://easypiva.vercel.app>.
-- `vercel.json` applica la rewrite `/(.*) → /index.html` necessaria al routing client-side su hosting statico.
+- `vercel.json` applica la rewrite `/(.*) → /index.html` necessaria al routing client-side e gli header HTTP di sicurezza (CSP, anti-framing, MIME sniffing, referrer e permissions policy).
 - Non esiste un backend applicativo né una configurazione di deploy alternativa nel repository.
 
 ## Documentazione

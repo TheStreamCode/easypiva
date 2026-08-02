@@ -11,7 +11,8 @@ L'architettura separa in modo netto UI, logica fiscale pura, stato client-side e
 - Il routing dichiarativo è gestito con `react-router` in `src/App.tsx`.
 - Le pagine principali sono lazy-loaded per ridurre il carico iniziale.
 - La build di produzione viene generata in `dist/` tramite `npm run build`.
-- `vercel.json` applica la rewrite verso `index.html` per supportare il routing client-side su hosting statico.
+- `vercel.json` applica la rewrite verso `index.html` per supportare il routing client-side su hosting statico e una policy di header HTTP verificata dai test (`Content-Security-Policy`, anti-framing, anti-MIME-sniffing, referrer e permissions policy).
+- `MotionConfig` e il fallback CSS rispettano `prefers-reduced-motion`; la transizione animata del tema viene saltata quando l'utente richiede movimento ridotto.
 - La CI GitHub usa Node.js 24 LTS, definito in `.nvmrc`, ed esegue `npm run ci` da `package.json`.
 
 ## Mappa delle route

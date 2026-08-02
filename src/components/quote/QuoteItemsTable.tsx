@@ -41,11 +41,21 @@ export function QuoteItemsTable({
         {showHeader ? (
           <thead>
             <tr className="border-y border-zinc-200 text-[10px] uppercase tracking-[0.18em] text-zinc-500">
-              <th className="py-3 pr-3 font-medium">Descrizione</th>
-              <th className="w-[10%] px-2 py-3 text-right font-medium">Qta</th>
-              <th className="w-[12%] px-2 py-3 text-right font-medium">Unita</th>
-              <th className="w-[18%] px-2 py-3 text-right font-medium">Prezzo</th>
-              <th className="w-[18%] pl-2 py-3 text-right font-medium">Totale</th>
+              <th scope="col" className="py-3 pr-3 font-medium">
+                Descrizione
+              </th>
+              <th scope="col" className="w-[10%] px-2 py-3 text-right font-medium">
+                Qta
+              </th>
+              <th scope="col" className="w-[12%] px-2 py-3 text-right font-medium">
+                Unita
+              </th>
+              <th scope="col" className="w-[18%] px-2 py-3 text-right font-medium">
+                Prezzo
+              </th>
+              <th scope="col" className="w-[18%] pl-2 py-3 text-right font-medium">
+                Totale
+              </th>
             </tr>
           </thead>
         ) : null}
