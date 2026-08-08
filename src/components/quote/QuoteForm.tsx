@@ -1,4 +1,4 @@
-import { useRef, type ChangeEvent, type ReactNode } from 'react';
+import { useRef, useState, type ChangeEvent, type ReactNode } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/select';
 import { quotePlaceholder } from '@/lib/quote/placeholders';
 import type { QuoteVatMode } from '@/lib/quote/types';
+import { ALLOWED_LOGO_MIME_TYPES, isSafeLogoDataUrl } from '@/lib/quote/logo';
 import { Plus, Trash2, Upload } from 'lucide-react';
 import type { QuoteFormValues } from './quoteFormSchema';
 
@@ -81,6 +82,7 @@ export function QuoteForm({
   const { fields, append, remove } = useFieldArray<QuoteFormValues>({ name: 'lineItems' });
   const fileInputRef = useRef<HTMLInputElement>(null);
   const itemIdRef = useRef(100);
+  const [logoError, setLogoError] = useState<string | null>(null);
 
   const vatMode = watch('vatMode') as QuoteVatMode;
   const logoDataUrl = watch('logoDataUrl');
@@ -91,26 +93,35 @@ export function QuoteForm({
     const file = event.target.files?.[0];
     if (!file) return;
 
+    setLogoError(null);
+    if (!ALLOWED_LOGO_MIME_TYPES.includes(file.type as (typeof ALLOWED_LOGO_MIME_TYPES)[number])) {
+      setLogoError('Formato non supportato. Usa un file PNG, JPEG o WebP.');
+      event.target.value = '';
+      return;
+    }
+
     if (file.size > MAX_LOGO_FILE_SIZE_BYTES) {
-      setValue('logoDataUrl', '', { shouldValidate: false });
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
+      setLogoError('Il logo supera il limite massimo di 1 MB.');
+      event.target.value = '';
       return;
     }
 
     const reader = new FileReader();
     reader.onload = () => {
       const result = reader.result;
-      if (typeof result === 'string') {
+      if (typeof result === 'string' && isSafeLogoDataUrl(result)) {
         setValue('logoDataUrl', result, { shouldValidate: false });
+      } else {
+        setLogoError('Impossibile leggere il logo selezionato.');
       }
     };
+    reader.onerror = () => setLogoError('Impossibile leggere il logo selezionato.');
     reader.readAsDataURL(file);
   };
 
   const handleRemoveLogo = () => {
     setValue('logoDataUrl', '', { shouldValidate: false });
+    setLogoError(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -228,19 +239,24 @@ export function QuoteForm({
                 </Button>
               </div>
             ) : null}
-            <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-dashed border-zinc-300 px-3 py-2 text-sm text-zinc-600 transition-colors hover:border-zinc-400 hover:text-zinc-900 dark:border-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-500 dark:hover:text-zinc-100">
+            <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-dashed border-zinc-300 px-3 py-2 text-sm text-zinc-600 transition-colors hover:border-zinc-400 hover:text-zinc-900 focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50 dark:border-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-500 dark:hover:text-zinc-100">
               <Upload className="h-4 w-4" />
               Carica logo
               <input
                 ref={fileInputRef}
                 type="file"
-                accept="image/*"
+                accept={ALLOWED_LOGO_MIME_TYPES.join(',')}
                 className="sr-only"
                 aria-label="Logo aziendale"
                 onChange={handleLogoUpload}
               />
             </label>
           </div>
+          {logoError ? (
+            <p role="alert" className="text-xs text-destructive">
+              {logoError}
+            </p>
+          ) : null}
         </div>
       </fieldset>
 

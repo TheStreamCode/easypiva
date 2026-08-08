@@ -35,12 +35,20 @@ describe('calculateInps', () => {
     expect(result.totale).toBeCloseTo(16945.2, 2);
   });
 
-  it('caps the taxable income at the massimale (122.295 €)', () => {
+  it('defaults to the post-1995 massimale (122.295 €)', () => {
     const result = calculateInps(130000, 'commercianti');
 
     // income capped at 122295: base band 24,48% + surcharge band 25,48%
     expect(result.variabile).toBeCloseTo(25994.3276, 2);
     expect(result.totale).toBeCloseTo(30605.9676, 2);
+  });
+
+  it('uses the lower massimale for contribution seniority at 31 December 1995', () => {
+    const result = calculateInps(130000, 'commercianti', false, 'pre1996');
+
+    // income capped at 93,707: base band 24.48% + surcharge band 25.48%
+    expect(result.variabile).toBeCloseTo(18710.1052, 2);
+    expect(result.totale).toBeCloseTo(23321.7452, 2);
   });
 
   it('caps Gestione Separata at the massimale', () => {

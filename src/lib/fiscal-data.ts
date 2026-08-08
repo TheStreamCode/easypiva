@@ -5,6 +5,7 @@ export type AtecoCategory = {
 };
 
 export type InpsType = 'gestioneSeparata' | 'artigiani' | 'commercianti' | 'nessuno';
+export type ContributionHistory = 'pre1996' | 'post1995';
 
 export const ATECO_CATEGORIES: AtecoCategory[] = [
   { id: '1', name: 'Industrie alimentari e delle bevande (10-11)', coefficient: 40 },
@@ -32,7 +33,7 @@ export const ATECO_CATEGORIES: AtecoCategory[] = [
 
 // Valori 2026 — Circ. INPS 8/2026 (Gestione Separata) e 14/2026 (Artigiani/Commercianti).
 // surchargeThreshold: oltre questa soglia di reddito l'aliquota IVS sale di +1% (25% / 25,48%).
-// massimale: reddito massimo annuo imponibile (iscritti dal 1996).
+// I massimali Artigiani/Commercianti dipendono dall'anzianità contributiva al 31/12/1995.
 export const INPS_RATES = {
   gestioneSeparata: {
     rate: 0.2607,
@@ -44,7 +45,8 @@ export const INPS_RATES = {
     rateOverMinimal: 0.24,
     surchargeThreshold: 56224,
     surchargeRate: 0.01,
-    massimale: 122295,
+    massimalePre1996: 93707,
+    massimalePost1995: 122295,
   },
   commercianti: {
     minimalIncome: 18808,
@@ -52,7 +54,8 @@ export const INPS_RATES = {
     rateOverMinimal: 0.2448,
     surchargeThreshold: 56224,
     surchargeRate: 0.01,
-    massimale: 122295,
+    massimalePre1996: 93707,
+    massimalePost1995: 122295,
   },
 } as const;
 

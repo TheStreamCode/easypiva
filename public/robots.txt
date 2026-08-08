@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://easypiva.vercel.app/sitemap.xml

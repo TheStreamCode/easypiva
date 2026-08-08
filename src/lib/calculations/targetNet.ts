@@ -10,9 +10,10 @@ function calculateNetForRevenue(
   aliquotaImposta: number,
   tipoInps: TargetNetInput['tipoInps'],
   riduzioneInps: boolean,
+  contributionHistory: TargetNetInput['contributionHistory'],
 ) {
   const redditoLordo = ricavi * coefficiente;
-  const inps = calculateInps(redditoLordo, tipoInps, riduzioneInps);
+  const inps = calculateInps(redditoLordo, tipoInps, riduzioneInps, contributionHistory);
   const tasse = Math.max(0, redditoLordo - inps.totale) * aliquotaImposta;
 
   return {
@@ -70,6 +71,7 @@ export function calculateTargetNet(input: TargetNetInput): TargetNetResult {
       aliquotaImposta,
       input.tipoInps,
       input.riduzioneInps,
+      input.contributionHistory,
     );
 
     return {
@@ -86,8 +88,14 @@ export function calculateTargetNet(input: TargetNetInput): TargetNetResult {
   let high = Math.max(nettoAnnuo, 1);
 
   while (
-    calculateNetForRevenue(high, coefficiente, aliquotaImposta, input.tipoInps, input.riduzioneInps)
-      .netto < nettoAnnuo
+    calculateNetForRevenue(
+      high,
+      coefficiente,
+      aliquotaImposta,
+      input.tipoInps,
+      input.riduzioneInps,
+      input.contributionHistory,
+    ).netto < nettoAnnuo
   ) {
     high *= 2;
   }
@@ -100,6 +108,7 @@ export function calculateTargetNet(input: TargetNetInput): TargetNetResult {
       aliquotaImposta,
       input.tipoInps,
       input.riduzioneInps,
+      input.contributionHistory,
     );
 
     if (detail.netto < nettoAnnuo) {
@@ -116,6 +125,7 @@ export function calculateTargetNet(input: TargetNetInput): TargetNetResult {
     aliquotaImposta,
     input.tipoInps,
     input.riduzioneInps,
+    input.contributionHistory,
   );
 
   return {

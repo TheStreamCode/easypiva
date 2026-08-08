@@ -6,6 +6,20 @@ Tutte le modifiche rilevanti a EasyPIVA vengono tracciate in questo file.
 
 Nessuna modifica in attesa di rilascio.
 
+## [1.1.1] - 2026-08-08
+
+- corretto il calcolo INPS 2026 per Artigiani e Commercianti distinguendo il massimale di 93.707€ per chi possiede anzianità contributiva al 31 dicembre 1995 dal massimale di 122.295€ applicabile negli altri casi, con scelta esplicita nei tre simulatori e nel confronto regimi;
+- documentate le due fasce di massimale nell'ADR fiscale e nella pagina informativa, ora collegata direttamente alle fonti normative primarie;
+- corrette la data predefinita del preventivo affinché usi il giorno locale e la persistenza dell'ultima modifica ancora in debounce alla chiusura della pagina;
+- limitato l'upload del logo a PNG, JPEG e WebP entro 1 MB, sanificando anche le bozze già archiviate e mostrando messaggi accessibili in caso di errore;
+- aggiunto un messaggio accessibile quando la generazione PDF fallisce;
+- migliorata l'accessibilità con skip link, titoli documento per route, menu mobile modale con gestione nativa di focus ed Escape, etichetta testuale del grafico del calcolatore e contrasto corretto nella hero;
+- eliminato il layout shift del primo caricamento rendendo eager la piccola home e mantenendo il lazy loading per le route applicative più pesanti;
+- aggiunti test axe end-to-end sulle otto route pubbliche e test unitari per massimali INPS, data locale, logo e gestione errori;
+- aggiunti `robots.txt`, `sitemap.xml` e `llms.txt` statici per rendere esplicite le route pubbliche e la natura informativa del progetto;
+- riorganizzato il README in modo product-first, chiarito l'ambito delle issue e aggiunta una social preview GitHub dedicata con provenienza documentata;
+- aggiornate le dipendenze transitive interessate dagli advisory npm; `npm audit` non rileva vulnerabilità note.
+
 ## [1.1.0] - 2026-08-02
 
 - rimosse le devDependencies inutilizzate `@types/express` (nessun uso di Express nel progetto) e `autoprefixer` (il progetto non ha una pipeline PostCSS: Tailwind CSS v4 passa da `@tailwindcss/vite`), per un totale di 14 pacchetti in meno nell'albero di installazione;

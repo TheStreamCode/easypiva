@@ -1,0 +1,15 @@
+# EasyPIVA
+
+EasyPIVA è una web app open source e local-first per simulazioni fiscali indicative dedicate alla Partita IVA italiana. Non offre consulenza fiscale, legale o contabile.
+
+## Pagine principali
+
+- [Dashboard](https://easypiva.vercel.app/): panoramica degli strumenti.
+- [Calcolatore forfettario](https://easypiva.vercel.app/calcolatore): stima imposta sostitutiva, contributi e netto.
+- [Confronto regimi](https://easypiva.vercel.app/confronto): confronto semplificato tra forfettario e ordinario.
+- [Contributi INPS](https://easypiva.vercel.app/contributi): simulazione 2026 per Gestione Separata, Artigiani e Commercianti.
+- [Informativa e fonti](https://easypiva.vercel.app/informativa): disclaimer, privacy, storage locale e riferimenti normativi.
+
+## Codice sorgente
+
+- [Repository GitHub](https://github.com/TheStreamCode/easypiva)

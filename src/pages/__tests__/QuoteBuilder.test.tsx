@@ -106,6 +106,17 @@ describe('QuoteBuilder draft persistence', () => {
       expect(parsed.logoDataUrl).toBe('data:image/png;base64,abc123');
     });
   });
+
+  test('discards unsafe logo data restored from storage', () => {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ logoDataUrl: 'data:image/svg+xml;base64,PHN2Zz48L3N2Zz4=' }),
+    );
+
+    render(<QuoteBuilder />);
+
+    expect(screen.queryByAltText('Logo aziendale')).not.toBeInTheDocument();
+  });
 });
 
 describe('QuoteBuilder responsive layout', () => {
@@ -245,6 +256,37 @@ describe('QuoteBuilder safe defaults', () => {
     expect(await screen.findByText(/ragione sociale obbligatoria/i)).toBeInTheDocument();
     expect(screen.getByText(/email obbligatoria/i)).toBeInTheDocument();
     expect(screen.getByText(/nome cliente obbligatorio/i)).toBeInTheDocument();
+  });
+
+  test('shows an accessible message when PDF export fails', async () => {
+    const { exportQuoteToPdf } = await import('@/lib/quote/export-pdf');
+    vi.mocked(exportQuoteToPdf).mockRejectedValueOnce(new Error('render failed'));
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        providerName: 'Studio Test',
+        providerAddress: 'Via Roma 1',
+        providerCity: 'Roma',
+        providerVatNumber: 'IT12345678901',
+        providerEmail: 'studio@example.com',
+        clientName: 'Cliente Test',
+        clientAddress: 'Via Milano 2',
+        clientEmail: 'cliente@example.com',
+        quoteNumber: 'TEST-001',
+        issueDate: '2026-08-08',
+        title: 'Preventivo test',
+        lineItems: [{ id: '1', description: 'Servizio', quantity: 1, unitPrice: 100 }],
+        discount: 0,
+        vatMode: 'none',
+        logoDataUrl: '',
+      }),
+    );
+
+    const user = userEvent.setup();
+    render(<QuoteBuilder />);
+    await user.click(screen.getByTestId('quote-export-button'));
+
+    expect(await screen.findByRole('alert')).toHaveTextContent(/non è stato possibile generare/i);
   });
 
   test('shows a persistence warning when autosave fails', async () => {

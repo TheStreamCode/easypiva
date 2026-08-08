@@ -66,8 +66,8 @@ export default function Home() {
           transition={{ duration: 0.5, ease: 'easeOut' }}
           className="text-4xl md:text-6xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 max-w-3xl text-balance"
         >
-          Simulazioni fiscali precise e aggiornate, <br className="hidden md:block" />
-          <span className="text-zinc-400 dark:text-zinc-500">
+          Simulazioni fiscali indicative e aggiornate, <br className="hidden md:block" />
+          <span className="text-zinc-600 dark:text-zinc-400">
             gratuito, senza registrazione, open source.
           </span>
         </motion.h1>
@@ -75,7 +75,7 @@ export default function Home() {
 
       <section>
         <div className="mb-8">
-          <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-wider">
+          <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-wider dark:text-zinc-400">
             Strumenti disponibili
           </h2>
         </div>
@@ -119,7 +119,7 @@ export default function Home() {
         <div className="flex flex-col md:flex-row gap-8 md:gap-16">
           <div className="md:w-1/3">
             <h2 className="text-sm font-medium text-zinc-900 dark:text-zinc-100">Novità 2026</h2>
-            <p className="mt-1 text-sm text-zinc-500">
+            <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
               Ultimi aggiornamenti normativi integrati nei calcolatori.
             </p>
           </div>

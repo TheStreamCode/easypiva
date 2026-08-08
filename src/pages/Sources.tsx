@@ -164,25 +164,34 @@ export default function Sources() {
                   </strong>{' '}
                   Gestione Separata 26,07%; Artigiani e Commercianti con minimale 2026 di 18.808€,
                   aliquota aggiuntiva +1% oltre 56.224€ ed eventuale riduzione del 35% per i
-                  forfettari.
+                  forfettari. Per Artigiani e Commercianti il massimale è 93.707€ in presenza di
+                  anzianità contributiva al 31 dicembre 1995 e 122.295€ negli altri casi.
                 </li>
               </ul>
-              <div className="mt-4 flex gap-4">
+              <div className="mt-4 flex flex-wrap gap-4">
                 <a
-                  href="https://www.agenziaentrate.gov.it/"
+                  href="https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2014;190"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-sm font-medium text-blue-600 transition-colors hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
                 >
-                  Agenzia delle Entrate <ExternalLink className="h-4 w-4" />
+                  Legge 190/2014 <ExternalLink className="h-4 w-4" />
                 </a>
                 <a
-                  href="https://www.inps.it/"
+                  href="https://www.inps.it/it/it/inps-comunica/atti/circolari-messaggi-e-normativa/dettaglio.circolari-e-messaggi.2026.02.circolare-numero-14-del-09-02-2026_15162.html"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-sm font-medium text-blue-600 transition-colors hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
                 >
-                  INPS <ExternalLink className="h-4 w-4" />
+                  Circolare INPS 14/2026 <ExternalLink className="h-4 w-4" />
+                </a>
+                <a
+                  href="https://www.inps.it/it/it/inps-comunica/atti/circolari-messaggi-e-normativa/dettaglio.circolari-e-messaggi.2026.02.circolare-numero-8-del-03-02-2026_15153.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-sm font-medium text-blue-600 transition-colors hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                >
+                  Circolare INPS 8/2026 <ExternalLink className="h-4 w-4" />
                 </a>
               </div>
             </div>

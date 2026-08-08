@@ -6,7 +6,12 @@ export function calculateForfettario(input: ForfettarioInput): ForfettarioResult
   const coefficiente = getAtecoCoefficient(input.atecoId) / 100;
   const ricaviRagguagliati = input.mesiAttivita > 0 ? (input.ricavi / input.mesiAttivita) * 12 : 0;
   const redditoLordo = input.ricavi * coefficiente;
-  const inps = calculateInps(redditoLordo, input.tipoInps, input.riduzioneInps);
+  const inps = calculateInps(
+    redditoLordo,
+    input.tipoInps,
+    input.riduzioneInps,
+    input.contributionHistory,
+  );
   const contributiConsiderati = input.contributiVersati > 0 ? input.contributiVersati : inps.totale;
   const redditoNettoImponibile = Math.max(0, redditoLordo - contributiConsiderati);
   const aliquotaImposta = input.nuovaAttivita ? 0.05 : 0.15;

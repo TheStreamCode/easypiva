@@ -1,10 +1,11 @@
-import { INPS_RATES, type InpsType } from '../fiscal-data';
+import { INPS_RATES, type ContributionHistory, type InpsType } from '../fiscal-data';
 import type { InpsCalculation } from './types';
 
 export function calculateInps(
   redditoLordo: number,
   tipoInps: InpsType,
   riduzioneInps = false,
+  contributionHistory: ContributionHistory = 'post1995',
 ): InpsCalculation {
   const imponibile = Math.max(0, redditoLordo);
 
@@ -20,12 +21,14 @@ export function calculateInps(
   }
 
   const rates = INPS_RATES[tipoInps];
+  const massimale =
+    contributionHistory === 'pre1996' ? rates.massimalePre1996 : rates.massimalePost1995;
   const riduzione = riduzioneInps ? 0.65 : 1;
   const fisso = rates.minimalContribution * riduzione;
 
   // Il contributo variabile si calcola sull'eccedenza oltre il minimale, fino al massimale.
   // Oltre la soglia surchargeThreshold l'aliquota IVS aumenta di surchargeRate (+1%).
-  const cappedIncome = Math.min(imponibile, rates.massimale);
+  const cappedIncome = Math.min(imponibile, massimale);
   let variabile = 0;
   if (cappedIncome > rates.minimalIncome) {
     const baseBand = Math.min(cappedIncome, rates.surchargeThreshold) - rates.minimalIncome;

@@ -9,7 +9,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { ATECO_CATEGORIES } from '@/lib/fiscal-data';
-import type { InpsType } from '@/lib/fiscal-data';
+import type { ContributionHistory, InpsType } from '@/lib/fiscal-data';
+import { ContributionHistorySelect } from '../components/ContributionHistorySelect';
 import {
   BarChart,
   Bar,
@@ -33,6 +34,7 @@ export default function Comparison() {
   const [nuovaAttivita, setNuovaAttivita] = useState(false);
   const [tipoInps, setTipoInps] = useState<InpsType>('gestioneSeparata');
   const [riduzioneInps, setRiduzioneInps] = useState(false);
+  const [contributionHistory, setContributionHistory] = useState<ContributionHistory>('post1995');
 
   const result = compareRegimes({
     ricavi,
@@ -41,6 +43,7 @@ export default function Comparison() {
     nuovaAttivita,
     tipoInps,
     riduzioneInps,
+    contributionHistory,
   });
   const chartData = [
     {
@@ -142,20 +145,26 @@ export default function Comparison() {
             </div>
 
             {(tipoInps === 'artigiani' || tipoInps === 'commercianti') && (
-              <div className="flex items-center justify-between py-4 border-y border-zinc-200 dark:border-zinc-800">
-                <div className="space-y-1">
-                  <Label htmlFor="riduzioneInps" className="text-zinc-700 dark:text-zinc-300">
-                    Riduzione INPS 35%
-                  </Label>
-                  <p className="text-xs text-zinc-500">
-                    Applicabile su richiesta per i forfettari.
-                  </p>
-                </div>
-                <Switch
-                  id="riduzioneInps"
-                  checked={riduzioneInps}
-                  onCheckedChange={setRiduzioneInps}
+              <div className="space-y-6">
+                <ContributionHistorySelect
+                  value={contributionHistory}
+                  onValueChange={setContributionHistory}
                 />
+                <div className="flex items-center justify-between py-4 border-y border-zinc-200 dark:border-zinc-800">
+                  <div className="space-y-1">
+                    <Label htmlFor="riduzioneInps" className="text-zinc-700 dark:text-zinc-300">
+                      Riduzione INPS 35%
+                    </Label>
+                    <p className="text-xs text-zinc-500">
+                      Applicabile su richiesta per i forfettari.
+                    </p>
+                  </div>
+                  <Switch
+                    id="riduzioneInps"
+                    checked={riduzioneInps}
+                    onCheckedChange={setRiduzioneInps}
+                  />
+                </div>
               </div>
             )}
 
