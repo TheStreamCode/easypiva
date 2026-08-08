@@ -29,6 +29,22 @@ describe('compareRegimes', () => {
     expect(result.ordinario.inps).toBeCloseTo(9607.44, 2);
   });
 
+  it('propagates contribution seniority to the ordinary-regime INPS estimate', () => {
+    const baseInput = {
+      ricavi: 150000,
+      costiReali: 0,
+      atecoId: '8',
+      nuovaAttivita: false,
+      tipoInps: 'commercianti' as const,
+      riduzioneInps: false,
+    };
+
+    const pre1996 = compareRegimes({ ...baseInput, contributionHistory: 'pre1996' });
+    const post1995 = compareRegimes({ ...baseInput, contributionHistory: 'post1995' });
+
+    expect(pre1996.ordinario.inps).toBeLessThan(post1995.ordinario.inps);
+  });
+
   it('marks the forfettario as unavailable above the immediate exit threshold', () => {
     const result = compareRegimes({
       ricavi: 100001,

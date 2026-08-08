@@ -5,6 +5,8 @@ import { Download } from 'lucide-react';
 import { motion } from 'motion/react';
 
 import { Button } from '@/components/ui/button';
+import { formatLocalDateInput } from '@/lib/local-date';
+import { isSafeLogoDataUrl } from '@/lib/quote/logo';
 import { QuoteForm, type QuoteFormValues } from '../components/quote/QuoteForm';
 import { QuotePreview } from '../components/quote/QuotePreview';
 import { QuoteExportPages } from '../components/quote/QuoteExportPages';
@@ -35,7 +37,7 @@ function defaultFormValues(): QuoteFormValues {
     clientTaxCode: '',
     clientEmail: '',
     quoteNumber: '',
-    issueDate: new Date().toISOString().slice(0, 10),
+    issueDate: formatLocalDateInput(),
     title: '',
     offerValidity: '',
     deliveryTiming: '',
@@ -123,7 +125,9 @@ function sanitizeDraft(input: Partial<QuoteFormValues>): QuoteFormValues {
     paymentInstructions: String(input.paymentInstructions ?? defaults.paymentInstructions),
     causale: String(input.causale ?? defaults.causale),
     notes: String(input.notes ?? defaults.notes),
-    logoDataUrl: String(input.logoDataUrl ?? defaults.logoDataUrl),
+    logoDataUrl: isSafeLogoDataUrl(String(input.logoDataUrl ?? ''))
+      ? String(input.logoDataUrl ?? '')
+      : defaults.logoDataUrl,
   };
 }
 
@@ -179,7 +183,9 @@ function formValuesToDraft(values: QuoteFormValues): QuoteDraft {
 export default function QuoteBuilder() {
   const [isExporting, setIsExporting] = useState(false);
   const [hasDraftSaveError, setHasDraftSaveError] = useState(false);
+  const [exportError, setExportError] = useState<string | null>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pendingDraftRef = useRef<unknown>(null);
 
   const form = useForm<QuoteFormValues>({
     resolver: zodResolver(quoteFormSchema),
@@ -193,6 +199,7 @@ export default function QuoteBuilder() {
   // Persist draft on change (debounced)
   useEffect(() => {
     const subscription = form.watch((values) => {
+      pendingDraftRef.current = values;
       if (debounceRef.current) {
         clearTimeout(debounceRef.current);
       }
@@ -200,12 +207,17 @@ export default function QuoteBuilder() {
       debounceRef.current = setTimeout(() => {
         const didSave = writeStorageItem(STORAGE_KEY, JSON.stringify(values));
         setHasDraftSaveError(!didSave);
+        pendingDraftRef.current = null;
       }, DEBOUNCE_MS);
     });
 
     return () => {
       if (debounceRef.current) {
         clearTimeout(debounceRef.current);
+      }
+
+      if (pendingDraftRef.current) {
+        writeStorageItem(STORAGE_KEY, JSON.stringify(pendingDraftRef.current));
       }
 
       subscription.unsubscribe();
@@ -216,6 +228,7 @@ export default function QuoteBuilder() {
 
   const handleExport = useCallback(async (values: QuoteFormValues) => {
     setIsExporting(true);
+    setExportError(null);
     try {
       const draft = formValuesToDraft(values);
       const { exportQuoteToPdf } = await import('@/lib/quote/export-pdf');
@@ -224,6 +237,7 @@ export default function QuoteBuilder() {
       });
     } catch (error) {
       console.error('PDF export failed:', error);
+      setExportError('Non è stato possibile generare il PDF. Riprova tra qualche istante.');
     } finally {
       setIsExporting(false);
     }
@@ -252,6 +266,14 @@ export default function QuoteBuilder() {
           >
             Bozza non salvata: lo storage locale del browser non e disponibile o ha esaurito lo
             spazio.
+          </p>
+        ) : null}
+        {exportError ? (
+          <p
+            role="alert"
+            className="mt-3 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900 dark:border-red-900/60 dark:bg-red-950/20 dark:text-red-100"
+          >
+            {exportError}
           </p>
         ) : null}
       </div>

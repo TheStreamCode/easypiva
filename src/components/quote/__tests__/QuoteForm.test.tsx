@@ -208,7 +208,7 @@ describe('QuoteForm', () => {
 
     const fileInput = document.querySelector('input[type="file"]');
     expect(fileInput).toBeInTheDocument();
-    expect(fileInput).toHaveAttribute('accept', 'image/*');
+    expect(fileInput).toHaveAttribute('accept', 'image/png,image/jpeg,image/webp');
   });
 
   it('starts with one line item row', () => {
@@ -361,6 +361,26 @@ describe('QuoteForm', () => {
     });
 
     globalThis.FileReader = originalFileReader;
+  });
+
+  it('rejects active image formats with an accessible error', async () => {
+    render(<FormWrapper />);
+
+    const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+    const file = new File(['<svg></svg>'], 'logo.svg', { type: 'image/svg+xml' });
+    fireEvent.change(fileInput, { target: { files: [file] } });
+
+    expect(await screen.findByRole('alert')).toHaveTextContent(/formato non supportato/i);
+  });
+
+  it('reports logos larger than 1 MB without removing an existing logo', async () => {
+    render(<FormWrapper />);
+
+    const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+    const file = new File([new Uint8Array(1_000_001)], 'large.png', { type: 'image/png' });
+    fireEvent.change(fileInput, { target: { files: [file] } });
+
+    expect(await screen.findByRole('alert')).toHaveTextContent(/limite massimo di 1 MB/i);
   });
 
   it('does not break form assumptions when optional sections are empty', () => {

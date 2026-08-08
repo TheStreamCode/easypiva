@@ -13,14 +13,16 @@ import { motion } from 'motion/react';
 import { calculateInps } from '@/lib/calculations';
 import { formatCurrency } from '@/lib/format';
 import { parseNonNegativeNumber } from '@/lib/number-input';
-import type { InpsType } from '@/lib/fiscal-data';
+import type { ContributionHistory, InpsType } from '@/lib/fiscal-data';
+import { ContributionHistorySelect } from '../components/ContributionHistorySelect';
 
 export default function Contributions() {
   const [redditoLordo, setRedditoLordo] = useState(30000);
   const [tipoInps, setTipoInps] = useState<InpsType>('gestioneSeparata');
   const [riduzioneInps, setRiduzioneInps] = useState(false);
+  const [contributionHistory, setContributionHistory] = useState<ContributionHistory>('post1995');
 
-  const result = calculateInps(redditoLordo, tipoInps, riduzioneInps);
+  const result = calculateInps(redditoLordo, tipoInps, riduzioneInps, contributionHistory);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -90,18 +92,24 @@ export default function Contributions() {
             </div>
 
             {(tipoInps === 'artigiani' || tipoInps === 'commercianti') && (
-              <div className="flex items-center justify-between py-4 border-y border-zinc-200 dark:border-zinc-800">
-                <div className="space-y-1">
-                  <Label htmlFor="riduzioneInps" className="text-zinc-700 dark:text-zinc-300">
-                    Riduzione 35% Forfettari
-                  </Label>
-                  <p className="text-xs text-zinc-500">Solo per regime forfettario</p>
-                </div>
-                <Switch
-                  id="riduzioneInps"
-                  checked={riduzioneInps}
-                  onCheckedChange={setRiduzioneInps}
+              <div className="space-y-6">
+                <ContributionHistorySelect
+                  value={contributionHistory}
+                  onValueChange={setContributionHistory}
                 />
+                <div className="flex items-center justify-between py-4 border-y border-zinc-200 dark:border-zinc-800">
+                  <div className="space-y-1">
+                    <Label htmlFor="riduzioneInps" className="text-zinc-700 dark:text-zinc-300">
+                      Riduzione 35% Forfettari
+                    </Label>
+                    <p className="text-xs text-zinc-500">Solo per regime forfettario</p>
+                  </div>
+                  <Switch
+                    id="riduzioneInps"
+                    checked={riduzioneInps}
+                    onCheckedChange={setRiduzioneInps}
+                  />
+                </div>
               </div>
             )}
           </div>

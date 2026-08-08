@@ -1,4 +1,4 @@
-import type { InpsType } from '../fiscal-data';
+import type { ContributionHistory, InpsType } from '../fiscal-data';
 
 export type WarningSeverity = 'warning' | 'critical';
 
@@ -21,6 +21,7 @@ export type ForfettarioInput = {
   nuovaAttivita: boolean;
   tipoInps: InpsType;
   riduzioneInps: boolean;
+  contributionHistory?: ContributionHistory;
   speseDipendenti: number;
   redditoDipendente: number;
 };
@@ -53,6 +54,7 @@ export type ComparisonInput = {
   nuovaAttivita: boolean;
   tipoInps?: InpsType;
   riduzioneInps?: boolean;
+  contributionHistory?: ContributionHistory;
 };
 
 export type RegimeResult = {
@@ -77,6 +79,7 @@ export type TargetNetInput = {
   nuovaAttivita: boolean;
   tipoInps: InpsType;
   riduzioneInps: boolean;
+  contributionHistory?: ContributionHistory;
 };
 
 export type TargetNetResult = {

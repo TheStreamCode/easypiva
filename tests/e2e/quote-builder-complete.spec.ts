@@ -36,10 +36,11 @@ test('completes a preventivo with logo and exports a pdf', async ({ page }) => {
 
   const logoInput = page.locator('input[type="file"]');
   await logoInput.setInputFiles({
-    name: 'logo.svg',
-    mimeType: 'image/svg+xml',
+    name: 'logo.png',
+    mimeType: 'image/png',
     buffer: Buffer.from(
-      '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect width="200" height="200" fill="#111827"/><text x="50%" y="52%" dominant-baseline="middle" text-anchor="middle" fill="white" font-size="36">G</text></svg>',
+      'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=',
+      'base64',
     ),
   });
 

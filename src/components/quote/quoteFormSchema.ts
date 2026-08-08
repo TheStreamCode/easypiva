@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { isSafeLogoDataUrl } from '@/lib/quote/logo';
 
 export const quoteFormSchema = z.object({
   providerName: z.string().min(1, 'Ragione sociale obbligatoria'),
@@ -39,7 +40,7 @@ export const quoteFormSchema = z.object({
   paymentInstructions: z.string(),
   causale: z.string(),
   notes: z.string(),
-  logoDataUrl: z.string(),
+  logoDataUrl: z.string().refine(isSafeLogoDataUrl, 'Formato logo non supportato'),
 });
 
 export type QuoteFormValues = z.infer<typeof quoteFormSchema>;

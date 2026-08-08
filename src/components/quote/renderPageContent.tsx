@@ -54,7 +54,7 @@ export function renderPageContent(
                 </div>
               )}
               <div>
-                <p className="text-[10px] font-medium uppercase tracking-[0.24em] text-zinc-400">
+                <p className="text-[10px] font-medium uppercase tracking-[0.24em] text-zinc-600">
                   Preventivo
                 </p>
                 <h1 className="mt-2 font-serif text-[28px] leading-none text-zinc-950">

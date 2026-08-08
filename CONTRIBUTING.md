@@ -5,14 +5,15 @@ EasyPIVA è un repository pubblico con licenza MIT, ma il codice viene gestito c
 ## Ambito della policy
 
 - Le pull request esterne non fanno parte del processo di manutenzione ufficiale.
-- Issue, discussion e richieste di supporto pubblico non sono il canale operativo del progetto.
+- Sono benvenute issue per bug riproducibili, problemi di accessibilità o privacy e assunzioni fiscali corredate da fonti primarie verificabili.
+- Issue e discussion non sono canali di consulenza fiscale, assistenza personalizzata o supporto operativo.
 - Fork e riuso del codice restano consentiti nei limiti della licenza MIT.
 
 ## Segnalazioni
 
 - Per vulnerabilità o problemi di privacy, consulta [`SECURITY.md`](SECURITY.md).
 - Per contatti operativi non legati alla sicurezza, scrivi a `info@mikesoft.it`.
-- Le issue pubbliche, quando abilitate, devono usare i template in `.github/ISSUE_TEMPLATE/` e includere passaggi riproducibili o fonti primarie.
+- Le issue pubbliche devono usare i template in `.github/ISSUE_TEMPLATE/` e includere passaggi riproducibili o fonti primarie.
 - Le pull request devono usare `.github/pull_request_template.md` e riportare i comandi di verifica eseguiti.
 
 ## Workflow interno dei maintainer

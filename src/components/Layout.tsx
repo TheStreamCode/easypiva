@@ -14,12 +14,13 @@ import {
   Home,
   Github,
 } from 'lucide-react';
-import { useState, type MouseEvent } from 'react';
+import { useEffect, useState, type MouseEvent } from 'react';
 import { flushSync } from 'react-dom';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'motion/react';
 import { getThemeRevealRadius } from '@/lib/theme';
 import { useThemeStore } from '@/store/useThemeStore';
+import { Dialog, DialogClose, DialogContent, DialogTitle } from '@/components/ui/dialog';
 
 const navigation = [
   { name: 'Dashboard', href: '/', icon: Home },
@@ -49,6 +50,11 @@ export default function Layout() {
   const location = useLocation();
   const { mode, toggleThemeMode } = useThemeStore();
   const isDark = mode === 'dark';
+
+  useEffect(() => {
+    const currentPage = navigation.find((item) => item.href === location.pathname)?.name;
+    document.title = currentPage ? `${currentPage} | EasyPIVA` : 'Pagina non trovata | EasyPIVA';
+  }, [location.pathname]);
 
   const toggleTheme = (event: MouseEvent<HTMLButtonElement>) => {
     const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
@@ -81,61 +87,51 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-[#0A0A0A] text-zinc-900 dark:text-zinc-50 flex font-sans selection:bg-zinc-200 dark:selection:bg-zinc-800">
+      <a
+        href="#main-content"
+        className="fixed left-4 top-4 z-[100] -translate-y-24 rounded-md bg-zinc-950 px-4 py-3 text-sm font-medium text-white shadow-lg transition-transform focus:translate-y-0 dark:bg-white dark:text-zinc-950"
+      >
+        Vai al contenuto principale
+      </a>
       {/* Mobile sidebar */}
-      <AnimatePresence>
-        {sidebarOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 lg:hidden bg-black/40 backdrop-blur-sm"
-            onClick={() => setSidebarOpen(false)}
-          >
-            <motion.div
-              initial={{ x: '-100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '-100%' }}
-              transition={{ type: 'spring', bounce: 0, duration: 0.4 }}
-              className="fixed inset-y-0 left-0 w-72 bg-white dark:bg-[#111111] border-r border-zinc-200 dark:border-zinc-800/50 p-4 shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
+      <Dialog open={sidebarOpen} onOpenChange={setSidebarOpen}>
+        <DialogContent
+          showCloseButton={false}
+          className="inset-y-0 left-0 top-0 h-dvh w-72 max-w-none translate-x-0 translate-y-0 rounded-none border-r border-zinc-200 bg-white p-4 shadow-2xl dark:border-zinc-800/50 dark:bg-[#111111] lg:hidden"
+        >
+          <DialogTitle className="sr-only">Menu di navigazione</DialogTitle>
+          <div className="flex items-center justify-between mb-8 px-2">
+            <Logo className="text-2xl truncate mr-2" />
+            <DialogClose
+              aria-label="Chiudi menu"
+              render={<Button variant="ghost" size="icon" className="h-11 w-11 shrink-0" />}
             >
-              <div className="flex items-center justify-between mb-8 px-2">
-                <Logo className="text-2xl truncate mr-2" />
-                <Button
-                  variant="ghost"
-                  size="icon"
+              <X className="h-4 w-4" />
+            </DialogClose>
+          </div>
+          <nav className="space-y-1">
+            {navigation.map((item) => {
+              const isActive = location.pathname === item.href;
+              return (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  aria-current={isActive ? 'page' : undefined}
                   onClick={() => setSidebarOpen(false)}
-                  className="h-11 w-11 shrink-0"
-                  aria-label="Chiudi menu"
+                  className={`flex min-h-11 items-center gap-3 px-4 py-3 text-sm rounded-md transition-colors ${
+                    isActive
+                      ? 'bg-zinc-100 text-zinc-900 dark:bg-zinc-800/50 dark:text-zinc-100 font-medium'
+                      : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100/50 dark:hover:bg-zinc-800/30 hover:text-zinc-900 dark:hover:text-zinc-100'
+                  }`}
                 >
-                  <X className="h-4 w-4" />
-                </Button>
-              </div>
-              <nav className="space-y-1">
-                {navigation.map((item) => {
-                  const isActive = location.pathname === item.href;
-                  return (
-                    <Link
-                      key={item.name}
-                      to={item.href}
-                      aria-current={isActive ? 'page' : undefined}
-                      onClick={() => setSidebarOpen(false)}
-                      className={`flex min-h-11 items-center gap-3 px-4 py-3 text-sm rounded-md transition-colors ${
-                        isActive
-                          ? 'bg-zinc-100 text-zinc-900 dark:bg-zinc-800/50 dark:text-zinc-100 font-medium'
-                          : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100/50 dark:hover:bg-zinc-800/30 hover:text-zinc-900 dark:hover:text-zinc-100'
-                      }`}
-                    >
-                      <item.icon className="h-4 w-4" />
-                      {item.name}
-                    </Link>
-                  );
-                })}
-              </nav>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                  <item.icon className="h-4 w-4" />
+                  {item.name}
+                </Link>
+              );
+            })}
+          </nav>
+        </DialogContent>
+      </Dialog>
 
       {/* Desktop sidebar */}
       <div className="hidden lg:flex flex-col w-64 fixed inset-y-0 bg-[#FAFAFA] dark:bg-[#111111] border-r border-zinc-200/50 dark:border-zinc-800/50">
@@ -200,6 +196,8 @@ export default function Layout() {
         </header>
 
         <main
+          id="main-content"
+          tabIndex={-1}
           className={`flex-1 p-6 md:p-10 mx-auto w-full ${location.pathname === '/preventivo' ? 'max-w-[1440px]' : 'max-w-5xl'}`}
         >
           <AnimatePresence mode="wait">

@@ -59,6 +59,7 @@ export function compareRegimes(input: ComparisonInput): ComparisonResult {
     nuovaAttivita: input.nuovaAttivita,
     tipoInps,
     riduzioneInps,
+    contributionHistory: input.contributionHistory,
     speseDipendenti: 0,
     redditoDipendente: 0,
   });
@@ -67,7 +68,7 @@ export function compareRegimes(input: ComparisonInput): ComparisonResult {
   const nettoForf = forfettarioResult.nettoStimato;
 
   const redditoLordoOrd = Math.max(0, input.ricavi - input.costiReali);
-  const inpsOrd = calculateInps(redditoLordoOrd, tipoInps, false).totale;
+  const inpsOrd = calculateInps(redditoLordoOrd, tipoInps, false, input.contributionHistory).totale;
   const imponibileOrd = Math.max(0, redditoLordoOrd - inpsOrd);
   const irpefLordaOrd = calculateIrpef(imponibileOrd);
   const detrazioneOrd = calcolaDetrazioneLavoroAutonomo(imponibileOrd);

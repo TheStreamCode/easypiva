@@ -2,9 +2,9 @@ import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router';
 import Layout from './components/Layout';
 import NotFound from './pages/NotFound';
+import Home from './pages/Home';
 import { DisclaimerModal } from './components/DisclaimerModal';
 
-const Home = lazy(() => import('./pages/Home'));
 const Calculator = lazy(() => import('./pages/Calculator'));
 const Comparison = lazy(() => import('./pages/Comparison'));
 const Contributions = lazy(() => import('./pages/Contributions'));
@@ -23,14 +23,7 @@ export default function App() {
       <DisclaimerModal />
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route
-            index
-            element={
-              <Suspense fallback={<RouteFallback />}>
-                <Home />
-              </Suspense>
-            }
-          />
+          <Route index element={<Home />} />
           <Route
             path="calcolatore"
             element={

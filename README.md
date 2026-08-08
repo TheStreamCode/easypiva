@@ -3,56 +3,64 @@
 [![CI](https://github.com/TheStreamCode/easypiva/actions/workflows/ci.yml/badge.svg)](https://github.com/TheStreamCode/easypiva/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Versione corrente del repository: `1.1.0`.
+![EasyPIVA — Simulazioni fiscali indicative per la Partita IVA italiana](docs/assets/easypiva-social-preview.png)
 
-EasyPIVA è una web app client-side per simulazioni fiscali indicative dedicate alla Partita IVA italiana. Copre regime forfettario, contributi INPS, confronto tra regimi, pianificazione dei ricavi e generazione di preventivi con export PDF.
+EasyPIVA è una web app open source per simulazioni fiscali indicative dedicate alla Partita IVA italiana. Riunisce calcolo del regime forfettario, contributi INPS, confronto con il regime ordinario, pianificazione dei ricavi e generazione di preventivi con export PDF.
 
-Tutti i calcoli vengono eseguiti localmente nel browser. Il progetto non richiede account e non usa un backend applicativo.
+**[Apri EasyPIVA](https://easypiva.vercel.app)** · **[Consulta le fonti fiscali](https://easypiva.vercel.app/informativa)** · **[Leggi il changelog](CHANGELOG.md)**
 
-**App online:** [easypiva.vercel.app](https://easypiva.vercel.app)
+- Tutti i calcoli vengono eseguiti localmente nel browser.
+- Non richiede account, backend applicativo o telemetria.
+- Le assunzioni fiscali 2026 sono centralizzate, testate e documentate con fonti primarie.
+- Il codice è pubblico e distribuito con licenza MIT.
 
-![Screenshot della dashboard EasyPIVA con strumenti per simulazioni fiscali Partita IVA 2026](docs/assets/easypiva-dashboard.png)
+> I risultati sono stime indicative e non costituiscono consulenza fiscale, legale o contabile. Per decisioni professionali è necessario rivolgersi a un consulente abilitato.
 
-## Branding e packaging
+## Funzionalità
 
-- Brand prodotto: `EasyPIVA`.
-- Maintainer e autore del repository: `Michael Gasperini (Mikesoft)`.
-- Packaging supportato: applicazione web statica buildata con Vite.
-- Questo repository non è una VS Code extension: non usa `vsce`, non genera `.vsix` e non richiede icone separate per Activity Bar, sidebar o Marketplace.
+- Calcolo del regime forfettario 2026.
+- Confronto indicativo tra regime forfettario e ordinario.
+- Simulazione dei contributi INPS per Gestione Separata, Artigiani e Commercianti.
+- Calcolo inverso del fatturato necessario per raggiungere un netto obiettivo.
+- Pianificazione mensile dei ricavi rispetto alle soglie del regime.
+- Preventivo locale con anteprima A4, autosalvataggio nel browser ed export PDF.
 
-## Release 1.1.0
+## Attendibilità e limiti
 
-- Allinea i contributi INPS 2026 (minimale, contributi fissi, aliquota aggiuntiva +1% e massimale) alle Circolari INPS 8/2026 e 14/2026.
-- Migliora il confronto con il regime ordinario introducendo la detrazione per redditi di lavoro autonomo.
-- Aggiorna runtime e toolchain: Node.js 24 LTS, TypeScript 6, ESLint 10, `react-router` 8.
-- Elimina la richiesta runtime a Google Fonts self-hostando i font nel bundle, in coerenza con l'architettura local-first.
-- Ripulisce le dipendenze di sviluppo non utilizzate e allinea metadata, citazione e documentazione.
+EasyPIVA rende verificabili le proprie assunzioni senza presentarsi come sostituto di un professionista:
+
+- soglie, aliquote e coefficienti sono centralizzati in `src/lib/fiscal-data.ts`;
+- la logica fiscale è isolata in funzioni pure sotto `src/lib/calculations/`;
+- le assunzioni e le fonti normative sono documentate nell'[ADR fiscale](docs/ADRs/0001-fiscal-assumptions.md) e nell'[informativa pubblica](https://easypiva.vercel.app/informativa);
+- test unitari, UI ed end-to-end proteggono i principali casi di regressione;
+- ogni cambiamento fiscale richiede aggiornamenti coordinati di codice, test, documentazione e copy pubblica.
+
+## Privacy
+
+Il progetto segue un'architettura local-first: non invia a un server i valori inseriti nei simulatori o nel preventivo. Tema, consenso al disclaimer e bozza del preventivo possono essere salvati nel `localStorage` del browser. Il dettaglio è in [Privacy e storage locale](docs/privacy-and-storage.md).
+
+## Release 1.1.1
+
+La versione corrente del repository è `1.1.1`.
+
+- Corregge la scelta del massimale INPS 2026 per Artigiani e Commercianti in base all'anzianità contributiva.
+- Rafforza accessibilità, navigazione da tastiera e gestione del menu mobile.
+- Rende più robusti upload del logo, autosalvataggio ed export PDF del preventivo.
+- Aggiunge controlli axe end-to-end, metadata per i crawler e aggiornamenti di sicurezza delle dipendenze.
 
 Il dettaglio completo è nel [changelog](CHANGELOG.md).
 
-## Funzionalità principali
-
-- Calcolatore del regime forfettario 2026.
-- Confronto tra regime forfettario e ordinario.
-- Simulatore contributi INPS per Gestione Separata, Artigiani e Commercianti.
-- Calcolo inverso del fatturato necessario per raggiungere un netto obiettivo.
-- Pianificazione mensile dei ricavi rispetto alle soglie del regime.
-- Preventivo locale con anteprima A4, autosalvataggio della bozza nel browser ed export PDF.
-
 ## Stack
 
-- React 19, React Router 8, TypeScript 6, Vite 6.
+- React 19, React Router 8, TypeScript 6 e Vite 6.
 - Tailwind CSS v4 e componenti shadcn/ui.
-- Zustand per lo stato client-side.
-- React Hook Form e Zod per i form.
-- Recharts, motion e jsPDF per visualizzazione ed export.
+- Zustand, React Hook Form e Zod.
+- Recharts, motion e jsPDF.
+- Vitest con jsdom e Playwright con Chromium.
 
-## Requisiti locali
+## Sviluppo locale
 
-- Node.js 24 LTS e npm 11, in linea con `.nvmrc`, `package.json` e CI.
-- npm come package manager canonico.
-
-## Avvio locale
+Richiede Node.js 24 LTS, npm 11 e npm come package manager canonico.
 
 ```bash
 git clone https://github.com/TheStreamCode/easypiva.git
@@ -61,20 +69,18 @@ npm ci
 npm run dev
 ```
 
-L'app viene servita in sviluppo su `http://127.0.0.1:3000`.
+L'app viene servita su `http://127.0.0.1:3000`.
 
-## Script principali
+### Verifiche
 
-- `npm run dev` avvia il server di sviluppo.
-- `npm run dev:e2e` avvia Vite su `http://127.0.0.1:4173` per Playwright.
-- `npm run typecheck` esegue il controllo TypeScript.
-- `npm run lint` esegue ESLint.
-- `npm run test` esegue la suite Vitest.
-- `npm run test:e2e` esegue la suite Playwright.
-- `npm run build` genera la build di produzione in `dist/`.
-- `npm run ci` esegue il flusso completo usato dalla CI: format check, typecheck, lint, Vitest, build e Playwright.
+```bash
+npm run ci
+npm audit
+```
 
-Per gli end-to-end in locale può servire una sola volta `npx playwright install chromium`.
+`npm run ci` esegue formattazione, typecheck, lint, test Vitest, build di produzione e test Playwright. Se Chromium non è ancora installato, esegui una volta `npx playwright install chromium`.
+
+Gli script disponibili sono documentati in `package.json`; i principali sono `dev`, `dev:e2e`, `typecheck`, `lint`, `test`, `test:e2e`, `build` e `ci`.
 
 ## Struttura del repository
 
@@ -85,53 +91,36 @@ src/
   lib/
     calculations/   # Logica fiscale pura e testata
     quote/          # Modello preventivo, paginazione ed export PDF
-    fiscal-data.ts  # Costanti fiscali 2026 (soglie, aliquote, coefficienti)
-  store/            # Store Zustand (disclaimer, tema)
+    fiscal-data.ts  # Costanti fiscali 2026
+  store/            # Store Zustand
 components/ui/      # Primitivi UI condivisi
 tests/e2e/          # Test end-to-end Playwright
-docs/               # Architettura, privacy, ADR fiscale, governance
+docs/               # Architettura, privacy, ADR e governance
 ```
 
 ## Deployment
 
-- La build statica prodotta da `npm run build` in `dist/` viene pubblicata su Vercel: <https://easypiva.vercel.app>.
-- `vercel.json` applica la rewrite `/(.*) → /index.html` necessaria al routing client-side e gli header HTTP di sicurezza (CSP, anti-framing, MIME sniffing, referrer e permissions policy).
-- Non esiste un backend applicativo né una configurazione di deploy alternativa nel repository.
+La build statica prodotta in `dist/` viene pubblicata su [Vercel](https://easypiva.vercel.app) dal branch `main`. `vercel.json` gestisce il routing client-side e gli header HTTP di sicurezza. Il progetto non utilizza un backend applicativo né variabili d'ambiente runtime.
 
 ## Documentazione
 
 - [Architettura](docs/architecture.md)
-- [Provenienza dell'asset dashboard](docs/asset-provenance.md)
 - [Privacy e storage locale](docs/privacy-and-storage.md)
 - [Assunzioni fiscali](docs/ADRs/0001-fiscal-assumptions.md)
 - [Governance repository](docs/repository-governance.md)
-- [Changelog](CHANGELOG.md)
+- [Provenienza degli asset](docs/asset-provenance.md)
 - [Contribution policy](CONTRIBUTING.md)
-- [Code of Conduct](CODE_OF_CONDUCT.md)
 - [Security policy](SECURITY.md)
+- [Code of Conduct](CODE_OF_CONDUCT.md)
 
-## Workflow del repository
+## Governance e segnalazioni
 
-Il repository è pubblico e rilasciato con licenza MIT, ma la manutenzione del codice segue un workflow `maintainers-only`. La policy completa è documentata in [`CONTRIBUTING.md`](CONTRIBUTING.md).
+Il repository è pubblico, ma la manutenzione segue un workflow `maintainers-only`. Sono benvenute issue riproducibili e segnalazioni fiscali corredate da fonti primarie; il repository non fornisce consulenza fiscale o supporto personalizzato. Consulta [CONTRIBUTING.md](CONTRIBUTING.md) prima di aprire una segnalazione e [SECURITY.md](SECURITY.md) per comunicare privatamente una vulnerabilità.
 
-## Governance GitHub
+La CI usa permessi minimi, le GitHub Actions sono fissate a commit SHA e le pull request eseguono anche Dependency Review. Il branch `main` richiede review, check obbligatori, conversazioni risolte e storia lineare.
 
-- La CI principale è in `.github/workflows/ci.yml` e usa permessi minimi in sola lettura.
-- Playwright usa una porta dedicata per evitare collisioni con server locali su `3000`.
-- Dependabot apre solo aggiornamenti di sicurezza; gli aggiornamenti di versione ordinari sono disabilitati per evitare rumore e vengono pianificati manualmente.
-- Le pull request eseguono anche `Dependency Review` per intercettare vulnerabilità introdotte da cambi di dipendenze.
-- Le GitHub Actions sono fissate a commit SHA verificati e gli install script npm sono limitati a una allowlist esplicita.
-- Issue e pull request usano template strutturati in `.github/` per rendere il triage riproducibile.
-- Le vulnerabilità vanno segnalate privatamente seguendo [`SECURITY.md`](SECURITY.md), non tramite issue pubbliche.
+## Progetto
 
-## Supporta il progetto
-
-Se EasyPIVA ti aiuta nelle simulazioni fiscali o nella pianificazione della Partita IVA, puoi supportare lo sviluppo continuo tramite GitHub Sponsors: [github.com/sponsors/TheStreamCode](https://github.com/sponsors/TheStreamCode).
-
-## Disclaimer
-
-I risultati sono stime indicative basate sulle assunzioni fiscali documentate nel repository. Non costituiscono consulenza fiscale, legale o contabile e non sostituiscono il parere di un professionista abilitato.
-
-## Licenza
+EasyPIVA è mantenuto da **Michael Gasperini (Mikesoft)**. Se il progetto ti è utile, puoi [supportarne lo sviluppo tramite GitHub Sponsors](https://github.com/sponsors/TheStreamCode).
 
 Distribuito sotto licenza [MIT](LICENSE).

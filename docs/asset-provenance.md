@@ -9,6 +9,14 @@
 
 La cronologia del repository non documenta ulteriori informazioni sull'origine dell'immagine.
 
+## `docs/assets/easypiva-social-preview.png`
+
+- Cover PNG creata per la presentazione del repository e per la social preview GitHub, senza modificare l'asset dashboard esistente.
+- Generata il 2026-08-08 con lo strumento ImageGen integrato di OpenAI, usando la dashboard esclusivamente come riferimento per palette, wordmark e linguaggio visivo.
+- Il prompt richiedeva una composizione editoriale minimalista, il payoff prudente “Simulazioni fiscali indicative per la Partita IVA italiana” e l'assenza di claim di precisione o consulenza.
+- Ridimensionata deterministicamente a 1280 × 640 px; dimensione file: 751.341 byte.
+- SHA-256 del file corrente: `2d5f0c1d291d8211e52593732878c0bd6d46895ba7d0c923e110a7c4bd2377c9`.
+
 ## Titolarità e riferimenti di terzi
 
 I maintainer rivendicano titolarità esclusivamente sui materiali originali EasyPIVA. La licenza MIT disciplina esclusivamente tali materiali originali messi a disposizione nel repository; questo record non attribuisce titolarità né una licenza separata all'immagine della dashboard.

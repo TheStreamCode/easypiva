@@ -32,7 +32,7 @@ export function QuoteItemsTable({
   return (
     <div className="space-y-2">
       {repeatedHeader ? (
-        <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-zinc-400">
+        <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-zinc-600">
           Dettaglio voci - continua
         </p>
       ) : null}
@@ -67,7 +67,7 @@ export function QuoteItemsTable({
                 <div className="leading-relaxed whitespace-pre-wrap">
                   {row.description}
                   {row.continuation ? (
-                    <span className="ml-2 text-[10px] uppercase tracking-[0.14em] text-zinc-400">
+                    <span className="ml-2 text-[10px] uppercase tracking-[0.14em] text-zinc-600">
                       continua
                     </span>
                   ) : null}

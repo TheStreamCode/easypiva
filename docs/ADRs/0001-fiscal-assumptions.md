@@ -27,7 +27,8 @@ EasyPIVA fornisce simulazioni fiscali indicative per utenti con Partita IVA ital
 - Gestione Separata: 26,07% (Circ. INPS 8/2026), entro il massimale di 122.295€.
 - Artigiani: minimale reddito 18.808€, contributo fisso 4.521,36€, aliquota 24% oltre il minimale.
 - Commercianti: minimale reddito 18.808€, contributo fisso 4.611,64€, aliquota 24,48% oltre il minimale.
-- Aliquota aggiuntiva +1% sul reddito oltre 56.224€ (25% / 25,48%), fino al massimale 122.295€ (Circ. INPS 14/2026).
+- Aliquota aggiuntiva +1% sul reddito oltre 56.224€ (25% / 25,48%), fino al massimale applicabile (Circ. INPS 14/2026).
+- Massimale Artigiani/Commercianti: 93.707€ per chi possiede anzianità contributiva al 31 dicembre 1995; 122.295€ per chi è privo di anzianità a tale data. L'interfaccia richiede questa informazione e usa il secondo caso come default compatibile con le simulazioni precedenti.
 - Riduzione 35% per forfettari (artigiani/commercianti).
 
 ## Regime Ordinario (confronto)

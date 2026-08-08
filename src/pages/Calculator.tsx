@@ -30,6 +30,7 @@ import { calculateForfettario } from '@/lib/calculations';
 import { formatCurrency } from '@/lib/format';
 import { parseNonNegativeNumber } from '@/lib/number-input';
 import { warningCopy } from '@/lib/public-copy';
+import { ContributionHistorySelect } from '../components/ContributionHistorySelect';
 const formSchema = z.object({
   atecoId: z.string().min(1, 'Seleziona una categoria ATECO'),
   ricavi: z.number().min(0, 'I ricavi non possono essere negativi'),
@@ -40,6 +41,7 @@ const formSchema = z.object({
   redditoDipendente: z.number().min(0),
   tipoInps: z.enum(['gestioneSeparata', 'artigiani', 'commercianti', 'nessuno']),
   riduzioneInps: z.boolean().optional(),
+  contributionHistory: z.enum(['pre1996', 'post1995']).optional(),
 });
 type FormValues = z.infer<typeof formSchema>;
 export default function Calculator() {
@@ -57,6 +59,7 @@ export default function Calculator() {
       redditoDipendente: 0,
       tipoInps: 'gestioneSeparata',
       riduzioneInps: false,
+      contributionHistory: 'post1995',
     },
   });
   const { watch, setValue, trigger } = form;
@@ -66,7 +69,12 @@ export default function Calculator() {
     if (step === 1) {
       valid = await trigger(['atecoId', 'ricavi', 'mesiAttivita', 'nuovaAttivita']);
     } else if (step === 2) {
-      valid = await trigger(['tipoInps', 'riduzioneInps', 'contributiVersati']);
+      valid = await trigger([
+        'tipoInps',
+        'riduzioneInps',
+        'contributionHistory',
+        'contributiVersati',
+      ]);
     } else if (step === 3) {
       valid = await trigger(['speseDipendenti', 'redditoDipendente']);
     }
@@ -299,24 +307,30 @@ export default function Calculator() {
                 </Select>{' '}
               </div>{' '}
               {(values.tipoInps === 'artigiani' || values.tipoInps === 'commercianti') && (
-                <div className="flex items-center justify-between py-4 border-y border-zinc-200 dark:border-zinc-800">
-                  {' '}
-                  <div className="space-y-1">
+                <div className="space-y-6">
+                  <ContributionHistorySelect
+                    value={values.contributionHistory ?? 'post1995'}
+                    onValueChange={(value) => setValue('contributionHistory', value)}
+                  />
+                  <div className="flex items-center justify-between py-4 border-y border-zinc-200 dark:border-zinc-800">
                     {' '}
-                    <Label htmlFor="riduzioneInps" className="text-base">
+                    <div className="space-y-1">
                       {' '}
-                      Riduzione INPS 35%{' '}
-                    </Label>{' '}
-                    <p className="text-sm text-zinc-500">
-                      {' '}
-                      Hai richiesto la riduzione per forfettari?{' '}
-                    </p>{' '}
-                  </div>{' '}
-                  <Switch
-                    id="riduzioneInps"
-                    checked={values.riduzioneInps}
-                    onCheckedChange={(checked) => setValue('riduzioneInps', checked)}
-                  />{' '}
+                      <Label htmlFor="riduzioneInps" className="text-base">
+                        {' '}
+                        Riduzione INPS 35%{' '}
+                      </Label>{' '}
+                      <p className="text-sm text-zinc-500">
+                        {' '}
+                        Hai richiesto la riduzione per forfettari?{' '}
+                      </p>{' '}
+                    </div>{' '}
+                    <Switch
+                      id="riduzioneInps"
+                      checked={values.riduzioneInps}
+                      onCheckedChange={(checked) => setValue('riduzioneInps', checked)}
+                    />{' '}
+                  </div>
                 </div>
               )}{' '}
               <div className="space-y-4">
@@ -507,7 +521,11 @@ export default function Calculator() {
                     {' '}
                     Ripartizione{' '}
                   </h3>{' '}
-                  <div className="h-[250px] w-full min-w-0">
+                  <div
+                    className="h-[250px] w-full min-w-0"
+                    role="img"
+                    aria-label={`Ripartizione stimata: netto ${formatCurrency(nettoStimato)}, imposta ${formatCurrency(impostaSostitutiva)}, contributi ${formatCurrency(contributiConsiderati)} e costi forfettari ${formatCurrency(Math.max(0, values.ricavi - redditoLordo))}.`}
+                  >
                     {' '}
                     <ResponsiveContainer
                       width="100%"

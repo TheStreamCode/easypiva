@@ -15,7 +15,8 @@ import { motion } from 'motion/react';
 import { calculateTargetNet } from '@/lib/calculations';
 import { formatCurrency } from '@/lib/format';
 import { parseNonNegativeNumber } from '@/lib/number-input';
-import type { InpsType } from '@/lib/fiscal-data';
+import type { ContributionHistory, InpsType } from '@/lib/fiscal-data';
+import { ContributionHistorySelect } from '../components/ContributionHistorySelect';
 
 export default function TargetNet() {
   const [nettoMensile, setNettoMensile] = useState(2000);
@@ -23,6 +24,7 @@ export default function TargetNet() {
   const [nuovaAttivita, setNuovaAttivita] = useState(false);
   const [tipoInps, setTipoInps] = useState<InpsType>('gestioneSeparata');
   const [riduzioneInps, setRiduzioneInps] = useState(false);
+  const [contributionHistory, setContributionHistory] = useState<ContributionHistory>('post1995');
 
   const result = calculateTargetNet({
     nettoMensile,
@@ -30,6 +32,7 @@ export default function TargetNet() {
     nuovaAttivita,
     tipoInps,
     riduzioneInps,
+    contributionHistory,
   });
 
   const containerVariants = {
@@ -139,15 +142,21 @@ export default function TargetNet() {
               </div>
 
               {(tipoInps === 'artigiani' || tipoInps === 'commercianti') && (
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="riduzioneInps" className="text-zinc-700 dark:text-zinc-300">
-                    Riduzione INPS 35%
-                  </Label>
-                  <Switch
-                    id="riduzioneInps"
-                    checked={riduzioneInps}
-                    onCheckedChange={setRiduzioneInps}
+                <div className="space-y-4">
+                  <ContributionHistorySelect
+                    value={contributionHistory}
+                    onValueChange={setContributionHistory}
                   />
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="riduzioneInps" className="text-zinc-700 dark:text-zinc-300">
+                      Riduzione INPS 35%
+                    </Label>
+                    <Switch
+                      id="riduzioneInps"
+                      checked={riduzioneInps}
+                      onCheckedChange={setRiduzioneInps}
+                    />
+                  </div>
                 </div>
               )}
             </div>
