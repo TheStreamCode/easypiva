@@ -123,4 +123,6 @@ La CI usa permessi minimi, le GitHub Actions sono fissate a commit SHA e le pull
 
 EasyPIVA è mantenuto da **Michael Gasperini (Mikesoft)**. Se il progetto ti è utile, puoi [supportarne lo sviluppo tramite GitHub Sponsors](https://github.com/sponsors/TheStreamCode).
 
-Distribuito sotto licenza [MIT](LICENSE).
+## Licenza
+
+Questo progetto è distribuito con [Licenza MIT](LICENSE).
