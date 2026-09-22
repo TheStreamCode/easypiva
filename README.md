@@ -1,6 +1,7 @@
 # EasyPIVA 2026
 
 [![CI](https://github.com/TheStreamCode/easypiva/actions/workflows/ci.yml/badge.svg)](https://github.com/TheStreamCode/easypiva/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/TheStreamCode/easypiva)](https://github.com/TheStreamCode/easypiva/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 ![EasyPIVA — Simulazioni fiscali indicative per la Partita IVA italiana](docs/assets/easypiva-social-preview.png)
@@ -34,6 +35,20 @@ EasyPIVA rende verificabili le proprie assunzioni senza presentarsi come sostitu
 - le assunzioni e le fonti normative sono documentate nell'[ADR fiscale](docs/ADRs/0001-fiscal-assumptions.md) e nell'[informativa pubblica](https://easypiva.vercel.app/informativa);
 - test unitari, UI ed end-to-end proteggono i principali casi di regressione;
 - ogni cambiamento fiscale richiede aggiornamenti coordinati di codice, test, documentazione e copy pubblica.
+
+## Domande frequenti
+
+### I risultati differiscono da quelli del mio commercialista. Perché?
+
+EasyPIVA produce stime indicative basate sulle assunzioni fiscali 2026 documentate nell'[ADR fiscale](docs/ADRs/0001-fiscal-assumptions.md) e nell'[informativa pubblica](https://easypiva.vercel.app/informativa), con soglie, aliquote e coefficienti centralizzati in `src/lib/fiscal-data.ts`. Un professionista può applicare deduzioni, detrazioni o situazioni personali (altri redditi, agevolazioni, acconti versati) che il simulatore non conosce. In caso di scostamento, confronta i valori inseriti con le assunzioni pubblicate e, per decisioni professionali, affidati sempre a un consulente abilitato.
+
+### Quale gestione INPS si applica al mio caso?
+
+L'app simula tre gestioni: Gestione Separata, Artigiani e Commercianti, secondo i valori 2026 (Circolare INPS 8/2026 per la Gestione Separata, 14/2026 per Artigiani e Commercianti). Per Artigiani e Commercianti il massimale annuo dipende dall'anzianità contributiva al 31/12/1995: 93.707 € per chi era già iscritto, 122.295 € per gli altri. La gestione corretta dipende dalla tua attività e dall'iscrizione alla Camera di Commercio o agli albi: in caso di dubbio, verifica la tua posizione con l'INPS o con un consulente.
+
+### L'export PDF del preventivo non funziona. Cosa posso fare?
+
+L'export avviene interamente nel browser (jsPDF con rendering via html2canvas): assicurati di usare una versione aggiornata di Chrome, Edge o Firefox, di non aver bloccato i download per il sito e di avere spazio disponibile per il salvataggio. Se hai caricato un logo personalizzato, prova con un file più leggero (formato PNG o JPEG di piccole dimensioni). Se il problema persiste, ricarica la pagina — la bozza del preventivo è autosalvata nel `localStorage` — e riprova; per segnalazioni riproducibili apri una issue seguendo [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Privacy
 
