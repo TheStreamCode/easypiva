@@ -14,7 +14,7 @@ EasyPIVA è un repository pubblico con licenza MIT, ma il codice viene gestito c
 - Per vulnerabilità o problemi di privacy, consulta [`SECURITY.md`](SECURITY.md).
 - Per contatti operativi non legati alla sicurezza, scrivi a `info@mikesoft.it`.
 - Le issue pubbliche devono usare i template in `.github/ISSUE_TEMPLATE/` e includere passaggi riproducibili o fonti primarie.
-- Le pull request devono usare `.github/pull_request_template.md` e riportare i comandi di verifica eseguiti.
+- Le pull request devono usare `.github/PULL_REQUEST_TEMPLATE.md` e riportare i comandi di verifica eseguiti.
 
 ## Workflow interno dei maintainer
 

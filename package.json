@@ -9,14 +9,12 @@
   },
   "description": "Simulazioni fiscali italiane open source 2026 per regime forfettario, INPS e confronto regimi",
   "author": {
-    "name": "Michael Gasperini (Mikesoft)",
+    "name": "Michael Gasperini",
+    "email": "info@mikesoft.it",
     "url": "https://mikesoft.it"
   },
   "homepage": "https://easypiva.vercel.app",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/TheStreamCode/easypiva.git"
-  },
+  "repository": "github:TheStreamCode/easypiva",
   "bugs": {
     "url": "https://github.com/TheStreamCode/easypiva/issues"
   },
@@ -27,9 +25,13 @@
     "inps",
     "irpef",
     "italy",
+    "fiscal",
     "react",
     "vite",
-    "typescript"
+    "typescript",
+    "web-app",
+    "open-source",
+    "mikesoft"
   ],
   "license": "MIT",
   "scripts": {

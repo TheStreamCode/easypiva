@@ -110,7 +110,7 @@ Non esiste uno script di deploy nel repository: il deployment è gestito da Verc
 - Gli header HTTP in `vercel.json` sono parte della superficie di sicurezza pubblica e sono coperti da `src/test/deployment-security.test.ts`: non indebolirli senza una motivazione verificata.
 - Le animazioni devono rispettare `prefers-reduced-motion`; conserva sia `MotionConfig reducedMotion="user"` sia il fallback CSS globale.
 - `allowScripts` in `package.json` è l'allowlist npm 11 degli install script: aggiungi voci solo dopo aver revisionato lo script (`npm approve-scripts --allow-scripts-pending` elenca i pendenti).
-- Dependabot apre solo aggiornamenti di sicurezza (`open-pull-requests-limit: 0` sui version update): non riattivare i version update senza una decisione esplicita del maintainer.
+- Dependabot apre aggiornamenti settimanali raggruppati per npm e github-actions con `open-pull-requests-limit: 5`; l'auto-merge copre solo patch e minor, mentre le major restano da rivedere manualmente. Non alzare i limiti senza una decisione esplicita del maintainer.
 - Le vulnerabilità si segnalano privatamente secondo `SECURITY.md`, mai via issue pubbliche.
 
 ## Anti-breaking-change e compatibilità
@@ -122,7 +122,7 @@ Non esiste uno script di deploy nel repository: il deployment è gestito da Verc
 
 ## Versioning, release e pubblicazione
 
-- SemVer. La versione è replicata in `package.json`, `package-lock.json`, `README.md` e `CITATION.cff`: **vanno aggiornati insieme**.
+- SemVer. La versione è replicata in `package.json`, `package-lock.json` e `CITATION.cff`, e la release corrispondente è registrata in `CHANGELOG.md`: **vanno aggiornati insieme**. Il `README.md` non riporta la versione: usare i badge dinamici.
 - Il branch `main` è protetto: pull request obbligatoria, 1 approvazione, conversazioni risolte, branch aggiornato, storia lineare, check `build` e `dependency-review` obbligatori. Niente push diretti, niente force push, niente riscrittura della storia.
 - Flusso di release: branch dedicato → `npm run ci` verde → PR con template compilato → merge squash → tag `vX.Y.Z` → GitHub Release. Il dettaglio è in `docs/repository-governance.md`.
 - Non esiste pubblicazione su registry: il pacchetto è `private` e la distribuzione avviene solo tramite il deploy Vercel di `main`.

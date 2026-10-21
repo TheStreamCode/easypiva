@@ -8,10 +8,10 @@ La governance applicabile tramite repository è definita da questi file:
 
 - `.github/workflows/ci.yml`: verifica applicativa completa su push a `main` e pull request.
 - `.github/workflows/dependency-review.yml`: controllo supply-chain sulle pull request.
-- `.github/dependabot.yml`: aggiornamenti di sicurezza automatici, con version update ordinari disabilitati.
+- `.github/dependabot.yml`: aggiornamenti settimanali raggruppati per npm e github-actions, con auto-merge limitato a patch e minor.
 - `.github/CODEOWNERS`: ownership esplicita per codice, logica fiscale, ADR e automazioni.
 - `.github/ISSUE_TEMPLATE/`: issue strutturate per bug riproducibili e assunzioni fiscali.
-- `.github/pull_request_template.md`: checklist di review per maintainer.
+- `.github/PULL_REQUEST_TEMPLATE.md`: checklist di review per maintainer.
 - `CODE_OF_CONDUCT.md`: regole minime di interazione pubblica.
 - `SECURITY.md`: canale privato per vulnerabilità e problemi privacy.
 - `CONTRIBUTING.md`: policy di contribuzione e manutenzione.

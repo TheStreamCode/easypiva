@@ -14,7 +14,10 @@ updates:
         update-types:
           - minor
           - patch
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: 'chore'
+      include: 'scope'
     labels:
       - dependencies
 
@@ -30,5 +33,8 @@ updates:
           - minor
           - patch
     open-pull-requests-limit: 5
+    commit-message:
+      prefix: 'ci'
+      include: 'scope'
     labels:
       - dependencies
