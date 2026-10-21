@@ -1,0 +1,41 @@
+name: Feature request
+description: Propose a focused improvement to the app or repository
+title: '[Feature]: '
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe the problem first, then the proposed change.
+        This repository follows a maintainers-only workflow: external pull requests are not part of the official maintenance process.
+        Requests that change fiscal assumptions must include verifiable primary sources; this is not a channel for tax advice.
+        Use SUPPORT.md for usage questions and SECURITY.md for security issues, never a public issue.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What is hard or impossible today, and for whom.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: Desired behavior, alternatives considered, and what it must not break.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope and compatibility
+      description: Affected routes, browsers, local storage keys, fiscal assumptions, or public behavior.
+    validations:
+      required: false
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Confirmations
+      options:
+        - label: I searched existing issues and discussions for this proposal.
+          required: true
+        - label: This request is not a tax advice question and does not include personal fiscal data.
+          required: true

@@ -99,8 +99,8 @@ La chiave legacy `easypiva-storage` viene letta solo per migrare vecchi dati del
 
 - `.github/workflows/ci.yml` esegue la pipeline applicativa con permessi minimi.
 - `.github/workflows/dependency-review.yml` controlla le pull request che modificano dipendenze.
-- `.github/dependabot.yml` personalizza le pull request di sicurezza e disabilita gli aggiornamenti di versione ordinari con `open-pull-requests-limit: 0`.
-- `.github/ISSUE_TEMPLATE/` e `.github/pull_request_template.md` standardizzano triage e review mantenendo il workflow `maintainers-only`.
+- `.github/dependabot.yml` mantiene aggiornamenti settimanali raggruppati per npm e github-actions con `open-pull-requests-limit: 5`.
+- `.github/ISSUE_TEMPLATE/` e `.github/PULL_REQUEST_TEMPLATE.md` standardizzano triage e review mantenendo il workflow `maintainers-only`.
 
 ## Vincoli architetturali
 
