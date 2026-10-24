@@ -194,9 +194,14 @@ export default function TargetNet() {
               <h4 className="font-medium text-zinc-900 dark:text-zinc-100">Ripartizione Stimata</h4>
 
               <div className="flex justify-between items-center text-zinc-600 dark:text-zinc-400">
-                <span>Netto in tasca</span>
+                <span>Netto dopo imposte e contributi</span>
                 <span className="font-medium text-zinc-900 dark:text-zinc-100">
-                  {formatCurrency(result.nettoAnnuo)}
+                  {formatCurrency(
+                    result.ricaviNecessari -
+                      result.costiForfettari -
+                      result.inpsStimato -
+                      result.tasseStimate,
+                  )}
                 </span>
               </div>
               <div className="flex justify-between items-center text-zinc-600 dark:text-zinc-400">
@@ -212,16 +217,17 @@ export default function TargetNet() {
                 </span>
               </div>
               <div className="flex justify-between items-center text-zinc-600 dark:text-zinc-400">
-                <span>Costi Forfettari</span>
+                <span>Costi forfettari</span>
                 <span className="font-medium text-zinc-900 dark:text-zinc-100">
                   {formatCurrency(result.costiForfettari)}
                 </span>
               </div>
             </div>
 
-            <p className="text-xs text-zinc-500 mt-6 leading-relaxed">
-              * I calcoli sono approssimati e non tengono conto di eventuali contributi pregressi o
-              deduzioni extra.
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-6 leading-relaxed">
+              * Il netto mensile desiderato è calcolato al lordo dei costi effettivi dell'attività
+              (il coefficiente ATECO li stima forfettariamente). I calcoli sono approssimati e non
+              tengono conto di eventuali contributi pregressi o deduzioni extra.
             </p>
           </div>
         </motion.div>

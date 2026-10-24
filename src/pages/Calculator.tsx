@@ -95,13 +95,22 @@ export default function Calculator() {
     available,
     warnings,
   } = result;
+  const redditoNettoFiscale = Math.max(
+    0,
+    redditoLordo - contributiConsiderati - impostaSostitutiva,
+  );
+  const costiForfettari = Math.max(0, values.ricavi - redditoLordo);
   const chartData = [
-    { name: 'Netto Stimato', value: Math.max(0, nettoStimato), color: 'var(--color-chart-1)' },
+    {
+      name: 'Netto dopo imposte e contributi',
+      value: redditoNettoFiscale,
+      color: 'var(--color-chart-1)',
+    },
     { name: 'Imposta Sostitutiva', value: impostaSostitutiva, color: 'var(--color-chart-2)' },
     { name: 'Contributi INPS', value: contributiConsiderati, color: 'var(--color-chart-3)' },
     {
-      name: 'Costi Forfettari',
-      value: Math.max(0, values.ricavi - redditoLordo),
+      name: 'Costi forfettari',
+      value: costiForfettari,
       color: 'var(--color-chart-4)',
     },
   ];
@@ -505,7 +514,7 @@ export default function Calculator() {
                       {' '}
                       <span className="font-medium text-zinc-900 dark:text-zinc-100">
                         {' '}
-                        Netto Stimato{' '}
+                        Disponibile dopo imposte e contributi{' '}
                       </span>{' '}
                       <span className="font-semibold text-zinc-900 dark:text-zinc-100">
                         {' '}
@@ -513,6 +522,11 @@ export default function Calculator() {
                       </span>{' '}
                     </div>{' '}
                   </div>{' '}
+                  <p className="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
+                    Il disponibile non sottrae i costi effettivi dell'attività (dipendenti,
+                    materiali, servizi): il coefficiente ATECO li stima in modo forfettario nella
+                    voce &quot;Costi forfettari&quot;.
+                  </p>{' '}
                 </div>{' '}
                 {/* Grafico */}{' '}
                 <div className="flex flex-col gap-6">
@@ -524,7 +538,7 @@ export default function Calculator() {
                   <div
                     className="h-[250px] w-full min-w-0"
                     role="img"
-                    aria-label={`Ripartizione stimata: netto ${formatCurrency(nettoStimato)}, imposta ${formatCurrency(impostaSostitutiva)}, contributi ${formatCurrency(contributiConsiderati)} e costi forfettari ${formatCurrency(Math.max(0, values.ricavi - redditoLordo))}.`}
+                    aria-label={`Ripartizione dei ricavi: costi forfettari ${formatCurrency(costiForfettari)}, contributi ${formatCurrency(contributiConsiderati)}, imposta ${formatCurrency(impostaSostitutiva)} e netto dopo imposte ${formatCurrency(redditoNettoFiscale)}.`}
                   >
                     {' '}
                     <ResponsiveContainer

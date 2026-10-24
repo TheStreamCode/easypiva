@@ -68,7 +68,23 @@ describe('compareRegimes', () => {
 
     expect(result.forfettario.inps).toBeCloseTo(10167.3, 2);
     expect(result.forfettario.tasse).toBeCloseTo(4324.905, 3);
-    expect(result.forfettario.netto).toBeCloseTo(35507.795, 3);
+    // The same real costs are subtracted from the forfettario cash result too.
+    expect(result.forfettario.costi).toBe(10000);
+    expect(result.forfettario.netto).toBeCloseTo(25507.795, 3);
+  });
+
+  it('subtracts the same real costs from both regimes', () => {
+    const result = compareRegimes({
+      ricavi: 50000,
+      costiReali: 10000,
+      atecoId: '8',
+      nuovaAttivita: false,
+      tipoInps: 'gestioneSeparata',
+    });
+
+    expect(result.forfettario.netto - result.ordinario.netto).toBeCloseTo(result.deltaNetto, 6);
+    // Without the cost symmetry the delta would be inflated by 10,000.
+    expect(result.deltaNetto).toBeCloseTo(3021.7223, 3);
   });
 
   it('applies the self-employment income deduction to the ordinario IRPEF', () => {

@@ -65,7 +65,10 @@ export function compareRegimes(input: ComparisonInput): ComparisonResult {
   });
   const inpsForf = forfettarioResult.contributiConsiderati;
   const impostaForf = forfettarioResult.impostaSostitutiva;
-  const nettoForf = forfettarioResult.nettoStimato;
+  // Compare cash results: activity costs are paid in both regimes, so subtract
+  // the same real costs from the forfettario net as well. The forfettario
+  // coefficient still drives the tax base; it only estimates those costs.
+  const nettoForf = forfettarioResult.nettoStimato - input.costiReali;
 
   const redditoLordoOrd = Math.max(0, input.ricavi - input.costiReali);
   const inpsOrd = calculateInps(redditoLordoOrd, tipoInps, false, input.contributionHistory).totale;
@@ -78,7 +81,7 @@ export function compareRegimes(input: ComparisonInput): ComparisonResult {
 
   const forfettario: RegimeResult = {
     ricavi: input.ricavi,
-    costi: input.ricavi - forfettarioResult.redditoLordo,
+    costi: input.costiReali,
     inps: inpsForf,
     tasse: impostaForf,
     netto: nettoForf,

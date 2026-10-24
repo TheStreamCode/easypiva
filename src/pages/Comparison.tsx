@@ -212,17 +212,25 @@ export default function Comparison() {
                 !
               </h2>
               <p className="text-zinc-600 dark:text-zinc-400">
-                Differenza netta:{' '}
-                <span className="font-medium text-zinc-900 dark:text-zinc-100">
-                  {formatCurrency(Math.abs(result.deltaNetto))}
-                </span>{' '}
-                all'anno.
+                {result.forfettario.available ? (
+                  <>
+                    Differenza netta:{' '}
+                    <span className="font-medium text-zinc-900 dark:text-zinc-100">
+                      {formatCurrency(Math.abs(result.deltaNetto))}
+                    </span>{' '}
+                    all'anno.
+                  </>
+                ) : (
+                  'Confronto non applicabile: il regime forfettario non è disponibile con questi ricavi.'
+                )}
               </p>
             </div>
 
             <p className="text-sm text-zinc-500 dark:text-zinc-400">
-              Il confronto applica la stessa gestione INPS a entrambi i regimi. La riduzione del 35%
-              viene considerata solo per il forfettario quando applicabile.
+              Il confronto sottrae gli stessi costi effettivi a entrambi i regimi e applica la
+              stessa gestione INPS; la riduzione del 35% viene considerata solo per il forfettario
+              quando applicabile. Non considera IRAP, INAIL, cassa previdenziale, acconti e
+              detrazioni ulteriori: è una stima, non una consulenza fiscale.
             </p>
 
             {!result.forfettario.available ? (
@@ -307,7 +315,7 @@ export default function Comparison() {
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-zinc-500">Costi Forfettari:</span>
+                  <span className="text-zinc-500">Costi effettivi:</span>
                   <span className="text-zinc-500">-{formatCurrency(result.forfettario.costi)}</span>
                 </div>
                 <div className="flex justify-between items-center">
