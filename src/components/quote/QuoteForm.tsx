@@ -497,6 +497,13 @@ export function QuoteForm({
           </FormField>
         </div>
 
+        <p className="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
+          Se sei in regime forfettario non puoi addebitare l&apos;IVA sulle operazioni nazionali:
+          scegli &quot;Nessuna IVA&quot; e indica il motivo dell&apos;esenzione (art. 234, comma 1,
+          lett. a, del D.Lgs. 117/2026). Per gli altri regimi verifica l&apos;aliquota corretta; per
+          la fattura valgono gli obblighi del TU-IVA 2026, inclusa la fatturazione elettronica.
+        </p>
+
         {showVatExemption ? (
           <FormField
             id="vatExemptionReason"

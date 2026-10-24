@@ -399,4 +399,13 @@ describe('QuoteForm', () => {
     expect(submitButton).toBeInTheDocument();
     expect(submitButton).not.toBeDisabled();
   });
+
+  it('shows the forfettario VAT guidance next to the VAT regime', () => {
+    render(<FormWrapper />);
+
+    expect(screen.getByText(/regime forfettario non puoi addebitare/i)).toHaveTextContent(
+      /art\. 234/i,
+    );
+    expect(screen.getByText(/fatturazione elettronica/i)).toBeInTheDocument();
+  });
 });
