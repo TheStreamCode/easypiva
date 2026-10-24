@@ -85,3 +85,36 @@ test('completes a preventivo with logo and exports a pdf', async ({ page }) => {
 
   expect(download.suggestedFilename()).toMatch(/^preventivo.*\.pdf$/i);
 });
+
+test('exports only the data entered, without demo placeholders', async ({ page }) => {
+  await page.goto('/preventivo');
+  await dismissWelcomeModal(page);
+
+  await page.locator('#providerName').fill('Studio Solo Dati');
+  await page.locator('#providerEmail').fill('info@studiosolodati.it');
+  await page.locator('#providerAddress').fill('Via Reale 1');
+  await page.locator('#providerCity').fill('Bologna');
+  await page.locator('#providerVatNumber').fill('IT11122233344');
+  await page.locator('#clientName').fill('Cliente Reale');
+  await page.locator('#clientEmail').fill('cliente@reale.it');
+  await page.locator('#clientAddress').fill('Via Cliente 9');
+  await page.locator('#quoteNumber').fill('PREV-REAL-001');
+  await page.locator('#title').fill('Preventivo con dati reali');
+  await page.locator('#lineItems\\.0\\.description').fill('Consulenza');
+
+  const downloadPromise = page.waitForEvent('download');
+  await page.getByTestId('quote-export-button').click();
+  const download = await downloadPromise;
+
+  const pdfPath = await download.path();
+  expect(pdfPath).toBeTruthy();
+  const pdfText = (await readFile(pdfPath!)).toString('latin1');
+
+  expect(pdfText).toContain('Studio Solo Dati');
+  expect(pdfText).toContain('Cliente Reale');
+  expect(pdfText).not.toContain('EasyPIVA Studio Creativo');
+  expect(pdfText).not.toContain('Atelier Luce Srl');
+  expect(pdfText).not.toContain('IT10987654321');
+  expect(pdfText).not.toContain('RSSMRA90A01F205X');
+  expect(pdfText).not.toContain('00186 Roma RM');
+});

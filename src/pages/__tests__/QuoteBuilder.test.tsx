@@ -78,16 +78,16 @@ describe('QuoteBuilder draft persistence', () => {
     expect(screen.getByTestId('quote-preview-root')).toBeInTheDocument();
   });
 
-  test('uses placeholder defaults when no draft is saved', () => {
+  test('does not inject demo data into the preview when the form is empty', () => {
     render(<QuoteBuilder />);
 
-    const providerNameInput = screen.getByLabelText(/Ragione Sociale/i);
-    expect(providerNameInput).toHaveValue('');
-    // Preview should show placeholder provider name (scope to visible preview only)
+    expect(screen.getByLabelText(/Ragione Sociale/i)).toHaveValue('');
+
     const previewRoot = screen.getByTestId('quote-preview-root');
-    expect(previewRoot.querySelector('p.text-sm.font-semibold')).toHaveTextContent(
-      'EasyPIVA Studio Creativo',
-    );
+    expect(previewRoot).not.toHaveTextContent('EasyPIVA Studio Creativo');
+    expect(previewRoot).not.toHaveTextContent('IT10987654321');
+    expect(previewRoot).not.toHaveTextContent('RSSMRA90A01F205X');
+    expect(previewRoot).not.toHaveTextContent('00186 Roma RM');
   });
 
   test('persists draft to localStorage on form change', async () => {

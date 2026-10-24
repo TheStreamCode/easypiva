@@ -14,7 +14,6 @@ import { QuoteExportPages } from '../components/quote/QuoteExportPages';
 import { buildPaginationDataSafe, type QuoteDraft } from '../components/quote/quotePreviewData';
 import { QUOTE_LIMITS, quoteFormSchema } from '../components/quote/quoteFormSchema';
 import { readStorageItem, writeStorageItem, removeStorageItem } from '@/lib/browser-storage';
-import { quotePlaceholder } from '@/lib/quote/placeholders';
 
 const STORAGE_KEY = 'easypiva.quote-draft';
 const FORM_ID = 'quote-builder-form';
@@ -185,34 +184,32 @@ function sanitizeDraft(input: Partial<QuoteFormValues>): QuoteFormValues {
 }
 
 function formValuesToDraft(values: QuoteFormValues): QuoteDraft {
-  const p = quotePlaceholder;
-
   return {
-    id: p.id,
-    quoteNumber: values.quoteNumber || p.quoteNumber,
-    title: values.title || p.title,
-    issueDate: values.issueDate || p.issueDate,
+    id: 'quote-draft',
+    quoteNumber: values.quoteNumber,
+    title: values.title,
+    issueDate: values.issueDate,
     provider: {
-      name: values.providerName || p.provider.name,
-      address: values.providerAddress || p.provider.address,
-      city: values.providerCity || p.provider.city,
-      vatNumber: values.providerVatNumber || p.provider.vatNumber,
-      taxCode: values.providerTaxCode || p.provider.taxCode,
-      email: values.providerEmail || p.provider.email,
-      phone: values.providerPhone || p.provider.phone,
-      website: values.providerWebsite || p.provider.website,
+      name: values.providerName,
+      address: values.providerAddress,
+      city: values.providerCity,
+      vatNumber: values.providerVatNumber,
+      taxCode: values.providerTaxCode,
+      email: values.providerEmail,
+      phone: values.providerPhone,
+      website: values.providerWebsite,
     },
     client: {
-      name: values.clientName || p.client.name,
-      address: values.clientAddress || p.client.address,
-      city: values.clientCity || p.client.city,
-      vatNumber: values.clientVatNumber || p.client.vatNumber,
-      taxCode: values.clientTaxCode || p.client.taxCode,
-      email: values.clientEmail || p.client.email,
+      name: values.clientName,
+      address: values.clientAddress,
+      city: values.clientCity,
+      vatNumber: values.clientVatNumber,
+      taxCode: values.clientTaxCode,
+      email: values.clientEmail,
     },
     items: values.lineItems.map((item, index) => ({
       id: item.id || `item-${index + 1}`,
-      description: item.description || 'Prestazione professionale',
+      description: item.description,
       quantity: item.quantity,
       unitPrice: Number.isFinite(item.unitPrice) ? item.unitPrice : 0,
     })),
