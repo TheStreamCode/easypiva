@@ -590,7 +590,8 @@ export default function Calculator() {
                   </Button>
                 ) : (
                   <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                    Simulazione non esportabile.
+                    Regime forfettario non applicabile con questi dati: la simulazione non è
+                    esportabile. Controlla i requisiti di accesso e le soglie indicate sopra.
                   </p>
                 )}{' '}
                 <Button onClick={() => setStep(1)} variant="ghost" className="ml-auto">

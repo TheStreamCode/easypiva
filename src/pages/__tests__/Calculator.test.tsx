@@ -38,6 +38,6 @@ describe('Calculator page', () => {
     await user.click(screen.getByRole('button', { name: /calcola risultati/i }));
 
     expect(screen.queryByRole('button', { name: /esporta pdf/i })).not.toBeInTheDocument();
-    expect(await screen.findByText(/simulazione non esportabile/i)).toBeInTheDocument();
+    expect(await screen.findByText(/regime forfettario non applicabile/i)).toBeInTheDocument();
   });
 });

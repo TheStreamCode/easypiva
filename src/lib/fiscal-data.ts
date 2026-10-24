@@ -10,7 +10,11 @@ export type ContributionHistory = 'pre1996' | 'post1995';
 // Coefficienti ATECO 2007 dell'Allegato D del TUIR 2026 (D.Lgs. 117/2026, art. 235).
 export const ATECO_CATEGORIES: AtecoCategory[] = [
   { id: '1', name: 'Industrie alimentari e delle bevande (10-11)', coefficient: 40 },
-  { id: '2', name: "Commercio all'ingrosso e al dettaglio (45-47)", coefficient: 40 },
+  {
+    id: '2',
+    name: "Commercio all'ingrosso e al dettaglio; riparazione di autoveicoli e motocicli (45, 46.2-46.9, 47.1-47.7, 47.9)",
+    coefficient: 40,
+  },
   {
     id: '3',
     name: 'Commercio ambulante di prodotti alimentari e bevande (47.81)',
@@ -27,7 +31,7 @@ export const ATECO_CATEGORIES: AtecoCategory[] = [
   },
   {
     id: '9',
-    name: 'Altre attività economiche (01-09, 12-33, 35-39, 49-53, 58-63, 77-82, 90-99)',
+    name: 'Altre attività economiche (01-09, 12-33, 35-39, 49-53, 58-63, 77-82, 84, 90-99)',
     coefficient: 67,
   },
 ];

@@ -211,8 +211,45 @@ describe('calculateForfettario', () => {
 
     expect(belowLimit.warnings).toEqual([]);
     expect(atLimit.warnings).toEqual([]);
+    expect(overLimit.available).toBe(false);
     expect(overLimit.warnings).toEqual([
-      expect.objectContaining({ code: 'employment-income-over-limit', severity: 'warning' }),
+      expect.objectContaining({ code: 'employment-income-over-limit', severity: 'critical' }),
     ]);
+  });
+
+  it('marks the regime unavailable when employee costs exceed the limit', () => {
+    const result = calculateForfettario({
+      ricavi: 50000,
+      atecoId: '8',
+      contributiVersati: 0,
+      mesiAttivita: 12,
+      nuovaAttivita: false,
+      tipoInps: 'nessuno',
+      riduzioneInps: false,
+      speseDipendenti: 20001,
+      redditoDipendente: 0,
+    });
+
+    expect(result.available).toBe(false);
+    expect(result.warnings).toContainEqual({
+      code: 'employee-costs-over-limit',
+      severity: 'critical',
+    });
+  });
+
+  it('prorates the fixed INPS contribution with the activity months', () => {
+    const result = calculateForfettario({
+      ricavi: 30000,
+      atecoId: '8',
+      contributiVersati: 0,
+      mesiAttivita: 6,
+      nuovaAttivita: true,
+      tipoInps: 'artigiani',
+      riduzioneInps: false,
+      speseDipendenti: 0,
+      redditoDipendente: 0,
+    });
+
+    expect(result.inps.fisso).toBeCloseTo(2260.68, 2);
   });
 });

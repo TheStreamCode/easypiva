@@ -11,6 +11,7 @@ export function calculateForfettario(input: ForfettarioInput): ForfettarioResult
     input.tipoInps,
     input.riduzioneInps,
     input.contributionHistory,
+    input.mesiAttivita,
   );
   const contributiConsiderati = input.contributiVersati > 0 ? input.contributiVersati : inps.totale;
   const redditoNettoImponibile = Math.max(0, redditoLordo - contributiConsiderati);
@@ -19,6 +20,8 @@ export function calculateForfettario(input: ForfettarioInput): ForfettarioResult
   const nettoStimato = input.ricavi - contributiConsiderati - impostaSostitutiva;
   const warnings: DomainWarning[] = [];
   const hasImmediateExit = input.ricavi > LIMITS.uscitaImmediata;
+  const hasEmployeeCostsOverLimit = input.speseDipendenti > LIMITS.dipendenti;
+  const hasEmploymentIncomeOverLimit = input.redditoDipendente > LIMITS.redditoDipendente;
 
   if (ricaviRagguagliati > LIMITS.ricavi && !hasImmediateExit) {
     warnings.push({
@@ -34,17 +37,17 @@ export function calculateForfettario(input: ForfettarioInput): ForfettarioResult
     });
   }
 
-  if (input.speseDipendenti > LIMITS.dipendenti) {
+  if (hasEmployeeCostsOverLimit) {
     warnings.push({
       code: 'employee-costs-over-limit',
-      severity: 'warning',
+      severity: 'critical',
     });
   }
 
-  if (input.redditoDipendente > LIMITS.redditoDipendente) {
+  if (hasEmploymentIncomeOverLimit) {
     warnings.push({
       code: 'employment-income-over-limit',
-      severity: 'warning',
+      severity: 'critical',
     });
   }
 
@@ -59,7 +62,8 @@ export function calculateForfettario(input: ForfettarioInput): ForfettarioResult
     impostaSostitutiva,
     inps,
     nettoStimato,
-    available: !hasImmediateExit,
+    // Both requirement failures are exclusion causes for the regime, not mere notes.
+    available: !hasImmediateExit && !hasEmployeeCostsOverLimit && !hasEmploymentIncomeOverLimit,
     warnings,
   };
 }

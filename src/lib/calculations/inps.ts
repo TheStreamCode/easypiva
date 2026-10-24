@@ -6,6 +6,7 @@ export function calculateInps(
   tipoInps: InpsType,
   riduzioneInps = false,
   contributionHistory: ContributionHistory = 'post1995',
+  mesiAttivita = 12,
 ): InpsCalculation {
   const imponibile = Math.max(0, redditoLordo);
 
@@ -23,8 +24,11 @@ export function calculateInps(
   const rates = INPS_RATES[tipoInps];
   const massimale =
     contributionHistory === 'pre1996' ? rates.massimalePre1996 : rates.massimalePost1995;
+  const mesi = Number.isFinite(mesiAttivita) ? Math.min(12, Math.max(1, mesiAttivita)) : 12;
   const riduzione = riduzioneInps ? 0.65 : 1;
-  const fisso = rates.minimalContribution * riduzione;
+  // The fixed contribution accrues month by month: INPS Circular 14/2026 lists
+  // the monthly amounts (376,78 / 384,31 EUR) for partial activity periods.
+  const fisso = ((rates.minimalContribution * mesi) / 12) * riduzione;
 
   // Il contributo variabile si calcola sull'eccedenza oltre il minimale, fino al massimale.
   // Oltre la soglia surchargeThreshold l'aliquota IVS aumenta di surchargeRate (+1%).

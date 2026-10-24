@@ -16,11 +16,12 @@ export const warningCopy: Record<WarningCode, { title: string; message: string }
       "Hai superato la soglia dei 100.000€. Esci IMMEDIATAMENTE dal regime forfettario nell'anno in corso. Dovrai applicare l'IVA sulle fatture successive all'incasso che ha causato il superamento.",
   },
   'employee-costs-over-limit': {
-    title: 'Attenzione',
-    message: 'Le spese per dipendenti superano il limite di 20.000€.',
+    title: 'Regime non applicabile',
+    message:
+      'Le spese per dipendenti e collaboratori superano il limite di 20.000€: non puoi accedere al regime forfettario.',
   },
   'employment-income-over-limit': {
-    title: 'Attenzione',
+    title: 'Regime non applicabile',
     message:
       'Il reddito da lavoro dipendente/pensione supera 30.000€. Non puoi accedere al regime forfettario.',
   },

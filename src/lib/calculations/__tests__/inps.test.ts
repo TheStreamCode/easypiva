@@ -64,4 +64,19 @@ describe('calculateInps', () => {
     expect(result.variabile).toBe(0);
     expect(result.totale).toBe(0);
   });
+
+  it('prorates the fixed contribution for partial activity periods', () => {
+    const artigiani = calculateInps(0, 'artigiani', false, 'post1995', 6);
+    expect(artigiani.fisso).toBeCloseTo(4521.36 / 2, 2);
+
+    const commercianti = calculateInps(0, 'commercianti', false, 'post1995', 3);
+    expect(commercianti.fisso).toBeCloseTo(4611.64 / 4, 2);
+  });
+
+  it('does not prorate Gestione Separata, which has no fixed contribution', () => {
+    const fullYear = calculateInps(50000, 'gestioneSeparata');
+    const partialYear = calculateInps(50000, 'gestioneSeparata', false, 'post1995', 6);
+
+    expect(partialYear.totale).toBeCloseTo(fullYear.totale);
+  });
 });
