@@ -38,7 +38,13 @@ type SplitTextMeta = {
 };
 
 const PAGE_HEIGHT = 297;
-const FOOTER_HEIGHT = 16;
+// QuotePage renders the A4 content box inset by 16mm at the top and 24mm at the
+// bottom (see QuotePage.tsx and the .quote-a4-content rule in index.css).
+const PAGE_CONTENT_TOP = 16;
+const PAGE_CONTENT_BOTTOM = 24;
+const CONTENT_HEIGHT = PAGE_HEIGHT - PAGE_CONTENT_TOP - PAGE_CONTENT_BOTTOM;
+// The rendered page stacks blocks with a 4mm gap; pagination must budget for it.
+const BLOCK_GAP = 4;
 const ITEMS_HEADER_HEIGHT = 10;
 const ITEM_BASE_HEIGHT = 9;
 const ITEM_LINE_HEIGHT = 4.8;
@@ -147,7 +153,7 @@ function buildItemLayout(item: QuoteDraftItem): ItemLayout {
   const descriptionLines = wrapTextLines(item.description.trim(), ITEM_DESCRIPTION_CHARS);
   const effectiveLines =
     descriptionLines.length > 0 ? descriptionLines : ['Prestazione professionale'];
-  const freshItemsPageCapacity = PAGE_HEIGHT - FOOTER_HEIGHT - ITEMS_HEADER_HEIGHT;
+  const freshItemsPageCapacity = CONTENT_HEIGHT - BLOCK_GAP - ITEMS_HEADER_HEIGHT;
   const maxLinesPerPart = Math.max(
     1,
     Math.floor((freshItemsPageCapacity - ITEM_BASE_HEIGHT) / ITEM_LINE_HEIGHT),
@@ -295,7 +301,12 @@ export function buildPaginationData(quote: QuoteDraft) {
 
   const pages = paginateQuoteBlocks({
     pageHeight: PAGE_HEIGHT,
-    footerBlock: { id: 'document-footer', kind: 'footer', height: FOOTER_HEIGHT },
+    footerBlock: {
+      id: 'document-footer',
+      kind: 'footer',
+      height: PAGE_CONTENT_TOP + PAGE_CONTENT_BOTTOM,
+    },
+    blockGap: BLOCK_GAP,
     blocks,
   });
 

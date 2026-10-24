@@ -53,6 +53,8 @@ export type PaginateQuoteBlocksInput = {
   pageHeight: number;
   footerBlock: QuotePaginationBlock;
   blocks: QuotePaginationBlock[];
+  /** Vertical gap between rendered blocks, in the same unit as heights. Defaults to 0. */
+  blockGap?: number;
 };
 
 type MutableQuotePaginationPage = {
@@ -86,11 +88,6 @@ function cloneBlock(
 
 function isPageEmpty(page: MutableQuotePaginationPage) {
   return page.blocks.length === 0;
-}
-
-function appendBlock(page: MutableQuotePaginationPage, block: QuotePaginationBlock) {
-  page.blocks.push(block);
-  page.usedHeight += block.height;
 }
 
 function finalizePage(
@@ -191,6 +188,15 @@ function getRepeatedItemsHeaderHeight(activeItemsHeader: QuotePaginationBlock | 
   return activeItemsHeader.height;
 }
 
+function appendBlock(page: MutableQuotePaginationPage, block: QuotePaginationBlock, gap: number) {
+  if (!isPageEmpty(page)) {
+    page.usedHeight += gap;
+  }
+
+  page.blocks.push(block);
+  page.usedHeight += block.height;
+}
+
 export function paginateQuoteBlocks(input: PaginateQuoteBlocksInput): QuotePaginationPage[] {
   if (input.footerBlock.kind !== 'footer') {
     throw new Error('Footer block must use kind footer.');
@@ -199,9 +205,14 @@ export function paginateQuoteBlocks(input: PaginateQuoteBlocksInput): QuotePagin
   requirePositiveHeights(input.footerBlock);
 
   const contentHeight = input.pageHeight - input.footerBlock.height;
+  const blockGap = input.blockGap ?? 0;
 
   if (contentHeight <= 0) {
     throw new Error('Page height must be larger than the footer height.');
+  }
+
+  if (!Number.isFinite(blockGap) || blockGap < 0) {
+    throw new Error('Block gap must be a non-negative finite number.');
   }
 
   const pages: QuotePaginationPage[] = [];
@@ -213,13 +224,22 @@ export function paginateQuoteBlocks(input: PaginateQuoteBlocksInput): QuotePagin
     currentPage = createPage(currentPage.number + 1);
   }
 
+  // Height needed to append a block to the current page, including the gap
+  // that the renderer inserts between adjacent blocks.
+  function getPlacementHeight(height: number) {
+    return currentPage.usedHeight + (isPageEmpty(currentPage) ? 0 : blockGap) + height;
+  }
+
+  function appendToCurrentPage(block: QuotePaginationBlock) {
+    appendBlock(currentPage, block, blockGap);
+  }
+
   function ensureItemsHeaderOnCurrentPage() {
     if (!activeItemsHeader || !isPageEmpty(currentPage)) {
       return;
     }
 
-    appendBlock(
-      currentPage,
+    appendToCurrentPage(
       cloneBlock(activeItemsHeader, {
         id: `${activeItemsHeader.id}-page-${currentPage.number}`,
         repeated: true,
@@ -228,7 +248,8 @@ export function paginateQuoteBlocks(input: PaginateQuoteBlocksInput): QuotePagin
   }
 
   function getFreshItemsPageCapacity() {
-    return contentHeight - getRepeatedItemsHeaderHeight(activeItemsHeader);
+    const headerHeight = getRepeatedItemsHeaderHeight(activeItemsHeader);
+    return contentHeight - headerHeight - (headerHeight > 0 ? blockGap : 0);
   }
 
   function ensureSpace(height: number, block: QuotePaginationBlock) {
@@ -236,14 +257,14 @@ export function paginateQuoteBlocks(input: PaginateQuoteBlocksInput): QuotePagin
       throw new Error(`Block ${block.id} exceeds the available page height.`);
     }
 
-    if (currentPage.usedHeight + height > contentHeight) {
+    if (getPlacementHeight(height) > contentHeight) {
       startNewPage();
     }
   }
 
   function placeWholeBlock(block: QuotePaginationBlock) {
     ensureSpace(block.height, block);
-    appendBlock(currentPage, cloneBlock(block));
+    appendToCurrentPage(cloneBlock(block));
   }
 
   function placeSplitTextBlock(block: QuotePaginationBlock) {
@@ -269,7 +290,7 @@ export function paginateQuoteBlocks(input: PaginateQuoteBlocksInput): QuotePagin
       while (offset + consumedSegments < splitHeights.length) {
         const nextHeight = splitHeights[offset + consumedSegments];
 
-        if (currentPage.usedHeight + partHeight + nextHeight > contentHeight) {
+        if (getPlacementHeight(partHeight + nextHeight) > contentHeight) {
           break;
         }
 
@@ -288,8 +309,7 @@ export function paginateQuoteBlocks(input: PaginateQuoteBlocksInput): QuotePagin
         );
       }
 
-      appendBlock(
-        currentPage,
+      appendToCurrentPage(
         cloneBlock(block, {
           id: `${block.id}-part-${partIndex}`,
           height: partHeight,
@@ -319,13 +339,12 @@ export function paginateQuoteBlocks(input: PaginateQuoteBlocksInput): QuotePagin
         ensureItemsHeaderOnCurrentPage();
       }
 
-      if (currentPage.usedHeight + partHeight > contentHeight) {
+      if (getPlacementHeight(partHeight) > contentHeight) {
         startNewPage();
         ensureItemsHeaderOnCurrentPage();
       }
 
-      appendBlock(
-        currentPage,
+      appendToCurrentPage(
         cloneBlock(block, {
           id: `${block.id}-part-${index + 1}`,
           height: partHeight,
@@ -358,12 +377,12 @@ export function paginateQuoteBlocks(input: PaginateQuoteBlocksInput): QuotePagin
           ensureItemsHeaderOnCurrentPage();
         }
 
-        if (currentPage.usedHeight + block.height > contentHeight) {
+        if (getPlacementHeight(block.height) > contentHeight) {
           startNewPage();
           ensureItemsHeaderOnCurrentPage();
         }
 
-        appendBlock(currentPage, cloneBlock(block));
+        appendToCurrentPage(cloneBlock(block));
         continue;
       }
 

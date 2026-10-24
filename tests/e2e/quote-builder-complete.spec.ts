@@ -68,6 +68,16 @@ test('completes a preventivo with logo and exports a pdf', async ({ page }) => {
 
   await expect(page.getByTestId('quote-preview-root')).toBeVisible();
 
+  // Every rendered A4 page must keep its blocks inside the real content box,
+  // which is inset by 16mm at the top and 24mm at the bottom.
+  const contentOverflows = await page.evaluate(() =>
+    Array.from(document.querySelectorAll('#quote-export-root .quote-a4-content')).map((element) =>
+      Math.max(0, element.scrollHeight - element.clientHeight),
+    ),
+  );
+  expect(contentOverflows.length).toBeGreaterThan(0);
+  expect(Math.max(...contentOverflows)).toBeLessThanOrEqual(2);
+
   const downloadPromise = page.waitForEvent('download');
   await page.getByTestId('quote-export-button').click();
   const download = await downloadPromise;
