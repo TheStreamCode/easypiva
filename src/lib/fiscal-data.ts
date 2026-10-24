@@ -7,6 +7,7 @@ export type AtecoCategory = {
 export type InpsType = 'gestioneSeparata' | 'artigiani' | 'commercianti' | 'nessuno';
 export type ContributionHistory = 'pre1996' | 'post1995';
 
+// Coefficienti ATECO 2007 dell'Allegato D del TUIR 2026 (D.Lgs. 117/2026, art. 235).
 export const ATECO_CATEGORIES: AtecoCategory[] = [
   { id: '1', name: 'Industrie alimentari e delle bevande (10-11)', coefficient: 40 },
   { id: '2', name: "Commercio all'ingrosso e al dettaglio (45-47)", coefficient: 40 },
@@ -63,6 +64,7 @@ export const INPS_RATES = {
 // È una stima rappresentativa: le aliquote reali variano per regione (~1,23%–3,33%) e comune (0%–0,9%).
 export const ADDIZIONALI_MEDIE = 0.02;
 
+// Scaglioni IRPEF: art. 11, comma 1, TUIR 2026 (D.Lgs. 117/2026).
 export const IRPEF_BRACKETS_2026 = [
   { max: 28000, rate: 0.23 },
   { max: 50000, rate: 0.33 },

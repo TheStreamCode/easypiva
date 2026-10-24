@@ -42,6 +42,7 @@ Per eseguire una copia locale dell'app, vedi la sezione [Sviluppo](#sviluppo).
 
 - soglie, aliquote e coefficienti sono centralizzati in `src/lib/fiscal-data.ts`;
 - la logica fiscale è isolata in funzioni pure sotto `src/lib/calculations/`;
+- il regime forfettario e l'IRPEF fanno riferimento al TUIR 2026 (D.Lgs. 117/2026, artt. 11, 13, 232-243 e Allegato D), l'IVA al TU-IVA 2026 (D.Lgs. 10/2026) e i valori previdenziali alle circolari INPS 8/2026 e 14/2026;
 - le assunzioni e le fonti normative sono documentate nell'[ADR fiscale](docs/ADRs/0001-fiscal-assumptions.md) e nell'[informativa pubblica](https://easypiva.vercel.app/informativa);
 - test unitari, UI ed end-to-end proteggono i principali casi di regressione;
 - ogni cambiamento fiscale richiede aggiornamenti coordinati di codice, test, documentazione e copy pubblica.

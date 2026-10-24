@@ -32,7 +32,7 @@ src/
   lib/
     calculations/          # Logica fiscale pura (forfettario, inps, comparison, targetNet, planning)
     quote/                 # Modello preventivo, paginazione, export PDF
-    fiscal-data.ts         # Soglie, aliquote, coefficienti ATECO 2026
+    fiscal-data.ts         # Soglie, aliquote, coefficienti ATECO 2007 (Allegato D TUIR 2026)
     number-input.ts        # Normalizzazione input numerici non negativi
     public-copy.ts         # Copy centralizzata dei warning fiscali
     browser-storage.ts     # Unico accesso consentito a localStorage

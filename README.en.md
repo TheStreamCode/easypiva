@@ -42,6 +42,7 @@ To run a local copy of the app, see [Development](#development).
 
 - thresholds, rates, and coefficients are centralized in `src/lib/fiscal-data.ts`;
 - tax logic is isolated in pure functions under `src/lib/calculations/`;
+- the forfettario regime and IRPEF reference the 2026 TUIR (Legislative Decree 117/2026, articles 11, 13, 232-243 and Annex D), VAT references the 2026 VAT Code (Legislative Decree 10/2026), and social security values reference INPS Circulars 8/2026 and 14/2026;
 - assumptions and legal sources are documented in the [fiscal ADR](docs/ADRs/0001-fiscal-assumptions.md) and the [public information page](https://easypiva.vercel.app/informativa);
 - unit, UI, and end-to-end tests protect the main regression cases;
 - every fiscal change requires coordinated updates to code, tests, documentation, and public copy.

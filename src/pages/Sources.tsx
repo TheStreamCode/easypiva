@@ -139,24 +139,29 @@ export default function Sources() {
             </div>
             <div className="space-y-4 leading-relaxed text-zinc-600 dark:text-zinc-400">
               <p>
-                I calcoli si basano sulle assunzioni fiscali documentate nel progetto e sui
-                principali riferimenti istituzionali aggiornati al 2026.
+                I calcoli si basano sulle assunzioni fiscali documentate nel progetto e sulle fonti
+                primarie vigenti al 24 ottobre 2026: il TUIR 2026 (D.Lgs. 117/2026) per imposte e
+                regime forfettario, il TU-IVA 2026 (D.Lgs. 10/2026) per l'IVA e le circolari INPS
+                per i contributi. I valori possono cambiare con la legge di bilancio.
               </p>
               <ul className="ml-2 list-inside list-disc space-y-2 text-zinc-700 dark:text-zinc-300">
                 <li>
                   <strong className="font-medium text-zinc-900 dark:text-zinc-100">
                     Regime forfettario:
                   </strong>{' '}
-                  limite ricavi a 85.000 euro, uscita immediata a 100.000 euro, imposta sostitutiva
-                  al 15% o al 5% nei casi agevolati previsti.
+                  artt. 232-243 e Allegato D del TUIR 2026: limite ricavi a 85.000 euro, uscita
+                  immediata a 100.000 euro, imposta sostitutiva al 15% o al 5% nei casi agevolati
+                  previsti; il regime non applica la rivalsa IVA sulle operazioni nazionali (art.
+                  234).
                 </li>
                 <li>
                   <strong className="font-medium text-zinc-900 dark:text-zinc-100">
                     Regime ordinario:
                   </strong>{' '}
-                  scaglioni IRPEF 2026 (23% / 33% / 43%), detrazione per redditi di lavoro autonomo
-                  e addizionali stimate con un'aliquota media del 2%. È un confronto semplificato e
-                  non considera tutte le detrazioni, deduzioni o la residenza specifica.
+                  scaglioni IRPEF 2026 (23% / 33% / 43%, art. 11 TUIR 2026), detrazione per redditi
+                  di lavoro autonomo (art. 13, commi 5 e 7, TUIR 2026) e addizionali stimate con
+                  un'aliquota media del 2%. È un confronto semplificato: non considera tutte le
+                  detrazioni, deduzioni, IRAP, INAIL, cassa professionale o la residenza specifica.
                 </li>
                 <li>
                   <strong className="font-medium text-zinc-900 dark:text-zinc-100">
@@ -164,18 +169,34 @@ export default function Sources() {
                   </strong>{' '}
                   Gestione Separata 26,07%; Artigiani e Commercianti con minimale 2026 di 18.808€,
                   aliquota aggiuntiva +1% oltre 56.224€ ed eventuale riduzione del 35% per i
-                  forfettari. Per Artigiani e Commercianti il massimale è 93.707€ in presenza di
-                  anzianità contributiva al 31 dicembre 1995 e 122.295€ negli altri casi.
+                  forfettari con attività d'impresa (art. 241 TUIR 2026). Per Artigiani e
+                  Commercianti il massimale è 93.707€ in presenza di anzianità contributiva al 31
+                  dicembre 1995 e 122.295€ negli altri casi.
+                </li>
+                <li>
+                  <strong className="font-medium text-zinc-900 dark:text-zinc-100">
+                    Preventivo e IVA:
+                  </strong>{' '}
+                  il preventivo è un documento economico e non una fattura; per l'emissione valgono
+                  gli obblighi del TU-IVA 2026, inclusa la fatturazione elettronica.
                 </li>
               </ul>
               <div className="mt-4 flex flex-wrap gap-4">
                 <a
-                  href="https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2014;190"
+                  href="https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2026;117"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-sm font-medium text-blue-600 transition-colors hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
                 >
-                  Legge 190/2014 <ExternalLink className="h-4 w-4" />
+                  TUIR 2026 (D.Lgs. 117/2026) <ExternalLink className="h-4 w-4" />
+                </a>
+                <a
+                  href="https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2026;10"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-sm font-medium text-blue-600 transition-colors hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                >
+                  TU-IVA 2026 (D.Lgs. 10/2026) <ExternalLink className="h-4 w-4" />
                 </a>
                 <a
                   href="https://www.inps.it/it/it/inps-comunica/atti/circolari-messaggi-e-normativa/dettaglio.circolari-e-messaggi.2026.02.circolare-numero-14-del-09-02-2026_15162.html"
