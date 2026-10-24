@@ -92,7 +92,9 @@ export default function Comparison() {
         <motion.div variants={itemVariants} className="lg:col-span-1 flex flex-col gap-8">
           <div className="flex flex-col gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-2">
             <h2 className="text-lg font-medium text-zinc-900 dark:text-zinc-100">Parametri</h2>
-            <p className="text-sm text-zinc-500">Regola i valori per simulare il confronto.</p>
+            <p className="text-sm text-zinc-500 dark:text-zinc-400">
+              Regola i valori per simulare il confronto.
+            </p>
           </div>
 
           <div className="flex flex-col gap-6">
@@ -115,7 +117,9 @@ export default function Comparison() {
                 <Label htmlFor="costiReali" className="text-zinc-700 dark:text-zinc-300">
                   Costi Reali Annui (€)
                 </Label>
-                <p className="text-xs text-zinc-500">Spese deducibili nel regime ordinario</p>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                  Spese deducibili nel regime ordinario
+                </p>
               </div>
               <Input
                 id="costiReali"
@@ -155,7 +159,7 @@ export default function Comparison() {
                     <Label htmlFor="riduzioneInps" className="text-zinc-700 dark:text-zinc-300">
                       Riduzione INPS 35%
                     </Label>
-                    <p className="text-xs text-zinc-500">
+                    <p className="text-xs text-zinc-500 dark:text-zinc-400">
                       Applicabile su richiesta per i forfettari.
                     </p>
                   </div>
@@ -257,14 +261,14 @@ export default function Comparison() {
                     dataKey="name"
                     axisLine={false}
                     tickLine={false}
-                    tick={{ fill: '#71717a' }}
+                    tick={{ fill: 'var(--muted-foreground)' }}
                     dy={10}
                   />
                   <YAxis
                     axisLine={false}
                     tickLine={false}
                     tickFormatter={(value) => `€${value / 1000}k`}
-                    tick={{ fill: '#71717a' }}
+                    tick={{ fill: 'var(--muted-foreground)' }}
                   />
                   <RechartsTooltip
                     formatter={(value) => formatCurrency(Number(value ?? 0))}
@@ -275,7 +279,11 @@ export default function Comparison() {
                       boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
                     }}
                   />
-                  <Legend wrapperStyle={{ paddingTop: '20px' }} iconType="circle" />
+                  <Legend
+                    wrapperStyle={{ paddingTop: '20px' }}
+                    iconType="circle"
+                    formatter={(value) => <span className="text-foreground">{value}</span>}
+                  />
                   <Bar
                     dataKey="Netto"
                     stackId="a"
@@ -315,16 +323,24 @@ export default function Comparison() {
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-zinc-500">Costi effettivi:</span>
-                  <span className="text-zinc-500">-{formatCurrency(result.forfettario.costi)}</span>
+                  <span className="text-zinc-500 dark:text-zinc-400">Costi effettivi:</span>
+                  <span className="text-zinc-500 dark:text-zinc-400">
+                    -{formatCurrency(result.forfettario.costi)}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-zinc-500">INPS (Stima):</span>
-                  <span className="text-zinc-500">-{formatCurrency(result.forfettario.inps)}</span>
+                  <span className="text-zinc-500 dark:text-zinc-400">INPS (Stima):</span>
+                  <span className="text-zinc-500 dark:text-zinc-400">
+                    -{formatCurrency(result.forfettario.inps)}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-zinc-500">Imposta ({nuovaAttivita ? '5%' : '15%'}):</span>
-                  <span className="text-zinc-500">-{formatCurrency(result.forfettario.tasse)}</span>
+                  <span className="text-zinc-500 dark:text-zinc-400">
+                    Imposta ({nuovaAttivita ? '5%' : '15%'}):
+                  </span>
+                  <span className="text-zinc-500 dark:text-zinc-400">
+                    -{formatCurrency(result.forfettario.tasse)}
+                  </span>
                 </div>
                 <div className="h-px bg-zinc-200 dark:bg-zinc-800 my-1" />
                 <div className="flex justify-between items-center text-base">
@@ -350,16 +366,22 @@ export default function Comparison() {
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-zinc-500">Costi Reali:</span>
-                  <span className="text-zinc-500">-{formatCurrency(costiReali)}</span>
+                  <span className="text-zinc-500 dark:text-zinc-400">Costi Reali:</span>
+                  <span className="text-zinc-500 dark:text-zinc-400">
+                    -{formatCurrency(costiReali)}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-zinc-500">INPS (Stima):</span>
-                  <span className="text-zinc-500">-{formatCurrency(result.ordinario.inps)}</span>
+                  <span className="text-zinc-500 dark:text-zinc-400">INPS (Stima):</span>
+                  <span className="text-zinc-500 dark:text-zinc-400">
+                    -{formatCurrency(result.ordinario.inps)}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-zinc-500">IRPEF + Addizionali:</span>
-                  <span className="text-zinc-500">-{formatCurrency(result.ordinario.tasse)}</span>
+                  <span className="text-zinc-500 dark:text-zinc-400">IRPEF + Addizionali:</span>
+                  <span className="text-zinc-500 dark:text-zinc-400">
+                    -{formatCurrency(result.ordinario.tasse)}
+                  </span>
                 </div>
                 <div className="h-px bg-zinc-200 dark:bg-zinc-800 my-1" />
                 <div className="flex justify-between items-center text-base">

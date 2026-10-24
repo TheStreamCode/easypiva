@@ -67,7 +67,9 @@ export default function TargetNet() {
             <h2 className="text-lg font-medium text-zinc-900 dark:text-zinc-100">
               Obiettivo e Parametri
             </h2>
-            <p className="text-sm text-zinc-500">Imposta il tuo obiettivo e i dati fiscali.</p>
+            <p className="text-sm text-zinc-500 dark:text-zinc-400">
+              Imposta il tuo obiettivo e i dati fiscali.
+            </p>
           </div>
 
           <div className="flex flex-col gap-6">
@@ -86,7 +88,7 @@ export default function TargetNet() {
                 value={nettoMensile}
                 onChange={(e) => setNettoMensile(parseNonNegativeNumber(e.target.value))}
               />
-              <p className="text-sm text-zinc-500">
+              <p className="text-sm text-zinc-500 dark:text-zinc-400">
                 Netto annuo:{' '}
                 <span className="font-medium text-zinc-700 dark:text-zinc-300">
                   {formatCurrency(result.nettoAnnuo)}
@@ -173,11 +175,11 @@ export default function TargetNet() {
             </div>
 
             <div className="text-center py-8">
-              <p className="text-sm text-zinc-500 mb-2">Devi fatturare circa</p>
+              <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-2">Devi fatturare circa</p>
               <p className="text-5xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
                 {formatCurrency(result.ricaviNecessari)}
               </p>
-              <p className="text-sm text-zinc-500 mt-2">all'anno</p>
+              <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-2">all'anno</p>
               {!result.available ? (
                 <p className="mt-4 text-sm text-amber-700 dark:text-amber-300">
                   Questo obiettivo supera la soglia di uscita immediata dal forfettario.

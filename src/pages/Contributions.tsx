@@ -53,7 +53,9 @@ export default function Contributions() {
         <motion.div variants={itemVariants} className="flex flex-col gap-8">
           <div className="flex flex-col gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-2">
             <h2 className="text-lg font-medium text-zinc-900 dark:text-zinc-100">Dati</h2>
-            <p className="text-sm text-zinc-500">Inserisci il reddito e seleziona la cassa.</p>
+            <p className="text-sm text-zinc-500 dark:text-zinc-400">
+              Inserisci il reddito e seleziona la cassa.
+            </p>
           </div>
 
           <div className="flex flex-col gap-6">
@@ -62,7 +64,9 @@ export default function Contributions() {
                 <Label htmlFor="redditoLordo" className="text-zinc-700 dark:text-zinc-300">
                   Reddito Lordo Imponibile (€)
                 </Label>
-                <p className="text-xs text-zinc-500">Ricavi × Coefficiente (se forfettario)</p>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                  Ricavi × Coefficiente (se forfettario)
+                </p>
               </div>
               <Input
                 id="redditoLordo"
@@ -102,7 +106,9 @@ export default function Contributions() {
                     <Label htmlFor="riduzioneInps" className="text-zinc-700 dark:text-zinc-300">
                       Riduzione 35% Forfettari
                     </Label>
-                    <p className="text-xs text-zinc-500">Solo per regime forfettario</p>
+                    <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                      Solo per regime forfettario
+                    </p>
                   </div>
                   <Switch
                     id="riduzioneInps"
@@ -176,7 +182,7 @@ export default function Contributions() {
                     </span>
                   </li>
                 </ul>
-                <p className="text-xs text-zinc-500 mt-6 leading-relaxed">
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-6 leading-relaxed">
                   * I contributi variabili si pagano con il saldo e gli acconti delle imposte
                   (Giugno/Novembre).
                 </p>

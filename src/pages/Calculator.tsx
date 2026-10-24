@@ -189,7 +189,7 @@ export default function Calculator() {
                 <h2 className="text-xl font-medium text-zinc-900 dark:text-zinc-100">
                   Dati Base
                 </h2>{' '}
-                <p className="text-sm text-zinc-500">
+                <p className="text-sm text-zinc-500 dark:text-zinc-400">
                   {' '}
                   Inserisci i dati principali della tua attività.{' '}
                 </p>{' '}
@@ -228,6 +228,7 @@ export default function Calculator() {
                   <Input
                     id="ricavi"
                     type="number"
+                    inputMode="decimal"
                     placeholder="es. 45000"
                     value={values.ricavi || ''}
                     onChange={(e) => setValue('ricavi', parseNonNegativeNumber(e.target.value))}
@@ -240,6 +241,7 @@ export default function Calculator() {
                   <Input
                     id="mesiAttivita"
                     type="number"
+                    inputMode="decimal"
                     min="1"
                     max="12"
                     value={values.mesiAttivita}
@@ -261,7 +263,7 @@ export default function Calculator() {
                     {' '}
                     Nuova Attività (Startup){' '}
                   </Label>{' '}
-                  <p className="text-sm text-zinc-500">
+                  <p className="text-sm text-zinc-500 dark:text-zinc-400">
                     {' '}
                     Aliquota agevolata al 5% per i primi 5 anni{' '}
                   </p>{' '}
@@ -290,7 +292,9 @@ export default function Calculator() {
                   {' '}
                   Contributi INPS{' '}
                 </h2>{' '}
-                <p className="text-sm text-zinc-500">Configura la tua cassa previdenziale.</p>{' '}
+                <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                  Configura la tua cassa previdenziale.
+                </p>{' '}
               </div>{' '}
               <div className="space-y-4">
                 {' '}
@@ -329,7 +333,7 @@ export default function Calculator() {
                         {' '}
                         Riduzione INPS 35%{' '}
                       </Label>{' '}
-                      <p className="text-sm text-zinc-500">
+                      <p className="text-sm text-zinc-500 dark:text-zinc-400">
                         {' '}
                         Hai richiesto la riduzione per forfettari?{' '}
                       </p>{' '}
@@ -347,13 +351,14 @@ export default function Calculator() {
                 <div className="space-y-1">
                   {' '}
                   <Label htmlFor="contributiVersati">Contributi Versati (€)</Label>{' '}
-                  <p className="text-sm text-zinc-500">
+                  <p className="text-sm text-zinc-500 dark:text-zinc-400">
                     Lascia 0 per usare automaticamente la stima INPS della cassa selezionata.
                   </p>{' '}
                 </div>{' '}
                 <Input
                   id="contributiVersati"
                   type="number"
+                  inputMode="decimal"
                   placeholder="es. 3500"
                   value={values.contributiVersati || ''}
                   onChange={(e) =>
@@ -380,7 +385,7 @@ export default function Calculator() {
                   {' '}
                   Verifica Limiti{' '}
                 </h2>{' '}
-                <p className="text-sm text-zinc-500">
+                <p className="text-sm text-zinc-500 dark:text-zinc-400">
                   {' '}
                   Assicurati di rispettare i requisiti del regime.{' '}
                 </p>{' '}
@@ -390,11 +395,14 @@ export default function Calculator() {
                 <div className="space-y-1">
                   {' '}
                   <Label htmlFor="speseDipendenti">Spese per dipendenti (€)</Label>{' '}
-                  <p className="text-sm text-zinc-500">Limite massimo 20.000€.</p>{' '}
+                  <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                    Limite massimo 20.000€.
+                  </p>{' '}
                 </div>{' '}
                 <Input
                   id="speseDipendenti"
                   type="number"
+                  inputMode="decimal"
                   value={values.speseDipendenti || ''}
                   onChange={(e) =>
                     setValue('speseDipendenti', parseNonNegativeNumber(e.target.value))
@@ -410,11 +418,14 @@ export default function Calculator() {
                     {' '}
                     Reddito da lavoro dipendente anno precedente (€){' '}
                   </Label>{' '}
-                  <p className="text-sm text-zinc-500">Limite massimo 30.000€.</p>{' '}
+                  <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                    Limite massimo 30.000€.
+                  </p>{' '}
                 </div>{' '}
                 <Input
                   id="redditoDipendente"
                   type="number"
+                  inputMode="decimal"
                   value={values.redditoDipendente || ''}
                   onChange={(e) =>
                     setValue('redditoDipendente', parseNonNegativeNumber(e.target.value))
@@ -474,7 +485,7 @@ export default function Calculator() {
                     {' '}
                     <div className="flex justify-between items-center">
                       {' '}
-                      <span className="text-zinc-500">Ricavi Lordi</span>{' '}
+                      <span className="text-zinc-500 dark:text-zinc-400">Ricavi Lordi</span>{' '}
                       <span className="font-medium text-zinc-900 dark:text-zinc-100">
                         {' '}
                         {formatCurrency(values.ricavi)}{' '}
@@ -482,7 +493,7 @@ export default function Calculator() {
                     </div>{' '}
                     <div className="flex justify-between items-center">
                       {' '}
-                      <span className="text-zinc-500">
+                      <span className="text-zinc-500 dark:text-zinc-400">
                         Reddito Lordo ({coefficiente * 100}%)
                       </span>{' '}
                       <span className="font-medium text-zinc-900 dark:text-zinc-100">
@@ -492,7 +503,9 @@ export default function Calculator() {
                     </div>{' '}
                     <div className="flex justify-between items-center">
                       {' '}
-                      <span className="text-zinc-500">Imponibile Netto</span>{' '}
+                      <span className="text-zinc-500 dark:text-zinc-400">
+                        Imponibile Netto
+                      </span>{' '}
                       <span className="font-medium text-zinc-900 dark:text-zinc-100">
                         {' '}
                         {formatCurrency(redditoNettoImponibile)}{' '}
@@ -574,7 +587,11 @@ export default function Calculator() {
                             boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
                           }}
                         />{' '}
-                        <Legend iconType="circle" wrapperStyle={{ fontSize: '12px' }} />{' '}
+                        <Legend
+                          iconType="circle"
+                          wrapperStyle={{ fontSize: '12px' }}
+                          formatter={(value) => <span className="text-foreground">{value}</span>}
+                        />{' '}
                       </PieChart>{' '}
                     </ResponsiveContainer>{' '}
                   </div>{' '}
@@ -611,7 +628,7 @@ export default function Calculator() {
             variant="ghost"
             onClick={prevStep}
             disabled={step === 1}
-            className="gap-2 text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100"
+            className="gap-2 text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100"
           >
             {' '}
             <ArrowLeft className="w-4 h-4" /> Indietro{' '}

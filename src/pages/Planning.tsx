@@ -62,7 +62,9 @@ export default function Planning() {
             <h2 className="text-lg font-medium text-zinc-900 dark:text-zinc-100">
               Ricavi Mensili (€)
             </h2>
-            <p className="text-sm text-zinc-500">Stima il fatturato per ogni mese.</p>
+            <p className="text-sm text-zinc-500 dark:text-zinc-400">
+              Stima il fatturato per ogni mese.
+            </p>
           </div>
 
           <div className="flex flex-col gap-4">
@@ -156,14 +158,14 @@ export default function Planning() {
                     dataKey="month"
                     axisLine={false}
                     tickLine={false}
-                    tick={{ fill: '#71717a', fontSize: 12 }}
+                    tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }}
                     dy={10}
                   />
                   <YAxis
                     tickFormatter={(value) => `€${value / 1000}k`}
                     axisLine={false}
                     tickLine={false}
-                    tick={{ fill: '#71717a', fontSize: 12 }}
+                    tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }}
                     dx={-10}
                   />
                   <RechartsTooltip
@@ -174,7 +176,11 @@ export default function Planning() {
                       boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
                     }}
                   />
-                  <Legend iconType="circle" wrapperStyle={{ paddingTop: '20px' }} />
+                  <Legend
+                    iconType="circle"
+                    wrapperStyle={{ paddingTop: '20px' }}
+                    formatter={(value) => <span className="text-foreground">{value}</span>}
+                  />
                   <ReferenceLine
                     y={LIMITS.ricavi}
                     label={{ position: 'top', value: 'Limite 85k', fill: '#f59e0b', fontSize: 12 }}

@@ -391,6 +391,7 @@ export function QuoteForm({
                   <Input
                     id={`lineItems.${index}.quantity`}
                     type="number"
+                    inputMode="decimal"
                     step="1"
                     min="1"
                     placeholder="1"
@@ -411,6 +412,7 @@ export function QuoteForm({
                   <Input
                     id={`lineItems.${index}.unitPrice`}
                     type="number"
+                    inputMode="decimal"
                     step="0.01"
                     min="0"
                     placeholder="0.00"
@@ -463,6 +465,7 @@ export function QuoteForm({
             <Input
               id="discount"
               type="number"
+              inputMode="decimal"
               min="0"
               max="100"
               step="1"

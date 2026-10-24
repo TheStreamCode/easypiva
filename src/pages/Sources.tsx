@@ -66,7 +66,7 @@ export default function Sources() {
         <div className="flex flex-col gap-12">
           <motion.div variants={itemVariants} className="flex flex-col gap-4">
             <div className="flex items-center gap-3 border-b border-zinc-200 pb-2 dark:border-zinc-800">
-              <Lock className="h-5 w-5 text-zinc-500" />
+              <Lock className="h-5 w-5 text-zinc-500 dark:text-zinc-400" />
               <h2 className="text-lg font-medium text-zinc-900 dark:text-zinc-100">
                 Privacy by design
               </h2>
@@ -97,7 +97,7 @@ export default function Sources() {
 
           <motion.div variants={itemVariants} className="flex flex-col gap-4">
             <div className="flex items-center gap-3 border-b border-zinc-200 pb-2 dark:border-zinc-800">
-              <Database className="h-5 w-5 text-zinc-500" />
+              <Database className="h-5 w-5 text-zinc-500 dark:text-zinc-400" />
               <h2 className="text-lg font-medium text-zinc-900 dark:text-zinc-100">
                 Storage locale nel browser
               </h2>
@@ -132,7 +132,7 @@ export default function Sources() {
 
           <motion.div variants={itemVariants} className="flex flex-col gap-4">
             <div className="flex items-center gap-3 border-b border-zinc-200 pb-2 dark:border-zinc-800">
-              <Info className="h-5 w-5 text-zinc-500" />
+              <Info className="h-5 w-5 text-zinc-500 dark:text-zinc-400" />
               <h2 className="text-lg font-medium text-zinc-900 dark:text-zinc-100">
                 Fonti normative 2026
               </h2>

@@ -75,7 +75,7 @@ export default function Home() {
 
       <section>
         <div className="mb-8">
-          <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-wider dark:text-zinc-400">
+          <h2 className="text-sm font-medium text-zinc-500 dark:text-zinc-400 uppercase tracking-wider dark:text-zinc-400">
             Strumenti disponibili
           </h2>
         </div>

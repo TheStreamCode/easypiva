@@ -371,7 +371,7 @@ export default function QuoteBuilder() {
       {/* Mobile actions bar — visible on all sizes, primary CTA on mobile */}
       <div
         data-testid="mobile-actions"
-        className="sticky top-0 z-30 flex items-center gap-3 rounded-xl border border-zinc-200 bg-white/90 p-3 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-950/90 lg:hidden"
+        className="sticky top-16 z-30 flex items-center gap-3 rounded-xl border border-zinc-200 bg-white/90 p-3 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-950/90 lg:hidden"
       >
         <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
           Anteprima pronta

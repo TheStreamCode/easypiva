@@ -97,7 +97,7 @@ export default function Layout() {
       <Dialog open={sidebarOpen} onOpenChange={setSidebarOpen}>
         <DialogContent
           showCloseButton={false}
-          className="inset-y-0 left-0 top-0 h-dvh w-72 max-w-none translate-x-0 translate-y-0 rounded-none border-r border-zinc-200 bg-white p-4 shadow-2xl dark:border-zinc-800/50 dark:bg-[#111111] lg:hidden"
+          className="inset-y-0 left-0 top-0 h-dvh w-72 max-w-none translate-x-0 translate-y-0 overflow-y-auto overscroll-contain rounded-none border-r border-zinc-200 bg-white p-4 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-2xl dark:border-zinc-800/50 dark:bg-[#111111] lg:hidden"
         >
           <DialogTitle className="sr-only">Menu di navigazione</DialogTitle>
           <div className="flex items-center justify-between mb-8 px-2">
@@ -213,7 +213,7 @@ export default function Layout() {
           </AnimatePresence>
         </main>
 
-        <footer className="px-6 py-8 md:px-10 border-t border-zinc-200/50 dark:border-zinc-800/50 text-xs text-zinc-500 dark:text-zinc-500 mt-auto max-w-5xl mx-auto w-full">
+        <footer className="px-6 py-8 md:px-10 border-t border-zinc-200/50 dark:border-zinc-800/50 text-xs text-zinc-500 dark:text-zinc-400 dark:text-zinc-500 dark:text-zinc-400 mt-auto max-w-5xl mx-auto w-full">
           <div className="flex flex-col gap-4">
             <div>
               <Logo className="text-base mb-2" />

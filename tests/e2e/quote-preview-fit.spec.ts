@@ -22,6 +22,24 @@ test('the preventivo page fits inside mobile viewport', async ({ page }) => {
   expect(box!.height).toBeLessThanOrEqual(844);
 });
 
+test('the preventivo sheet is not clipped horizontally on a 320px screen', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 });
+  await page.goto('/preventivo');
+  await dismissWelcomeModal(page);
+
+  const previewSurface = page
+    .locator('[data-testid="quote-preview-root"] .quote-preview-surface')
+    .first();
+  const previewPage = page.locator('[data-testid="quote-preview-root"] .quote-a4-page').first();
+  await expect(previewPage).toBeVisible();
+
+  const surfaceBox = await previewSurface.boundingBox();
+  const pageBox = await previewPage.boundingBox();
+  expect(surfaceBox).toBeTruthy();
+  expect(pageBox).toBeTruthy();
+  expect(pageBox!.width).toBeLessThanOrEqual(surfaceBox!.width + 1);
+});
+
 test('the full-screen preventivo modal fits inside mobile viewport', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/preventivo');

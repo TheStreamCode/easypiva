@@ -1,11 +1,11 @@
 import {
+  useEffect,
   useLayoutEffect,
   useMemo,
   useRef,
   useState,
   type PointerEvent as ReactPointerEvent,
   type ReactNode,
-  type WheelEvent,
 } from 'react';
 
 import { cn } from '@/lib/utils';
@@ -74,34 +74,62 @@ export function QuoteViewport({
     const pageHeightPx = pageHeightMm * MM_TO_PX;
     const scaleX = viewportSize.width / pageWidthPx;
     const scaleY = viewportSize.height / pageHeightPx;
-    return Math.max(minScale, Math.min(maxScale, Math.min(scaleX, scaleY)));
-  }, [maxScale, minScale, pageHeightMm, pageWidthMm, viewportSize.height, viewportSize.width]);
+    // The fit must always show the whole sheet: do not clamp it with minScale,
+    // otherwise narrow screens clip the A4 horizontally.
+    return Math.min(maxScale, Math.min(scaleX, scaleY));
+  }, [maxScale, pageHeightMm, pageWidthMm, viewportSize.height, viewportSize.width]);
 
   const currentView =
     viewState.fitScale === fitScale ? viewState : { fitScale, scale: fitScale, pan: ORIGIN };
   const { scale, pan } = currentView;
 
-  const handleWheel = (event: WheelEvent<HTMLDivElement>) => {
-    if (!viewportRef.current) return;
+  // Wheel zoom needs a non-passive listener to call preventDefault(); React
+  // registers wheel handlers as passive, so attach it through the DOM.
+  const scaleRef = useRef(scale);
+  const panRef = useRef(pan);
+  const fitScaleRef = useRef(fitScale);
 
-    event.preventDefault();
-    const nextScale = Math.max(minScale, Math.min(maxScale, scale - event.deltaY * 0.0012));
-    if (nextScale === scale) return;
+  useEffect(() => {
+    scaleRef.current = scale;
+    panRef.current = pan;
+    fitScaleRef.current = fitScale;
+  }, [scale, pan, fitScale]);
 
-    const rect = viewportRef.current.getBoundingClientRect();
-    const pointerX = event.clientX - rect.left;
-    const pointerY = event.clientY - rect.top;
-    const scaleRatio = nextScale / scale;
+  useEffect(() => {
+    const element = viewportRef.current;
+    if (!element) return;
 
-    setViewState({
-      fitScale,
-      scale: nextScale,
-      pan: {
-        x: pointerX - (pointerX - pan.x) * scaleRatio,
-        y: pointerY - (pointerY - pan.y) * scaleRatio,
-      },
-    });
-  };
+    const handleWheel = (event: globalThis.WheelEvent) => {
+      event.preventDefault();
+      const currentScale = scaleRef.current;
+      const currentPan = panRef.current;
+      const currentFitScale = fitScaleRef.current;
+      const lowerBound = Math.min(minScale, currentFitScale);
+      const nextScale = Math.max(
+        lowerBound,
+        Math.min(maxScale, currentScale - event.deltaY * 0.0012),
+      );
+
+      if (nextScale === currentScale) return;
+
+      const rect = element.getBoundingClientRect();
+      const pointerX = event.clientX - rect.left;
+      const pointerY = event.clientY - rect.top;
+      const scaleRatio = nextScale / currentScale;
+
+      setViewState({
+        fitScale: currentFitScale,
+        scale: nextScale,
+        pan: {
+          x: pointerX - (pointerX - currentPan.x) * scaleRatio,
+          y: pointerY - (pointerY - currentPan.y) * scaleRatio,
+        },
+      });
+    };
+
+    element.addEventListener('wheel', handleWheel, { passive: false });
+    return () => element.removeEventListener('wheel', handleWheel);
+  }, [maxScale, minScale]);
 
   const handlePointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
     if (event.pointerType === 'mouse' && event.button !== 0) return;
@@ -148,14 +176,13 @@ export function QuoteViewport({
   return (
     <div
       ref={viewportRef}
-      className={cn('relative overflow-hidden touch-none overscroll-contain', className)}
-      onWheel={handleWheel}
+      className={cn('relative overflow-hidden overscroll-contain', className)}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={(event) => stopDragging(event.pointerId, event.currentTarget)}
       onPointerCancel={(event) => stopDragging(event.pointerId, event.currentTarget)}
       onPointerLeave={(event) => stopDragging(event.pointerId, event.currentTarget)}
-      style={{ touchAction: 'none' }}
+      style={{ touchAction: 'pan-y pinch-zoom' }}
     >
       <div
         className={cn(
