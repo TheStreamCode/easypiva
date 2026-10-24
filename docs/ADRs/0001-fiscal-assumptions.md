@@ -42,7 +42,7 @@ EasyPIVA fornisce simulazioni fiscali indicative per utenti con Partita IVA ital
 
 - Limite ricavi: 85.000€ (ragguagliato ad anno per le nuove attività).
 - Uscita immediata: 100.000€ (sui ricavi effettivamente incassati, non ragguagliati).
-- Limite reddito da lavoro dipendente/pensione anno precedente: 35.000€ (confermato per il 2026).
+- Limite reddito da lavoro dipendente/pensione anno precedente: 30.000€ (art. 233, comma 1, lett. f, TUIR 2026, D.Lgs. 117/2026).
 - Imposta sostitutiva: 15% (5% per startup primi 5 anni).
 
 ## Conseguenze

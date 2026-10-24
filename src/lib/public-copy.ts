@@ -22,6 +22,6 @@ export const warningCopy: Record<WarningCode, { title: string; message: string }
   'employment-income-over-limit': {
     title: 'Attenzione',
     message:
-      'Il reddito da lavoro dipendente/pensione supera 35.000€. Non puoi accedere al regime forfettario.',
+      'Il reddito da lavoro dipendente/pensione supera 30.000€. Non puoi accedere al regime forfettario.',
   },
 };

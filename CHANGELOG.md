@@ -4,7 +4,7 @@ Tutte le modifiche rilevanti a EasyPIVA vengono tracciate in questo file.
 
 ## [Unreleased]
 
-Nessuna modifica in attesa di rilascio.
+- corretto il limite dei redditi da lavoro dipendente e assimilati per l'accesso al regime forfettario: 30.000€ (art. 233, comma 1, lett. f, TUIR 2026 — D.Lgs. 117/2026) invece di 35.000€, con test sui valori di soglia (29.999/30.000/30.001) e aggiornamento di copy pubblica e ADR fiscale.
 
 ## [1.1.1] - 2026-08-08
 

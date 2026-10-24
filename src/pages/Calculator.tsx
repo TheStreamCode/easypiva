@@ -401,7 +401,7 @@ export default function Calculator() {
                     {' '}
                     Reddito da lavoro dipendente anno precedente (€){' '}
                   </Label>{' '}
-                  <p className="text-sm text-zinc-500">Limite massimo 35.000€.</p>{' '}
+                  <p className="text-sm text-zinc-500">Limite massimo 30.000€.</p>{' '}
                 </div>{' '}
                 <Input
                   id="redditoDipendente"

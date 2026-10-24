@@ -190,4 +190,29 @@ describe('calculateForfettario', () => {
       }),
     );
   });
+
+  // Art. 233, comma 1, lett. f, TUIR 2026 (D.Lgs. 117/2026): redditi di lavoro
+  // dipendente e assimilati dell'anno precedente eccedenti 30.000 euro.
+  it('uses the 30.000 euro employment income limit', () => {
+    const base = {
+      ricavi: 50000,
+      atecoId: '8',
+      contributiVersati: 0,
+      mesiAttivita: 12,
+      nuovaAttivita: false,
+      tipoInps: 'nessuno' as const,
+      riduzioneInps: false,
+      speseDipendenti: 0,
+    };
+
+    const belowLimit = calculateForfettario({ ...base, redditoDipendente: 29999 });
+    const atLimit = calculateForfettario({ ...base, redditoDipendente: 30000 });
+    const overLimit = calculateForfettario({ ...base, redditoDipendente: 30001 });
+
+    expect(belowLimit.warnings).toEqual([]);
+    expect(atLimit.warnings).toEqual([]);
+    expect(overLimit.warnings).toEqual([
+      expect.objectContaining({ code: 'employment-income-over-limit', severity: 'warning' }),
+    ]);
+  });
 });

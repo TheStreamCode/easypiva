@@ -73,7 +73,9 @@ export const LIMITS = {
   ricavi: 85000,
   uscitaImmediata: 100000,
   dipendenti: 20000,
-  redditoDipendente: 35000,
+  // Art. 233, comma 1, lett. f, TUIR 2026 (D.Lgs. 117/2026): redditi di lavoro
+  // dipendente e assimilati dell'anno precedente non devono eccedere 30.000 euro.
+  redditoDipendente: 30000,
 } as const;
 
 export function getAtecoCategory(atecoId: string) {
