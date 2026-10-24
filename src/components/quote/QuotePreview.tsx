@@ -6,30 +6,41 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 
 import { QuotePage } from './QuotePage';
 import { QuoteViewport } from './QuoteViewport';
-import { buildPaginationData, buildSplitTextLookup, type QuoteDraft } from './quotePreviewData';
+import { buildPaginationDataSafe, buildSplitTextLookup, type QuoteDraft } from './quotePreviewData';
 import { renderPageContent } from './renderPageContent';
 
 const PAGE_HEIGHT = 297;
 const PAGE_WIDTH = 210;
 
 export function QuotePreview({ quote }: { quote: QuoteDraft }) {
-  const pagination = useMemo(() => buildPaginationData(quote), [quote]);
+  const paginationResult = useMemo(() => buildPaginationDataSafe(quote), [quote]);
+  const pagination = paginationResult.ok ? paginationResult.data : null;
   const splitTextByBlockId = useMemo(
     () =>
-      buildSplitTextLookup(pagination.pages, {
-        notes: pagination.splitText.notes,
-        payment: pagination.splitText.payment,
-        disclaimer: pagination.splitText.disclaimer,
-      }),
-    [
-      pagination.pages,
-      pagination.splitText.notes,
-      pagination.splitText.payment,
-      pagination.splitText.disclaimer,
-    ],
+      pagination
+        ? buildSplitTextLookup(pagination.pages, {
+            notes: pagination.splitText.notes,
+            payment: pagination.splitText.payment,
+            disclaimer: pagination.splitText.disclaimer,
+          })
+        : new Map<string, string>(),
+    [pagination],
   );
   const [activePageIndex, setActivePageIndex] = useState(0);
   const [isZoomOpen, setIsZoomOpen] = useState(false);
+
+  if (!pagination) {
+    return (
+      <div
+        data-testid="quote-preview-error"
+        role="alert"
+        className="rounded-2xl border border-red-200 bg-red-50/70 p-4 text-sm leading-relaxed text-red-900 dark:border-red-900/60 dark:bg-red-950/20 dark:text-red-100"
+      >
+        Impossibile generare l&apos;anteprima: il preventivo contiene testi troppo lunghi per essere
+        impaginato. Riduci la lunghezza di titolo, note o descrizioni e riprova.
+      </div>
+    );
+  }
 
   const totalPages = pagination.pages.length;
   const visiblePageIndex = Math.min(activePageIndex, Math.max(0, totalPages - 1));

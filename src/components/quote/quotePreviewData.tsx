@@ -341,3 +341,20 @@ export function getVatLabel(vatMode: QuoteDraft['vatMode']) {
     ? 'Operazione non soggetta a IVA'
     : `IVA ${Math.round(getQuoteVatRate(vatMode) * 100)}%`;
 }
+
+export type QuotePaginationResult =
+  | { ok: true; data: ReturnType<typeof buildPaginationData> }
+  | { ok: false };
+
+/**
+ * The paginator throws on content it cannot fit (e.g. an oversized header).
+ * Callers must render a recoverable error instead of crashing the page.
+ */
+export function buildPaginationDataSafe(quote: QuoteDraft): QuotePaginationResult {
+  try {
+    return { ok: true, data: buildPaginationData(quote) };
+  } catch (error) {
+    console.error('Quote pagination failed:', error);
+    return { ok: false };
+  }
+}

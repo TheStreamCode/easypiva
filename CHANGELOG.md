@@ -6,6 +6,7 @@ Tutte le modifiche rilevanti a EasyPIVA vengono tracciate in questo file.
 
 - corretto il limite dei redditi da lavoro dipendente e assimilati per l'accesso al regime forfettario: 30.000€ (art. 233, comma 1, lett. f, TUIR 2026 — D.Lgs. 117/2026) invece di 35.000€, con test sui valori di soglia (29.999/30.000/30.001) e aggiornamento di copy pubblica e ADR fiscale.
 - aggiornate le fonti normative pubbliche al quadro vigente: TUIR 2026 (D.Lgs. 117/2026, artt. 11, 13, 232-243 e Allegato D) e TU-IVA 2026 (D.Lgs. 10/2026) nella pagina Informativa, nell'ADR fiscale, nei README e nei commenti delle costanti, al posto della L. 190/2014 i cui commi 54-89 sono abrogati; aggiunto un test che verifica i link alle fonti primarie.
+- reso recuperabile il preventivo: aggiunti un ErrorBoundary globale e uno dedicato alla pagina con azione di ripristino della bozza, paginazione protetta con messaggio accessibile al posto del crash, limiti di lunghezza su titolo, note, voci e campi anagrafici, e troncamento automatico delle bozze salvate non più impaginabili.
 
 ## [1.1.1] - 2026-08-08
 

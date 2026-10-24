@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 
 import QuoteBuilder from '../QuoteBuilder';
+import { QUOTE_LIMITS } from '../../components/quote/quoteFormSchema';
 
 vi.mock('@/lib/quote/export-pdf', () => ({
   exportQuoteToPdf: vi.fn().mockResolvedValue(undefined),
@@ -47,6 +48,34 @@ describe('QuoteBuilder draft persistence', () => {
     expect(screen.getByLabelText(/Nome Cliente/i)).toHaveValue('Cliente Test');
     expect(screen.getByLabelText(/Numero Preventivo/i)).toHaveValue('PREV-001');
     expect(screen.getByLabelText(/Oggetto/i)).toHaveValue('Preventivo test');
+  });
+
+  test('recovers a persisted draft with oversized text instead of crashing', () => {
+    const oversizedDraft = {
+      providerName: 'Acme Srl',
+      providerAddress: 'Via Roma 1',
+      providerCity: 'Roma',
+      providerVatNumber: 'IT111',
+      providerEmail: 'info@acme.it',
+      clientName: 'Cliente Test',
+      clientAddress: 'Via Milano 2',
+      clientEmail: 'cliente@test.it',
+      quoteNumber: 'PREV-001',
+      issueDate: '2026-01-15',
+      title: 'X'.repeat(5000),
+      notes: 'N'.repeat(9000),
+      lineItems: [{ id: '1', description: 'Voce salvata', quantity: 2, unitPrice: 100 }],
+      discount: 0,
+      vatMode: 'none',
+      logoDataUrl: '',
+    };
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(oversizedDraft));
+
+    render(<QuoteBuilder />);
+
+    expect(screen.getByLabelText(/Oggetto/i)).toHaveValue('X'.repeat(QUOTE_LIMITS.title));
+    expect(screen.getByTestId('quote-preview-root')).toBeInTheDocument();
   });
 
   test('uses placeholder defaults when no draft is saved', () => {

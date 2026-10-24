@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
 
 import { quotePlaceholder } from '@/lib/quote/placeholders';
 
@@ -59,5 +59,17 @@ describe('QuotePreview slider', () => {
     expect(screen.getByText('04/04/2026')).toBeInTheDocument();
     expect(screen.getAllByText(/Operazione non soggetta a IVA/i).length).toBeGreaterThan(0);
     expect(screen.queryByText(/^none$/i)).not.toBeInTheDocument();
+  });
+
+  test('renders a recoverable message instead of crashing when pagination fails', () => {
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+    render(<QuotePreview quote={{ ...baseDraft, title: 'Titolo '.repeat(400) }} />);
+
+    expect(screen.getByTestId('quote-preview-error')).toHaveTextContent(
+      /impossibile generare l'anteprima/i,
+    );
+
+    consoleError.mockRestore();
   });
 });

@@ -4,6 +4,7 @@ import Layout from './components/Layout';
 import NotFound from './pages/NotFound';
 import Home from './pages/Home';
 import { DisclaimerModal } from './components/DisclaimerModal';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 const Calculator = lazy(() => import('./pages/Calculator'));
 const Comparison = lazy(() => import('./pages/Comparison'));
@@ -21,68 +22,70 @@ export default function App() {
   return (
     <Router>
       <DisclaimerModal />
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route
-            path="calcolatore"
-            element={
-              <Suspense fallback={<RouteFallback />}>
-                <Calculator />
-              </Suspense>
-            }
-          />
-          <Route
-            path="confronto"
-            element={
-              <Suspense fallback={<RouteFallback />}>
-                <Comparison />
-              </Suspense>
-            }
-          />
-          <Route
-            path="contributi"
-            element={
-              <Suspense fallback={<RouteFallback />}>
-                <Contributions />
-              </Suspense>
-            }
-          />
-          <Route
-            path="quanto-fatturare"
-            element={
-              <Suspense fallback={<RouteFallback />}>
-                <TargetNet />
-              </Suspense>
-            }
-          />
-          <Route
-            path="pianificazione"
-            element={
-              <Suspense fallback={<RouteFallback />}>
-                <Planning />
-              </Suspense>
-            }
-          />
-          <Route
-            path="preventivo"
-            element={
-              <Suspense fallback={<RouteFallback />}>
-                <QuoteBuilder />
-              </Suspense>
-            }
-          />
-          <Route
-            path="informativa"
-            element={
-              <Suspense fallback={<RouteFallback />}>
-                <Sources />
-              </Suspense>
-            }
-          />
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </Routes>
+      <ErrorBoundary>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route
+              path="calcolatore"
+              element={
+                <Suspense fallback={<RouteFallback />}>
+                  <Calculator />
+                </Suspense>
+              }
+            />
+            <Route
+              path="confronto"
+              element={
+                <Suspense fallback={<RouteFallback />}>
+                  <Comparison />
+                </Suspense>
+              }
+            />
+            <Route
+              path="contributi"
+              element={
+                <Suspense fallback={<RouteFallback />}>
+                  <Contributions />
+                </Suspense>
+              }
+            />
+            <Route
+              path="quanto-fatturare"
+              element={
+                <Suspense fallback={<RouteFallback />}>
+                  <TargetNet />
+                </Suspense>
+              }
+            />
+            <Route
+              path="pianificazione"
+              element={
+                <Suspense fallback={<RouteFallback />}>
+                  <Planning />
+                </Suspense>
+              }
+            />
+            <Route
+              path="preventivo"
+              element={
+                <Suspense fallback={<RouteFallback />}>
+                  <QuoteBuilder />
+                </Suspense>
+              }
+            />
+            <Route
+              path="informativa"
+              element={
+                <Suspense fallback={<RouteFallback />}>
+                  <Sources />
+                </Suspense>
+              }
+            />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+        </Routes>
+      </ErrorBoundary>
     </Router>
   );
 }
