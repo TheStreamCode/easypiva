@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react';
 
+import { APP_VERSION } from '@/lib/app-version';
+
 type QuotePageProps = {
   children: ReactNode;
   pageNumber: number;
@@ -18,7 +20,7 @@ export function QuotePage({ children, pageNumber, totalPages }: QuotePageProps) 
       </div>
 
       <footer className="quote-a4-footer pointer-events-none absolute inset-x-[16mm] bottom-[10mm] flex items-center justify-between border-t border-zinc-200 pt-3 text-[10px] text-zinc-500">
-        <span>Documento generato con EasyPIVA by Mikesoft.it</span>
+        <span>Documento generato con EasyPIVA v{APP_VERSION} by Mikesoft.it</span>
         <span className="tracking-[0.24em] uppercase text-zinc-600">EasyPIVA</span>
       </footer>
     </article>

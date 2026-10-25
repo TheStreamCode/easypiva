@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 
 import Calculator from '@/pages/Calculator';
+import { APP_VERSION } from '@/lib/app-version';
 
 const pdfMocks = vi.hoisted(() => ({
   setFontSize: vi.fn(),
@@ -104,6 +105,16 @@ describe('Calculator page', () => {
         expect.stringContaining('assunzioni 2026.1'),
         20,
         20,
+      );
+      expect(pdfMocks.text).toHaveBeenCalledWith(
+        expect.stringContaining(`EasyPIVA v${APP_VERSION}`),
+        20,
+        27,
+      );
+      expect(pdfMocks.text).toHaveBeenCalledWith(
+        expect.stringMatching(/Assunzioni 2026\.1 .* Generato il \d{4}-\d{2}-\d{2}/),
+        20,
+        27,
       );
     });
   });

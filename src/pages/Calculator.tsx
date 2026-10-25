@@ -24,9 +24,12 @@ import {
   Legend,
 } from 'recharts';
 import { motion, AnimatePresence } from 'motion/react';
+import { APP_VERSION } from '@/lib/app-version';
 import { calculateForfettario } from '@/lib/calculations';
+import { FISCAL_PROFILE } from '@/lib/fiscal-data';
 import { formatCurrency } from '@/lib/format';
 import { formatFiscalProfileLabel, getCalculatorPdfTitle } from '@/lib/fiscal-profile';
+import { formatLocalDateInput } from '@/lib/local-date';
 import { warningCopy } from '@/lib/public-copy';
 import { ContributionHistorySelect } from '../components/ContributionHistorySelect';
 import { NumberInput } from '../components/NumberInput';
@@ -129,6 +132,12 @@ export default function Calculator() {
     const doc = new jsPDF();
     doc.setFontSize(20);
     doc.text(getCalculatorPdfTitle(), 20, 20);
+    doc.setFontSize(9);
+    doc.text(
+      `EasyPIVA v${APP_VERSION} - Assunzioni ${FISCAL_PROFILE.version} - Generato il ${formatLocalDateInput()}`,
+      20,
+      27,
+    );
     doc.setFontSize(12);
     doc.text(`Ricavi: ${formatCurrency(values.ricavi)}`, 20, 40);
     doc.text(`Coefficiente Redditività: ${coefficiente * 100}%`, 20, 50);

@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { describe, expect, test, vi } from 'vitest';
 
 import { quotePlaceholder } from '@/lib/quote/placeholders';
+import { APP_VERSION } from '@/lib/app-version';
 
 import { QuotePreview } from '../QuotePreview';
 import type { QuoteDraft } from '../quotePreviewData';
@@ -59,6 +60,12 @@ describe('QuotePreview slider', () => {
     expect(screen.getByText('04/04/2026')).toBeInTheDocument();
     expect(screen.getAllByText(/Operazione non soggetta a IVA/i).length).toBeGreaterThan(0);
     expect(screen.queryByText(/^none$/i)).not.toBeInTheDocument();
+  });
+
+  test('renders the app version in the document footer', () => {
+    render(<QuotePreview quote={baseDraft} />);
+
+    expect(screen.getAllByText(new RegExp(`EasyPIVA v${APP_VERSION}`)).length).toBeGreaterThan(0);
   });
 
   test('renders a recoverable message instead of crashing when pagination fails', () => {
