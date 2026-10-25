@@ -354,7 +354,7 @@ export default function QuoteBuilder() {
             role="alert"
             className="mt-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-900/60 dark:bg-amber-950/20 dark:text-amber-100"
           >
-            Bozza non salvata: lo storage locale del browser non e disponibile o ha esaurito lo
+            Bozza non salvata: lo storage locale del browser non è disponibile o ha esaurito lo
             spazio.
           </p>
         ) : null}

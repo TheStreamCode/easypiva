@@ -207,7 +207,7 @@ export function QuoteForm({
               {...register('providerAddress')}
             />
           </FormField>
-          <FormField id="providerCity" label="Citta" required error={errors.providerCity?.message}>
+          <FormField id="providerCity" label="Città" required error={errors.providerCity?.message}>
             <Input
               id="providerCity"
               autoComplete="address-level2"
@@ -337,7 +337,7 @@ export function QuoteForm({
               {...register('clientAddress')}
             />
           </FormField>
-          <FormField id="clientCity" label="Citta" error={errors.clientCity?.message}>
+          <FormField id="clientCity" label="Città" error={errors.clientCity?.message}>
             <Input
               id="clientCity"
               autoComplete="address-level2"
@@ -393,10 +393,10 @@ export function QuoteForm({
 
       {/* Offer Validity & Delivery */}
       <fieldset className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <legend className="sr-only">Validita e Tempistiche</legend>
+        <legend className="sr-only">Validità e Tempistiche</legend>
         <FormField
           id="offerValidity"
-          label="Validita Offerta"
+          label="Validità Offerta"
           error={errors.offerValidity?.message}
         >
           <Input id="offerValidity" placeholder={p.offerValidity} {...register('offerValidity')} />

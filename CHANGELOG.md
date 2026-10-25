@@ -13,6 +13,9 @@ Tutte le modifiche rilevanti a EasyPIVA vengono tracciate in questo file.
 - prorazionato il contributo fisso INPS per i mesi di attività inferiori all'anno e bloccate le simulazioni non eleggibili (spese per dipendenti oltre 20.000€, redditi da lavoro dipendente oltre 30.000€); allineate le etichette ATECO all'Allegato D del TUIR 2026.
 - aggiunta nel preventivatore una nota sulle regole IVA del regime forfettario (nessuna rivalsa, motivazione dell'esenzione, fatturazione elettronica).
 - migliorata l'esperienza mobile e l'accessibilità: anteprima A4 sempre interamente visibile con pinch-zoom e zoom rotella non passivo, barra CTA sotto l'header, target di tocco da 44 px, contrasto dei testi secondari in dark mode, palette dei grafici leggibile con legenda in colore di primo piano, menu mobile scorrevole, titoli che vanno a capo con testo ingrandito al 200% e input numerici con tastiera decimale.
+- introdotto un input numerico che conserva il testo durante la digitazione: ora è possibile inserire importi con virgola o punto decimale in calcolatore, confronto, contributi, quanto fatturare e pianificazione, con normalizzazione al blur.
+- migliorata l'accessibilità dei form: errori associati ai campi con `aria-invalid`/`aria-describedby`, focus sul primo campo non valido, wizard con progressbar annunciata, risultati del calcolatore annunciati, suggerimenti di compilazione automatica nel preventivo e bottone "Ingrandisci" visibile da tastiera.
+- rifinita la copy italiana ("Città", "Validità", "Unità", "non è più disponibile", toggle tema e chiusura dialoghi in italiano) e completato `llms.txt` con le tre route mancanti (quanto fatturare, pianificazione, preventivo).
 
 ## [1.1.1] - 2026-08-08
 

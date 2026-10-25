@@ -39,7 +39,7 @@ export const quoteFormSchema = z.object({
     .max(QUOTE_LIMITS.addressField, maxMessage(QUOTE_LIMITS.addressField)),
   providerCity: z
     .string()
-    .min(1, 'Citta obbligatoria')
+    .min(1, 'Città obbligatoria')
     .max(QUOTE_LIMITS.cityField, maxMessage(QUOTE_LIMITS.cityField)),
   providerVatNumber: z
     .string()

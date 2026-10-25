@@ -83,7 +83,7 @@ export function QuoteMetaBlock({ quote }: { quote: QuoteDraft }) {
             <p className="mt-1 font-medium text-zinc-950">{quote.title}</p>
           </div>
           <div>
-            <p className="text-zinc-600">Validita offerta</p>
+            <p className="text-zinc-600">Validità offerta</p>
             <p className="mt-1">{quote.offerValidity || '-'}</p>
           </div>
         </div>

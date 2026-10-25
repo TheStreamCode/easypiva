@@ -48,7 +48,7 @@ export function QuoteItemsTable({
                 Qta
               </th>
               <th scope="col" className="w-[12%] px-2 py-3 text-right font-medium">
-                Unita
+                Unità
               </th>
               <th scope="col" className="w-[18%] px-2 py-3 text-right font-medium">
                 Prezzo

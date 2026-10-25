@@ -226,7 +226,7 @@ describe('QuoteForm', () => {
   it('renders offer validity, delivery timing, and notes', () => {
     render(<FormWrapper />);
 
-    expect(screen.getByLabelText(/validita/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/validità/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/tempistiche/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/^note$/i)).toBeInTheDocument();
   });

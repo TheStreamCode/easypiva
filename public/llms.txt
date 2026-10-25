@@ -8,6 +8,9 @@ EasyPIVA è una web app open source e local-first per simulazioni fiscali indica
 - [Calcolatore forfettario](https://easypiva.vercel.app/calcolatore): stima imposta sostitutiva, contributi e netto.
 - [Confronto regimi](https://easypiva.vercel.app/confronto): confronto semplificato tra forfettario e ordinario.
 - [Contributi INPS](https://easypiva.vercel.app/contributi): simulazione 2026 per Gestione Separata, Artigiani e Commercianti.
+- [Quanto fatturare](https://easypiva.vercel.app/quanto-fatturare): calcolo inverso del fatturato necessario per un netto obiettivo.
+- [Pianificazione ricavi](https://easypiva.vercel.app/pianificazione): proiezione mensile dei ricavi rispetto alle soglie del forfettario.
+- [Preventivo](https://easypiva.vercel.app/preventivo): creazione e export PDF di preventivi locali.
 - [Informativa e fonti](https://easypiva.vercel.app/informativa): disclaimer, privacy, storage locale e riferimenti normativi.
 
 ## Codice sorgente

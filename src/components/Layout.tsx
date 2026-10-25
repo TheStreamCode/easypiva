@@ -164,7 +164,7 @@ export default function Layout() {
             onClick={toggleTheme}
           >
             {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            {isDark ? 'Light Mode' : 'Dark Mode'}
+            {isDark ? 'Modalità chiara' : 'Modalità scura'}
           </button>
         </div>
       </div>

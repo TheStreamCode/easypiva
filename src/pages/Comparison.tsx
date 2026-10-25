@@ -234,7 +234,7 @@ export default function Comparison() {
 
             {!result.forfettario.available ? (
               <p className="text-sm text-amber-700 dark:text-amber-300">
-                Con questi ricavi il regime forfettario non e piu disponibile per l'anno in corso.
+                Con questi ricavi il regime forfettario non è più disponibile per l'anno in corso.
               </p>
             ) : null}
 
