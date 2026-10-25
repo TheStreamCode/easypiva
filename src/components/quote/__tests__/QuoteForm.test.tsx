@@ -2,7 +2,9 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { useForm, FormProvider, useFormContext } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { QuoteForm, type QuoteFormValues } from '../QuoteForm';
+import { quoteFormSchema } from '../quoteFormSchema';
 import { quotePlaceholder } from '@/lib/quote/placeholders';
 
 function FormWrapper({
@@ -12,7 +14,7 @@ function FormWrapper({
   onSubmit?: (data: unknown) => void;
   onExportStateChange?: (state: { isExporting: boolean }) => void;
 } = {}) {
-  const form = useForm({
+  const form = useForm<QuoteFormValues>({
     defaultValues: {
       providerName: '',
       providerAddress: '',
@@ -51,6 +53,48 @@ function FormWrapper({
         onExportStateChange={onExportStateChange}
         onSubmit={(values) => onSubmit?.(values)}
       />
+    </FormProvider>
+  );
+}
+
+function ValidatedFormWrapper() {
+  const form = useForm<QuoteFormValues>({
+    resolver: zodResolver(quoteFormSchema),
+    defaultValues: {
+      providerName: '',
+      providerAddress: '',
+      providerCity: '',
+      providerVatNumber: '',
+      providerTaxCode: '',
+      providerEmail: '',
+      clientName: '',
+      clientAddress: '',
+      clientCity: '',
+      clientVatNumber: '',
+      clientTaxCode: '',
+      clientEmail: '',
+      quoteNumber: '',
+      issueDate: '',
+      title: '',
+      offerValidity: '',
+      deliveryTiming: '',
+      lineItems: [{ id: 'item-1', description: '', quantity: 1, unitPrice: 0 }],
+      discount: 0,
+      vatMode: 'none' as const,
+      vatExemptionReason: '',
+      paymentBeneficiary: '',
+      paymentIban: '',
+      paymentBankName: '',
+      paymentInstructions: '',
+      causale: '',
+      notes: '',
+      logoDataUrl: '',
+    },
+  });
+
+  return (
+    <FormProvider {...form}>
+      <QuoteForm />
     </FormProvider>
   );
 }
@@ -407,5 +451,21 @@ describe('QuoteForm', () => {
       /art\. 234/i,
     );
     expect(screen.getByText(/fatturazione elettronica/i)).toBeInTheDocument();
+  });
+
+  it('associates validation errors with the control and adds autocomplete hints', async () => {
+    const user = userEvent.setup();
+    render(<ValidatedFormWrapper />);
+
+    await user.click(screen.getByRole('button', { name: /esporta pdf/i }));
+
+    await waitFor(() => {
+      expect(screen.getByLabelText(/Ragione Sociale/i)).toHaveAttribute('aria-invalid', 'true');
+    });
+    expect(screen.getByLabelText(/Ragione Sociale/i)).toHaveAttribute(
+      'aria-describedby',
+      'providerName-error',
+    );
+    expect(screen.getAllByLabelText(/^Email/i)[0]).toHaveAttribute('autoComplete', 'email');
   });
 });

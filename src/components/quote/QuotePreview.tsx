@@ -59,7 +59,7 @@ export function QuotePreview({ quote }: { quote: QuoteDraft }) {
         size="lg"
         variant="secondary"
         onClick={() => setIsZoomOpen(true)}
-        className="absolute right-3 top-3 z-10 h-11 px-4 opacity-100 transition md:opacity-0 md:group-hover:opacity-100"
+        className="absolute right-3 top-3 z-10 h-11 px-4 opacity-100 transition focus-visible:opacity-100 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100"
       >
         <Maximize2 className="mr-1.5 h-4 w-4" />
         Ingrandisci

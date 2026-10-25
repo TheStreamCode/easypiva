@@ -1,4 +1,12 @@
-import { useRef, useState, type ChangeEvent, type ReactNode } from 'react';
+import {
+  cloneElement,
+  isValidElement,
+  useRef,
+  useState,
+  type ChangeEvent,
+  type ReactElement,
+  type ReactNode,
+} from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
@@ -45,15 +53,27 @@ function FormField({
   error?: string;
   children: ReactNode;
 }) {
+  const errorId = `${id}-error`;
+  const describedBy = error ? errorId : undefined;
+  const control = isValidElement(children)
+    ? cloneElement(
+        children as ReactElement<{ 'aria-describedby'?: string; 'aria-invalid'?: boolean }>,
+        {
+          'aria-describedby': describedBy,
+          'aria-invalid': error ? true : undefined,
+        },
+      )
+    : children;
+
   return (
     <div className="space-y-1.5">
       <Label htmlFor={id}>
         {label}
         {required ? <span className="ml-0.5 text-destructive">*</span> : null}
       </Label>
-      {children}
+      {control}
       {error ? (
-        <p role="alert" className="text-xs text-destructive">
+        <p id={errorId} role="alert" className="text-xs text-destructive">
           {error}
         </p>
       ) : null}
@@ -153,7 +173,12 @@ export function QuoteForm({
             required
             error={errors.providerName?.message}
           >
-            <Input id="providerName" placeholder={p.provider.name} {...register('providerName')} />
+            <Input
+              id="providerName"
+              autoComplete="organization"
+              placeholder={p.provider.name}
+              {...register('providerName')}
+            />
           </FormField>
           <FormField
             id="providerEmail"
@@ -163,6 +188,7 @@ export function QuoteForm({
           >
             <Input
               id="providerEmail"
+              autoComplete="email"
               type="email"
               placeholder={p.provider.email}
               {...register('providerEmail')}
@@ -176,12 +202,18 @@ export function QuoteForm({
           >
             <Input
               id="providerAddress"
+              autoComplete="street-address"
               placeholder={p.provider.address}
               {...register('providerAddress')}
             />
           </FormField>
           <FormField id="providerCity" label="Citta" required error={errors.providerCity?.message}>
-            <Input id="providerCity" placeholder={p.provider.city} {...register('providerCity')} />
+            <Input
+              id="providerCity"
+              autoComplete="address-level2"
+              placeholder={p.provider.city}
+              {...register('providerCity')}
+            />
           </FormField>
           <FormField
             id="providerVatNumber"
@@ -191,6 +223,7 @@ export function QuoteForm({
           >
             <Input
               id="providerVatNumber"
+              autoComplete="off"
               placeholder={p.provider.vatNumber}
               {...register('providerVatNumber')}
             />
@@ -202,6 +235,7 @@ export function QuoteForm({
           >
             <Input
               id="providerTaxCode"
+              autoComplete="off"
               placeholder={p.provider.taxCode}
               {...register('providerTaxCode')}
             />
@@ -209,6 +243,7 @@ export function QuoteForm({
           <FormField id="providerPhone" label="Telefono">
             <Input
               id="providerPhone"
+              autoComplete="tel"
               placeholder={p.provider.phone}
               {...register('providerPhone')}
             />
@@ -216,6 +251,7 @@ export function QuoteForm({
           <FormField id="providerWebsite" label="Sito web">
             <Input
               id="providerWebsite"
+              autoComplete="url"
               placeholder={p.provider.website}
               {...register('providerWebsite')}
             />
@@ -272,11 +308,17 @@ export function QuoteForm({
             required
             error={errors.clientName?.message}
           >
-            <Input id="clientName" placeholder={p.client.name} {...register('clientName')} />
+            <Input
+              id="clientName"
+              autoComplete="organization"
+              placeholder={p.client.name}
+              {...register('clientName')}
+            />
           </FormField>
           <FormField id="clientEmail" label="Email" required error={errors.clientEmail?.message}>
             <Input
               id="clientEmail"
+              autoComplete="email"
               type="email"
               placeholder={p.client.email}
               {...register('clientEmail')}
@@ -290,16 +332,23 @@ export function QuoteForm({
           >
             <Input
               id="clientAddress"
+              autoComplete="street-address"
               placeholder={p.client.address}
               {...register('clientAddress')}
             />
           </FormField>
           <FormField id="clientCity" label="Citta" error={errors.clientCity?.message}>
-            <Input id="clientCity" placeholder={p.client.city} {...register('clientCity')} />
+            <Input
+              id="clientCity"
+              autoComplete="address-level2"
+              placeholder={p.client.city}
+              {...register('clientCity')}
+            />
           </FormField>
           <FormField id="clientVatNumber" label="P. IVA" error={errors.clientVatNumber?.message}>
             <Input
               id="clientVatNumber"
+              autoComplete="off"
               placeholder={p.client.vatNumber}
               {...register('clientVatNumber')}
             />
@@ -311,6 +360,7 @@ export function QuoteForm({
           >
             <Input
               id="clientTaxCode"
+              autoComplete="off"
               placeholder={p.client.taxCode}
               {...register('clientTaxCode')}
             />

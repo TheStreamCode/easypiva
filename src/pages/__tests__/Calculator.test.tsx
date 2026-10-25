@@ -40,4 +40,18 @@ describe('Calculator page', () => {
     expect(screen.queryByRole('button', { name: /esporta pdf/i })).not.toBeInTheDocument();
     expect(await screen.findByText(/regime forfettario non applicabile/i)).toBeInTheDocument();
   });
+
+  test('exposes an accessible wizard progress and invalid field state', async () => {
+    const user = userEvent.setup();
+    render(<Calculator />);
+
+    expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '1');
+
+    await user.click(screen.getByRole('button', { name: /avanti/i }));
+
+    const atecoTrigger = screen.getByLabelText(/categoria ateco/i);
+    expect(atecoTrigger).toHaveAttribute('aria-invalid', 'true');
+    expect(atecoTrigger).toHaveAttribute('aria-describedby', 'atecoId-error');
+    expect(screen.getByText(/seleziona una categoria ateco/i)).toBeInTheDocument();
+  });
 });

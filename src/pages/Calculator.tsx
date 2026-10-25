@@ -79,6 +79,12 @@ export default function Calculator() {
     }
     if (valid) {
       setStep((prev) => Math.min(prev + 1, totalSteps + 1));
+      return;
+    }
+
+    const firstError = Object.keys(form.formState.errors)[0];
+    if (firstError) {
+      document.getElementById(firstError)?.focus();
     }
   };
   const prevStep = () => setStep((prev) => Math.max(prev - 1, 1));
@@ -158,7 +164,14 @@ export default function Calculator() {
       </div>{' '}
       {/* Progress Indicator */}{' '}
       {step <= totalSteps && (
-        <div className="flex gap-2">
+        <div
+          className="flex gap-2"
+          role="progressbar"
+          aria-valuemin={1}
+          aria-valuemax={totalSteps}
+          aria-valuenow={Math.min(step, totalSteps)}
+          aria-label={`Passo ${Math.min(step, totalSteps)} di ${totalSteps}`}
+        >
           {' '}
           {Array.from({ length: totalSteps }).map((_, i) => (
             <div
@@ -201,7 +214,12 @@ export default function Calculator() {
                   onValueChange={(val) => val && setValue('atecoId', val)}
                 >
                   {' '}
-                  <SelectTrigger id="atecoId" className="w-full">
+                  <SelectTrigger
+                    id="atecoId"
+                    className="w-full"
+                    aria-invalid={form.formState.errors.atecoId ? true : undefined}
+                    aria-describedby={form.formState.errors.atecoId ? 'atecoId-error' : undefined}
+                  >
                     {' '}
                     <SelectValue placeholder="Seleziona la tua categoria..." />{' '}
                   </SelectTrigger>{' '}
@@ -216,7 +234,9 @@ export default function Calculator() {
                   </SelectContent>{' '}
                 </Select>{' '}
                 {form.formState.errors.atecoId && (
-                  <p className="text-sm text-red-500">{form.formState.errors.atecoId.message}</p>
+                  <p id="atecoId-error" role="alert" className="text-sm text-red-500">
+                    {form.formState.errors.atecoId.message}
+                  </p>
                 )}{' '}
               </div>{' '}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -422,6 +442,9 @@ export default function Calculator() {
               initial="hidden"
               animate="visible"
               className="flex flex-col gap-12"
+              role="region"
+              aria-live="polite"
+              aria-label="Risultati della simulazione"
             >
               {' '}
               {warnings.length > 0 && (
