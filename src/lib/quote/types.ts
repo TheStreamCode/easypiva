@@ -2,8 +2,8 @@ export type QuoteVatMode = 'none' | 'vat10' | 'vat22';
 
 export const DEFAULT_QUOTE_ITEM_QUANTITY = 1;
 
-// Quote math keeps up to 6 decimals internally to remove float noise while preserving precise totals for later UI formatting.
-export const QUOTE_MONEY_SCALE = 1_000_000;
+// Quote math keeps enough decimals internally to remove float noise while preserving precise totals for later UI formatting.
+export { QUOTE_MONEY_SCALE } from '../fiscal/rounding';
 
 export type QuoteMoney = number;
 // Fractional discount rate in the inclusive range [0, 1]. Example: 0.15 means 15%.

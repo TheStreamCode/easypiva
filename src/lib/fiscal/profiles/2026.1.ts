@@ -1,0 +1,128 @@
+import { deepFreeze } from '../freeze';
+import type { FiscalProfile } from '../types';
+
+// Frozen assumption set for tax year 2026. Do not edit after publication:
+// add a new file (e.g. 2026.2.ts) and mark this profile as archived instead.
+export const fiscalProfile2026_1 = deepFreeze<FiscalProfile>({
+  year: 2026,
+  version: '2026.1',
+  status: 'current',
+  validFrom: '2026-01-01',
+  validTo: null,
+  reviewedAt: '2026-10-25',
+  checksum: 'sha256:9e8af8454d2b12719e9f2b4ea542cb505c8b2e977903679b65c781828a9d06b5',
+  sources: [
+    {
+      id: 'tuir-2026',
+      label: 'D.Lgs. 117/2026 (TUIR 2026), artt. 11, 13, 232-243 e Allegato D',
+      url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2026;117',
+    },
+    {
+      id: 'tuiva-2026',
+      label: 'D.Lgs. 10/2026 (TU-IVA 2026)',
+      url: 'https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2026;10',
+    },
+    {
+      id: 'inps-8-2026',
+      label: 'Circolare INPS n. 8/2026 (Gestione Separata)',
+      url: 'https://www.inps.it/it/it/inps-comunica/atti/circolari-messaggi-e-normativa/dettaglio.circolari-e-messaggi.2026.02.circolare-numero-8-del-03-02-2026_15153.html',
+    },
+    {
+      id: 'inps-14-2026',
+      label: 'Circolare INPS n. 14/2026 (Artigiani e Commercianti)',
+      url: 'https://www.inps.it/it/it/inps-comunica/atti/circolari-messaggi-e-normativa/dettaglio.circolari-e-messaggi.2026.02.circolare-numero-14-del-09-02-2026_15162.html',
+    },
+  ],
+  rounding: {
+    currencyDecimals: 0,
+    quoteComputationDecimals: 6,
+  },
+  constants: {
+    ateco: [
+      { id: '1', name: 'Industrie alimentari e delle bevande (10-11)', coefficient: 40 },
+      {
+        id: '2',
+        name: "Commercio all'ingrosso e al dettaglio; riparazione di autoveicoli e motocicli (45, 46.2-46.9, 47.1-47.7, 47.9)",
+        coefficient: 40,
+      },
+      {
+        id: '3',
+        name: 'Commercio ambulante di prodotti alimentari e bevande (47.81)',
+        coefficient: 40,
+      },
+      { id: '4', name: 'Commercio ambulante di altri prodotti (47.82-47.89)', coefficient: 54 },
+      { id: '5', name: 'Costruzioni e attività immobiliari (41-43, 68)', coefficient: 86 },
+      { id: '6', name: 'Intermediari del commercio (46.1)', coefficient: 62 },
+      {
+        id: '7',
+        name: 'Attività dei servizi di alloggio e di ristorazione (55-56)',
+        coefficient: 40,
+      },
+      {
+        id: '8',
+        name: 'Attività professionali, scientifiche, tecniche, sanitarie, di istruzione, servizi finanziari (64-66, 69-75, 85, 86-88)',
+        coefficient: 78,
+      },
+      {
+        id: '9',
+        name: 'Altre attività economiche (01-09, 12-33, 35-39, 49-53, 58-63, 77-82, 84, 90-99)',
+        coefficient: 67,
+      },
+    ],
+    atecoDefaultCoefficient: 78,
+    inpsRates: {
+      gestioneSeparata: {
+        rate: 0.2607,
+        massimale: 122295,
+      },
+      artigiani: {
+        minimalIncome: 18808,
+        minimalContribution: 4521.36,
+        rateOverMinimal: 0.24,
+        surchargeThreshold: 56224,
+        surchargeRate: 0.01,
+        massimalePre1996: 93707,
+        massimalePost1995: 122295,
+      },
+      commercianti: {
+        minimalIncome: 18808,
+        minimalContribution: 4611.64,
+        rateOverMinimal: 0.2448,
+        surchargeThreshold: 56224,
+        surchargeRate: 0.01,
+        massimalePre1996: 93707,
+        massimalePost1995: 122295,
+      },
+    },
+    inpsRiduzioneForfettari: 0.35,
+    addizionaliMedie: 0.02,
+    irpefBrackets: [
+      { max: 28000, rate: 0.23 },
+      { max: 50000, rate: 0.33 },
+      { max: null, rate: 0.43 },
+    ],
+    detrazioneLavoroAutonomo: {
+      threshold5500: 5500,
+      amount1265: 1265,
+      threshold28000: 28000,
+      base500: 500,
+      band765: 765,
+      bandWidth22500: 22500,
+      threshold50000: 50000,
+      width22000: 22000,
+      additional50: 50,
+      additionalFrom: 11000,
+      additionalTo: 17000,
+    },
+    sostitutiva: {
+      standard: 0.15,
+      startup: 0.05,
+    },
+    limits: {
+      ricavi: 85000,
+      uscitaImmediata: 100000,
+      dipendenti: 20000,
+      redditoDipendente: 30000,
+    },
+  },
+});

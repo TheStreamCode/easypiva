@@ -1,9 +1,13 @@
-import { LIMITS, getAtecoCoefficient } from '../fiscal-data';
+import { CURRENT_PROFILE, getAtecoCoefficient, type FiscalProfile } from '../fiscal';
 import { calculateInps } from './inps';
 import type { DomainWarning, ForfettarioInput, ForfettarioResult } from './types';
 
-export function calculateForfettario(input: ForfettarioInput): ForfettarioResult {
-  const coefficiente = getAtecoCoefficient(input.atecoId) / 100;
+export function calculateForfettario(
+  input: ForfettarioInput,
+  profile: FiscalProfile = CURRENT_PROFILE,
+): ForfettarioResult {
+  const { limits, sostitutiva } = profile.constants;
+  const coefficiente = getAtecoCoefficient(input.atecoId, profile) / 100;
   const ricaviRagguagliati = input.mesiAttivita > 0 ? (input.ricavi / input.mesiAttivita) * 12 : 0;
   const redditoLordo = input.ricavi * coefficiente;
   const inps = calculateInps(
@@ -12,18 +16,19 @@ export function calculateForfettario(input: ForfettarioInput): ForfettarioResult
     input.riduzioneInps,
     input.contributionHistory,
     input.mesiAttivita,
+    profile,
   );
   const contributiConsiderati = input.contributiVersati > 0 ? input.contributiVersati : inps.totale;
   const redditoNettoImponibile = Math.max(0, redditoLordo - contributiConsiderati);
-  const aliquotaImposta = input.nuovaAttivita ? 0.05 : 0.15;
+  const aliquotaImposta = input.nuovaAttivita ? sostitutiva.startup : sostitutiva.standard;
   const impostaSostitutiva = redditoNettoImponibile * aliquotaImposta;
   const nettoStimato = input.ricavi - contributiConsiderati - impostaSostitutiva;
   const warnings: DomainWarning[] = [];
-  const hasImmediateExit = input.ricavi > LIMITS.uscitaImmediata;
-  const hasEmployeeCostsOverLimit = input.speseDipendenti > LIMITS.dipendenti;
-  const hasEmploymentIncomeOverLimit = input.redditoDipendente > LIMITS.redditoDipendente;
+  const hasImmediateExit = input.ricavi > limits.uscitaImmediata;
+  const hasEmployeeCostsOverLimit = input.speseDipendenti > limits.dipendenti;
+  const hasEmploymentIncomeOverLimit = input.redditoDipendente > limits.redditoDipendente;
 
-  if (ricaviRagguagliati > LIMITS.ricavi && !hasImmediateExit) {
+  if (ricaviRagguagliati > limits.ricavi && !hasImmediateExit) {
     warnings.push({
       code: 'revenue-over-85000',
       severity: 'warning',

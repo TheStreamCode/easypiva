@@ -1,4 +1,4 @@
-import { LIMITS } from '../fiscal-data';
+import { CURRENT_PROFILE, type FiscalProfile } from '../fiscal';
 import { parseNonNegativeNumber } from '../number-input';
 import type { PlanningResult } from './types';
 
@@ -17,7 +17,10 @@ export const mesi = [
   'Dic',
 ];
 
-export function buildPlanningProjection(ricaviMensili: number[]): PlanningResult {
+export function buildPlanningProjection(
+  ricaviMensili: number[],
+  profile: FiscalProfile = CURRENT_PROFILE,
+): PlanningResult {
   let cumulato = 0;
   const projection = mesi.map((mese, index) => {
     const revenue = parseNonNegativeNumber(ricaviMensili[index]);
@@ -30,9 +33,10 @@ export function buildPlanningProjection(ricaviMensili: number[]): PlanningResult
     };
   });
 
+  const { limits } = profile.constants;
   const totaleAnnuo = cumulato;
-  const limiteSuperato = totaleAnnuo > LIMITS.ricavi;
-  const uscitaImmediata = totaleAnnuo > LIMITS.uscitaImmediata;
+  const limiteSuperato = totaleAnnuo > limits.ricavi;
+  const uscitaImmediata = totaleAnnuo > limits.uscitaImmediata;
   const warnings = [] as PlanningResult['warnings'];
 
   if (limiteSuperato && !uscitaImmediata) {

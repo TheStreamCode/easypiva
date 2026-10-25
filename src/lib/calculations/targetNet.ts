@@ -1,5 +1,4 @@
-import { LIMITS } from '../fiscal-data';
-import { getAtecoCoefficient } from '../fiscal-data';
+import { CURRENT_PROFILE, getAtecoCoefficient, type FiscalProfile } from '../fiscal';
 import { parseNonNegativeNumber } from '../number-input';
 import { calculateInps } from './inps';
 import type { TargetNetInput, TargetNetResult, WarningCode } from './types';
@@ -11,9 +10,17 @@ function calculateNetForRevenue(
   tipoInps: TargetNetInput['tipoInps'],
   riduzioneInps: boolean,
   contributionHistory: TargetNetInput['contributionHistory'],
+  profile: FiscalProfile,
 ) {
   const redditoLordo = ricavi * coefficiente;
-  const inps = calculateInps(redditoLordo, tipoInps, riduzioneInps, contributionHistory);
+  const inps = calculateInps(
+    redditoLordo,
+    tipoInps,
+    riduzioneInps,
+    contributionHistory,
+    12,
+    profile,
+  );
   const tasse = Math.max(0, redditoLordo - inps.totale) * aliquotaImposta;
 
   return {
@@ -24,15 +31,17 @@ function calculateNetForRevenue(
   };
 }
 
-function buildTargetAvailability(ricaviNecessari: number) {
-  if (ricaviNecessari > LIMITS.uscitaImmediata) {
+function buildTargetAvailability(ricaviNecessari: number, profile: FiscalProfile) {
+  const { limits } = profile.constants;
+
+  if (ricaviNecessari > limits.uscitaImmediata) {
     return {
       available: false,
       warnings: ['revenue-over-100000'] as WarningCode[],
     };
   }
 
-  if (ricaviNecessari > LIMITS.ricavi) {
+  if (ricaviNecessari > limits.ricavi) {
     return {
       available: true,
       warnings: ['revenue-over-85000'] as WarningCode[],
@@ -45,9 +54,13 @@ function buildTargetAvailability(ricaviNecessari: number) {
   };
 }
 
-export function calculateTargetNet(input: TargetNetInput): TargetNetResult {
-  const coefficiente = getAtecoCoefficient(input.atecoId) / 100;
-  const aliquotaImposta = input.nuovaAttivita ? 0.05 : 0.15;
+export function calculateTargetNet(
+  input: TargetNetInput,
+  profile: FiscalProfile = CURRENT_PROFILE,
+): TargetNetResult {
+  const { sostitutiva } = profile.constants;
+  const coefficiente = getAtecoCoefficient(input.atecoId, profile) / 100;
+  const aliquotaImposta = input.nuovaAttivita ? sostitutiva.startup : sostitutiva.standard;
   const nettoAnnuo = parseNonNegativeNumber(input.nettoMensile) * 12;
 
   if (nettoAnnuo === 0) {
@@ -72,6 +85,7 @@ export function calculateTargetNet(input: TargetNetInput): TargetNetResult {
       input.tipoInps,
       input.riduzioneInps,
       input.contributionHistory,
+      profile,
     );
 
     return {
@@ -80,7 +94,7 @@ export function calculateTargetNet(input: TargetNetInput): TargetNetResult {
       inpsStimato: detail.inps,
       tasseStimate: detail.tasse,
       costiForfettari: ricaviNecessari - detail.redditoLordo,
-      ...buildTargetAvailability(ricaviNecessari),
+      ...buildTargetAvailability(ricaviNecessari, profile),
     };
   }
 
@@ -95,6 +109,7 @@ export function calculateTargetNet(input: TargetNetInput): TargetNetResult {
       input.tipoInps,
       input.riduzioneInps,
       input.contributionHistory,
+      profile,
     ).netto < nettoAnnuo
   ) {
     high *= 2;
@@ -109,6 +124,7 @@ export function calculateTargetNet(input: TargetNetInput): TargetNetResult {
       input.tipoInps,
       input.riduzioneInps,
       input.contributionHistory,
+      profile,
     );
 
     if (detail.netto < nettoAnnuo) {
@@ -126,6 +142,7 @@ export function calculateTargetNet(input: TargetNetInput): TargetNetResult {
     input.tipoInps,
     input.riduzioneInps,
     input.contributionHistory,
+    profile,
   );
 
   return {
@@ -134,6 +151,6 @@ export function calculateTargetNet(input: TargetNetInput): TargetNetResult {
     inpsStimato: detail.inps,
     tasseStimate: detail.tasse,
     costiForfettari: ricaviNecessari - detail.redditoLordo,
-    ...buildTargetAvailability(ricaviNecessari),
+    ...buildTargetAvailability(ricaviNecessari, profile),
   };
 }
