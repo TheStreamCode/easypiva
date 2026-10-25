@@ -27,7 +27,8 @@ describe('Comparison page form', () => {
 
     const ricaviInput = screen.getByLabelText(/Ricavi Annui Stimati/i);
     fireEvent.change(ricaviInput, { target: { value: '-100' } });
+    fireEvent.blur(ricaviInput);
 
-    expect(ricaviInput).toHaveValue(0);
+    expect(ricaviInput).toHaveValue('');
   });
 });

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Input } from '@/components/ui/input';
+import { NumberInput } from '../components/NumberInput';
 import { Label } from '@/components/ui/label';
 import {
   Select,
@@ -14,7 +14,6 @@ import { Target } from 'lucide-react';
 import { motion } from 'motion/react';
 import { calculateTargetNet } from '@/lib/calculations';
 import { formatCurrency } from '@/lib/format';
-import { parseNonNegativeNumber } from '@/lib/number-input';
 import type { ContributionHistory, InpsType } from '@/lib/fiscal-data';
 import { ContributionHistorySelect } from '../components/ContributionHistorySelect';
 
@@ -80,13 +79,11 @@ export default function TargetNet() {
               >
                 Netto Mensile Desiderato (€)
               </Label>
-              <Input
+              <NumberInput
                 id="nettoMensile"
-                type="number"
-                inputMode="numeric"
                 className="text-xl font-semibold h-12"
                 value={nettoMensile}
-                onChange={(e) => setNettoMensile(parseNonNegativeNumber(e.target.value))}
+                onValueChange={setNettoMensile}
               />
               <p className="text-sm text-zinc-500 dark:text-zinc-400">
                 Netto annuo:{' '}

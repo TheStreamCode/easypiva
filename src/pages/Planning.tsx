@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Input } from '@/components/ui/input';
+import { NumberInput } from '../components/NumberInput';
 import { Label } from '@/components/ui/label';
 import { LIMITS } from '@/lib/fiscal-data';
 import {
@@ -16,7 +16,6 @@ import {
 import { motion } from 'motion/react';
 import { buildPlanningProjection } from '@/lib/calculations';
 import { formatCurrency } from '@/lib/format';
-import { parseNonNegativeNumber } from '@/lib/number-input';
 import { warningCopy } from '@/lib/public-copy';
 
 const mesi = ['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu', 'Lug', 'Ago', 'Set', 'Ott', 'Nov', 'Dic'];
@@ -25,9 +24,9 @@ export default function Planning() {
   const [ricaviMensili, setRicaviMensili] = useState<number[]>(Array(12).fill(0));
   const result = buildPlanningProjection(ricaviMensili);
 
-  const handleRicavoChange = (index: number, value: string) => {
+  const handleRicavoChange = (index: number, value: number) => {
     const newRicavi = [...ricaviMensili];
-    newRicavi[index] = parseNonNegativeNumber(value);
+    newRicavi[index] = value;
     setRicaviMensili(newRicavi);
   };
 
@@ -76,12 +75,10 @@ export default function Planning() {
                 >
                   {mese}
                 </Label>
-                <Input
+                <NumberInput
                   id={`mese-${index}`}
-                  type="number"
-                  inputMode="numeric"
-                  value={ricaviMensili[index] || ''}
-                  onChange={(e) => handleRicavoChange(index, e.target.value)}
+                  value={ricaviMensili[index] ?? 0}
+                  onValueChange={(value) => handleRicavoChange(index, value)}
                   placeholder="0"
                   className="text-right"
                 />

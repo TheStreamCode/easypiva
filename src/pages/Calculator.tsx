@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
   Select,
@@ -28,9 +27,9 @@ import { jsPDF } from 'jspdf';
 import { motion, AnimatePresence } from 'motion/react';
 import { calculateForfettario } from '@/lib/calculations';
 import { formatCurrency } from '@/lib/format';
-import { parseNonNegativeNumber } from '@/lib/number-input';
 import { warningCopy } from '@/lib/public-copy';
 import { ContributionHistorySelect } from '../components/ContributionHistorySelect';
+import { NumberInput } from '../components/NumberInput';
 const formSchema = z.object({
   atecoId: z.string().min(1, 'Seleziona una categoria ATECO'),
   ricavi: z.number().min(0, 'I ricavi non possono essere negativi'),
@@ -225,31 +224,24 @@ export default function Calculator() {
                 <div className="space-y-4">
                   {' '}
                   <Label htmlFor="ricavi">Ricavi/Compensi Annui (€)</Label>{' '}
-                  <Input
+                  <NumberInput
                     id="ricavi"
-                    type="number"
-                    inputMode="decimal"
                     placeholder="es. 45000"
-                    value={values.ricavi || ''}
-                    onChange={(e) => setValue('ricavi', parseNonNegativeNumber(e.target.value))}
+                    value={values.ricavi}
+                    onValueChange={(ricavi) => setValue('ricavi', ricavi)}
                     className="text-lg"
                   />{' '}
                 </div>{' '}
                 <div className="space-y-4">
                   {' '}
                   <Label htmlFor="mesiAttivita">Mesi di attività nell'anno</Label>{' '}
-                  <Input
+                  <NumberInput
                     id="mesiAttivita"
-                    type="number"
-                    inputMode="decimal"
                     min="1"
                     max="12"
                     value={values.mesiAttivita}
-                    onChange={(e) =>
-                      setValue(
-                        'mesiAttivita',
-                        Math.min(12, Math.max(1, parseNonNegativeNumber(e.target.value))),
-                      )
+                    onValueChange={(mesi) =>
+                      setValue('mesiAttivita', Math.min(12, Math.max(1, mesi)))
                     }
                     className="text-lg"
                   />{' '}
@@ -355,15 +347,11 @@ export default function Calculator() {
                     Lascia 0 per usare automaticamente la stima INPS della cassa selezionata.
                   </p>{' '}
                 </div>{' '}
-                <Input
+                <NumberInput
                   id="contributiVersati"
-                  type="number"
-                  inputMode="decimal"
                   placeholder="es. 3500"
-                  value={values.contributiVersati || ''}
-                  onChange={(e) =>
-                    setValue('contributiVersati', parseNonNegativeNumber(e.target.value))
-                  }
+                  value={values.contributiVersati}
+                  onValueChange={(contributi) => setValue('contributiVersati', contributi)}
                   className="text-lg"
                 />{' '}
               </div>{' '}
@@ -399,14 +387,10 @@ export default function Calculator() {
                     Limite massimo 20.000€.
                   </p>{' '}
                 </div>{' '}
-                <Input
+                <NumberInput
                   id="speseDipendenti"
-                  type="number"
-                  inputMode="decimal"
-                  value={values.speseDipendenti || ''}
-                  onChange={(e) =>
-                    setValue('speseDipendenti', parseNonNegativeNumber(e.target.value))
-                  }
+                  value={values.speseDipendenti}
+                  onValueChange={(spese) => setValue('speseDipendenti', spese)}
                   className="text-lg"
                 />{' '}
               </div>{' '}
@@ -422,14 +406,10 @@ export default function Calculator() {
                     Limite massimo 30.000€.
                   </p>{' '}
                 </div>{' '}
-                <Input
+                <NumberInput
                   id="redditoDipendente"
-                  type="number"
-                  inputMode="decimal"
-                  value={values.redditoDipendente || ''}
-                  onChange={(e) =>
-                    setValue('redditoDipendente', parseNonNegativeNumber(e.target.value))
-                  }
+                  value={values.redditoDipendente}
+                  onValueChange={(reddito) => setValue('redditoDipendente', reddito)}
                   className="text-lg"
                 />{' '}
               </div>{' '}

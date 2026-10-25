@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Input } from '@/components/ui/input';
+import { NumberInput } from '../components/NumberInput';
 import { Label } from '@/components/ui/label';
 import {
   Select,
@@ -12,7 +12,6 @@ import { Switch } from '@/components/ui/switch';
 import { motion } from 'motion/react';
 import { calculateInps } from '@/lib/calculations';
 import { formatCurrency } from '@/lib/format';
-import { parseNonNegativeNumber } from '@/lib/number-input';
 import type { ContributionHistory, InpsType } from '@/lib/fiscal-data';
 import { ContributionHistorySelect } from '../components/ContributionHistorySelect';
 
@@ -68,12 +67,10 @@ export default function Contributions() {
                   Ricavi × Coefficiente (se forfettario)
                 </p>
               </div>
-              <Input
+              <NumberInput
                 id="redditoLordo"
-                type="number"
-                inputMode="numeric"
                 value={redditoLordo}
-                onChange={(e) => setRedditoLordo(parseNonNegativeNumber(e.target.value))}
+                onValueChange={setRedditoLordo}
                 className="text-lg"
               />
             </div>

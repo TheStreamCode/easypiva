@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Input } from '@/components/ui/input';
+import { NumberInput } from '../components/NumberInput';
 import { Label } from '@/components/ui/label';
 import {
   Select,
@@ -25,7 +25,6 @@ import { Switch } from '@/components/ui/switch';
 import { motion } from 'motion/react';
 import { compareRegimes } from '@/lib/calculations';
 import { formatCurrency } from '@/lib/format';
-import { parseNonNegativeNumber } from '@/lib/number-input';
 
 export default function Comparison() {
   const [ricavi, setRicavi] = useState(50000);
@@ -102,12 +101,10 @@ export default function Comparison() {
               <Label htmlFor="ricavi" className="text-zinc-700 dark:text-zinc-300">
                 Ricavi Annui Stimati (€)
               </Label>
-              <Input
+              <NumberInput
                 id="ricavi"
-                type="number"
-                inputMode="numeric"
                 value={ricavi}
-                onChange={(e) => setRicavi(parseNonNegativeNumber(e.target.value))}
+                onValueChange={setRicavi}
                 className="text-lg"
               />
             </div>
@@ -121,12 +118,10 @@ export default function Comparison() {
                   Spese deducibili nel regime ordinario
                 </p>
               </div>
-              <Input
+              <NumberInput
                 id="costiReali"
-                type="number"
-                inputMode="numeric"
                 value={costiReali}
-                onChange={(e) => setCostiReali(parseNonNegativeNumber(e.target.value))}
+                onValueChange={setCostiReali}
                 className="text-lg"
               />
             </div>
