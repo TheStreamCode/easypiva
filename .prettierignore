@@ -4,3 +4,5 @@ coverage/
 dist/
 .review/
 .tmp/
+public/fiscal-profile.json
+docs/fiscal/assumption-changelog.md

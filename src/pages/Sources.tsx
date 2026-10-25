@@ -1,8 +1,14 @@
 import { Info, ExternalLink, ShieldAlert, Lock, Database } from 'lucide-react';
 import { motion } from 'motion/react';
 
+import { ASSUMPTION_CHANGES } from '@/lib/fiscal/assumption-changes';
+import { PROFILES } from '@/lib/fiscal';
 import { FISCAL_PROFILE } from '@/lib/fiscal-data';
-import { formatFiscalProfileValidFrom } from '@/lib/fiscal-profile';
+import {
+  FISCAL_PROFILE_JSON_PATH,
+  formatFiscalProfileValidity,
+  getFiscalProfileChecksumShort,
+} from '@/lib/fiscal-profile';
 
 export default function Sources() {
   const containerVariants = {
@@ -149,11 +155,63 @@ export default function Sources() {
               </p>
               <p data-testid="fiscal-profile-note">
                 Assunzioni fiscali <strong>{FISCAL_PROFILE.year}</strong>, versione{' '}
-                <strong>{FISCAL_PROFILE.version}</strong>, in vigore dal{' '}
-                {formatFiscalProfileValidFrom()}. Ogni modifica di aliquote, soglie o coefficienti
-                incrementa la versione e viene registrata nel changelog del progetto, così una stima
-                resta ricondotta all'insieme di regole che l'ha prodotta.
+                <strong>{FISCAL_PROFILE.version}</strong>, {formatFiscalProfileValidity()}. Ogni
+                modifica di aliquote, soglie o coefficienti incrementa la versione e viene
+                registrata nello storico delle assunzioni, così una stima resta ricondotta
+                all'insieme di regole che l'ha prodotta. Checksum:{' '}
+                <code className="rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-xs dark:bg-zinc-800">
+                  {getFiscalProfileChecksumShort()}
+                </code>
+                . Il profilo completo è disponibile come{' '}
+                <a
+                  href={FISCAL_PROFILE_JSON_PATH}
+                  data-testid="fiscal-profile-json-link"
+                  className="font-medium text-blue-600 underline underline-offset-2 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                >
+                  JSON pubblico
+                </a>
+                .
               </p>
+              <div className="space-y-3" data-testid="assumption-changes">
+                <h3 className="text-base font-medium text-zinc-900 dark:text-zinc-100">
+                  Aggiornamenti delle assunzioni
+                </h3>
+                <ul className="ml-2 list-inside list-disc space-y-3 text-zinc-700 dark:text-zinc-300">
+                  {ASSUMPTION_CHANGES.map((entry) => (
+                    <li key={entry.version}>
+                      <strong className="font-medium text-zinc-900 dark:text-zinc-100">
+                        {entry.version}
+                      </strong>{' '}
+                      ({entry.date}): {entry.summary}
+                      <ul className="ml-4 mt-1 list-inside list-[circle] space-y-1 text-sm">
+                        {entry.changes.map((change) => (
+                          <li key={`${entry.version}-${change.field}`}>
+                            <code className="rounded bg-zinc-100 px-1 font-mono text-xs dark:bg-zinc-800">
+                              {change.field}
+                            </code>
+                            : {change.from} → {change.to}
+                          </li>
+                        ))}
+                      </ul>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="space-y-3" data-testid="fiscal-profiles">
+                <h3 className="text-base font-medium text-zinc-900 dark:text-zinc-100">
+                  Profili fiscali
+                </h3>
+                <ul className="ml-2 list-inside list-disc space-y-1 text-zinc-700 dark:text-zinc-300">
+                  {PROFILES.map((profile) => (
+                    <li key={profile.version}>
+                      versione {profile.version} (
+                      {profile.status === 'current' ? 'corrente' : 'archiviato'}
+                      ), in vigore dal {profile.validFrom}
+                      {profile.validTo ? ` al ${profile.validTo}` : ''}
+                    </li>
+                  ))}
+                </ul>
+              </div>
               <ul className="ml-2 list-inside list-disc space-y-2 text-zinc-700 dark:text-zinc-300">
                 <li>
                   <strong className="font-medium text-zinc-900 dark:text-zinc-100">

@@ -31,5 +31,18 @@ describe('Sources page', () => {
     expect(screen.getByTestId('fiscal-profile-note')).toHaveTextContent(
       /assunzioni fiscali 2026, versione 2026\.1/i,
     );
+    expect(screen.getByTestId('fiscal-profile-json-link')).toHaveAttribute(
+      'href',
+      '/fiscal-profile.json',
+    );
+  });
+
+  test('shows the assumption history and the available profiles', () => {
+    render(<Sources />);
+
+    expect(screen.getByTestId('assumption-changes')).toHaveTextContent(/30\.000 €/);
+    expect(screen.getByTestId('assumption-changes')).toHaveTextContent(/D\.Lgs\. 117\/2026/);
+    expect(screen.getByTestId('fiscal-profiles')).toHaveTextContent(/versione 2026\.1/);
+    expect(screen.getByTestId('fiscal-profiles')).toHaveTextContent(/corrente/);
   });
 });
