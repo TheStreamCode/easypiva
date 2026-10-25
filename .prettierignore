@@ -1,1 +1,6 @@
 test-results/
+playwright-report/
+coverage/
+dist/
+.review/
+.tmp/

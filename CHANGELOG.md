@@ -16,6 +16,9 @@ Tutte le modifiche rilevanti a EasyPIVA vengono tracciate in questo file.
 - introdotto un input numerico che conserva il testo durante la digitazione: ora è possibile inserire importi con virgola o punto decimale in calcolatore, confronto, contributi, quanto fatturare e pianificazione, con normalizzazione al blur.
 - migliorata l'accessibilità dei form: errori associati ai campi con `aria-invalid`/`aria-describedby`, focus sul primo campo non valido, wizard con progressbar annunciata, risultati del calcolatore annunciati, suggerimenti di compilazione automatica nel preventivo e bottone "Ingrandisci" visibile da tastiera.
 - rifinita la copy italiana ("Città", "Validità", "Unità", "non è più disponibile", toggle tema e chiusura dialoghi in italiano) e completato `llms.txt` con le tre route mancanti (quanto fatturare, pianificazione, preventivo).
+- aggiornate le dipendenze transitive con le correzioni non-breaking di `npm audit` (ora nessuna vulnerabilità nota) e aggiunto il controllo `npm audit` alla pipeline CI.
+- l'export PDF del calcolatore carica `jsPDF` solo quando l'utente esporta, togliendo la libreria dal bundle iniziale della pagina.
+- escluse da ESLint e Prettier le directory di lavoro locali (`.review`, `.tmp`, coverage, report di test) per evitare che artefatti non versionati facciano fallire i controlli.
 
 ## [1.1.1] - 2026-08-08
 
