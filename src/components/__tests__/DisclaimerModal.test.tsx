@@ -31,4 +31,15 @@ describe('DisclaimerModal', () => {
       expect(consoleErrorSpy).not.toHaveBeenCalled();
     });
   });
+
+  test('renders the confirm action without a separate footer band', () => {
+    render(<DisclaimerModal />);
+
+    const footer = screen
+      .getByRole('button', { name: /Ho compreso, inizia/i })
+      .closest('[data-slot="dialog-footer"]');
+
+    expect(footer).not.toBeNull();
+    expect(footer).not.toHaveClass('bg-muted/50');
+  });
 });

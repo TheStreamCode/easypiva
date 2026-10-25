@@ -46,7 +46,7 @@ export function DisclaimerModal() {
             </span>
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="sm:justify-center mt-4">
+        <DialogFooter className="mt-4 mx-0 mb-0 border-t-0 bg-transparent p-0 sm:justify-center">
           <Button
             onClick={acceptDisclaimer}
             className="w-full sm:w-2/3 rounded-full h-11 text-base font-medium transition-all hover:scale-[1.02] active:scale-[0.98]"

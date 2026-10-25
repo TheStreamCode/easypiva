@@ -19,6 +19,7 @@ Tutte le modifiche rilevanti a EasyPIVA vengono tracciate in questo file.
 - aggiornate le dipendenze transitive con le correzioni non-breaking di `npm audit` (ora nessuna vulnerabilità nota) e aggiunto il controllo `npm audit` alla pipeline CI.
 - l'export PDF del calcolatore carica `jsPDF` solo quando l'utente esporta, togliendo la libreria dal bundle iniziale della pagina.
 - escluse da ESLint e Prettier le directory di lavoro locali (`.review`, `.tmp`, coverage, report di test) per evitare che artefatti non versionati facciano fallire i controlli.
+- rimosso il riquadro di sfondo diverso attorno al pulsante "Ho compreso, inizia" nel disclaimer iniziale: il footer del modale ora è trasparente e allineato al contenuto.
 
 ## [1.1.1] - 2026-08-08
 
