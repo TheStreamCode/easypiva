@@ -115,6 +115,7 @@ Documentazione del repository:
 - [Architettura](docs/architecture.md)
 - [Privacy e storage locale](docs/privacy-and-storage.md)
 - [Assunzioni fiscali](docs/ADRs/0001-fiscal-assumptions.md)
+- [Versionamento delle assunzioni](docs/fiscal/versioning.md)
 - [Governance repository](docs/repository-governance.md)
 - [Provenienza degli asset](docs/asset-provenance.md)
 - [Changelog](CHANGELOG.md)

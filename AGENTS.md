@@ -32,7 +32,8 @@ src/
   lib/
     calculations/          # Logica fiscale pura (forfettario, inps, comparison, targetNet, planning)
     quote/                 # Modello preventivo, paginazione, export PDF
-    fiscal-data.ts         # Soglie, aliquote, coefficienti ATECO 2007 (Allegato D TUIR 2026)
+    fiscal/                # Profili fiscali versionati (types, profiles, rounding, checksum, artifacts)
+    fiscal-data.ts         # Facade di compatibilità sul profilo fiscale corrente
     number-input.ts        # Normalizzazione input numerici non negativi
     public-copy.ts         # Copy centralizzata dei warning fiscali
     browser-storage.ts     # Unico accesso consentito a localStorage
@@ -61,7 +62,11 @@ npm run format:check  # prettier . --check
 npm run test          # vitest run
 npm run test:watch    # vitest in watch
 npm run test:e2e      # playwright test (richiede chromium installato)
-npm run ci            # format:check + typecheck + lint + test + build + test:e2e
+npm run fiscal:write  # rigenera public/fiscal-profile.json e docs/fiscal/assumption-changelog.md
+npm run fiscal:check  # verifica checksum e artefatti fiscali (eseguito anche in CI)
+npm run fiscal:checksum # ricalcola e scrive il checksum del profilo
+npm run fiscal:recalc -- --list # ricalcolo con un profilo archiviato
+npm run ci            # format:check + typecheck + lint + fiscal:check + test + build + test:e2e
 ```
 
 Se Playwright segnala browser mancanti: `npx playwright install chromium`.
@@ -70,8 +75,9 @@ Non esiste uno script di deploy nel repository: il deployment è gestito da Verc
 ## Regole fiscali (area critica)
 
 - **Non modificare aliquote, coefficienti, soglie o formule senza una fonte primaria verificabile** (Agenzia delle Entrate, Circolari INPS, legge di bilancio). Cita la fonte nel commit e nell'ADR.
-- Tutte le costanti fiscali vivono in `src/lib/fiscal-data.ts`. Non duplicarle nelle pagine né nei componenti.
-- Ogni cambiamento fiscale richiede un aggiornamento **coordinato** di: costante in `fiscal-data.ts`, logica in `src/lib/calculations/`, test corrispondenti, `docs/ADRs/0001-fiscal-assumptions.md`, copy pubblica (`src/lib/public-copy.ts`, `src/pages/Sources.tsx`) e `CHANGELOG.md`.
+- Tutte le costanti fiscali vivono nel profilo corrente sotto `src/lib/fiscal/` (`profiles/<versione>.ts`); `src/lib/fiscal-data.ts` è solo il facade di compatibilità. Non duplicarle nelle pagine né nei componenti.
+- Ogni cambiamento fiscale richiede un **nuovo profilo versionato** e un aggiornamento coordinato di: `src/lib/fiscal/`, logica in `src/lib/calculations/`, test corrispondenti, `src/lib/fiscal/assumption-changes.ts`, `docs/ADRs/0001-fiscal-assumptions.md`, copy pubblica (`src/lib/public-copy.ts`, `src/pages/Sources.tsx`) e `CHANGELOG.md`.
+- Dopo un cambio fiscale eseguire `npm run fiscal:checksum`, `npm run fiscal:write` e verificare `npm run fiscal:check` (la CI lo esegue). La procedura completa è in `docs/fiscal/versioning.md`; un profilo rilasciato non si modifica.
 - La logica in `src/lib/calculations/` deve restare **pura**: nessun accesso a `window`, storage, rete o data corrente.
 - I warning verso l'utente passano dal pattern `DomainWarning` + `warningCopy`; non scrivere messaggi fiscali inline nelle pagine.
 - Il disclaimer ("stime indicative, non consulenza fiscale") è parte del prodotto: è presente nel modale iniziale, in `/informativa` e nel README. **Non rimuoverlo né attenuarlo.**

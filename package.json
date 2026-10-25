@@ -1,7 +1,7 @@
 {
   "name": "easypiva",
   "private": true,
-  "version": "1.1.1",
+  "version": "1.2.0",
   "type": "module",
   "packageManager": "npm@11.16.0",
   "engines": {
@@ -48,7 +48,11 @@
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "audit": "npm audit --audit-level=high",
-    "ci": "npm run format:check && npm run typecheck && npm run lint && npm run test && npm run build && npm run test:e2e"
+    "fiscal:write": "tsx scripts/fiscal-profile.ts --write",
+    "fiscal:check": "tsx scripts/fiscal-profile.ts --check && tsx scripts/fiscal-checksum.ts --check",
+    "fiscal:checksum": "tsx scripts/fiscal-checksum.ts --write",
+    "fiscal:recalc": "tsx scripts/fiscal-recalc.ts",
+    "ci": "npm run format:check && npm run typecheck && npm run lint && npm run fiscal:check && npm run test && npm run build && npm run test:e2e"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",

@@ -4,6 +4,10 @@ Tutte le modifiche rilevanti a EasyPIVA vengono tracciate in questo file.
 
 ## [Unreleased]
 
+Nessuna modifica in attesa di rilascio.
+
+## [1.2.0] - 2026-10-25
+
 - corretto il limite dei redditi da lavoro dipendente e assimilati per l'accesso al regime forfettario: 30.000€ (art. 233, comma 1, lett. f, TUIR 2026 — D.Lgs. 117/2026) invece di 35.000€, con test sui valori di soglia (29.999/30.000/30.001) e aggiornamento di copy pubblica e ADR fiscale.
 - aggiornate le fonti normative pubbliche al quadro vigente: TUIR 2026 (D.Lgs. 117/2026, artt. 11, 13, 232-243 e Allegato D) e TU-IVA 2026 (D.Lgs. 10/2026) nella pagina Informativa, nell'ADR fiscale, nei README e nei commenti delle costanti, al posto della L. 190/2014 i cui commi 54-89 sono abrogati; aggiunto un test che verifica i link alle fonti primarie.
 - reso recuperabile il preventivo: aggiunti un ErrorBoundary globale e uno dedicato alla pagina con azione di ripristino della bozza, paginazione protetta con messaggio accessibile al posto del crash, limiti di lunghezza su titolo, note, voci e campi anagrafici, e troncamento automatico delle bozze salvate non più impaginabili.
@@ -21,6 +25,11 @@ Tutte le modifiche rilevanti a EasyPIVA vengono tracciate in questo file.
 - escluse da ESLint e Prettier le directory di lavoro locali (`.review`, `.tmp`, coverage, report di test) per evitare che artefatti non versionati facciano fallire i controlli.
 - rimosso il riquadro di sfondo diverso attorno al pulsante "Ho compreso, inizia" nel disclaimer iniziale: il footer del modale ora è trasparente e allineato al contenuto.
 - introdotto il versioning delle assunzioni fiscali (`FISCAL_PROFILE`, versione 2026.1): la versione è mostrata nella pagina Informativa, nei risultati del calcolatore e nel titolo del PDF esportato, così ogni stima resta ricondotta all'insieme di regole che l'ha prodotta; regola di aggiornamento documentata nell'ADR fiscale e coperta da test.
+- completato il versionamento delle assunzioni: profili immutabili per versione sotto `src/lib/fiscal/profiles/` con intervallo di validità, checksum sha256, registro `PROFILES` e calcoli eseguibili con un profilo esplicito; `fiscal-data.ts` resta il facade di compatibilità.
+- aggiunti `assumption-changes.ts`, `public/fiscal-profile.json` e `docs/fiscal/assumption-changelog.md` generati da script deterministici, con `npm run fiscal:check` nella CI che blocca modifiche alle costanti senza aggiornamento di versione, checksum e artefatti.
+- aggiunti `docs/fiscal/versioning.md` e `npm run fiscal:recalc` per ricalcolare una stima con un profilo archiviato; `/informativa` mostra versione, checksum, link al JSON pubblico, storico degli aggiornamenti e profili disponibili.
+- metadati di riproducibilità: versione app e profilo fiscale nel PDF del calcolatore con data di generazione, versione app nel footer del preventivo; regole di arrotondamento dichiarate nel profilo e condivise con la formattazione valuta e il calcolo del preventivo.
+- release 1.2.0: versioni allineate in `package.json`, `package-lock.json` e `CITATION.cff`, con ADR, README e AGENTS aggiornati alla nuova struttura dei profili fiscali.
 
 ## [1.1.1] - 2026-08-08
 

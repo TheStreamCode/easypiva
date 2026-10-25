@@ -17,7 +17,7 @@ EasyPIVA fornisce simulazioni fiscali indicative per utenti con Partita IVA ital
 
 ## Decisione
 
-- Usare soglie e aliquote fisse 2026 in `src/lib/fiscal-data.ts`.
+- Usare soglie e aliquote fisse 2026 in un profilo fiscale versionato sotto `src/lib/fiscal/` (`fiscal-data.ts` resta il facade di compatibilità).
 - Trattare i risultati come stime, non come consulenza professionale.
 - Mantenere tutti i calcoli lato client.
 - Persistire solo preferenze non sensibili, come il disclaimer e il tema.
@@ -25,9 +25,12 @@ EasyPIVA fornisce simulazioni fiscali indicative per utenti con Partita IVA ital
 
 ## Versioning delle assunzioni
 
-- L'insieme di soglie, aliquote, coefficienti e formule usato dalle simulazioni è identificato da `FISCAL_PROFILE` in `src/lib/fiscal-data.ts`: anno d'imposta, versione (`ANNO.N`), data di inizio validità e fonti primarie.
-- La versione va incrementata a ogni modifica fiscale (aliquote, soglie, coefficienti, formule, fonti), nello stesso cambio che aggiorna costanti, test, questa ADR e `CHANGELOG.md`.
-- La versione è mostrata nella pagina `/informativa`, nei risultati del calcolatore e nel titolo del PDF esportato dal calcolatore, così ogni stima resta ricondotta all'insieme di regole che l'ha prodotta; il dettaglio puntuale delle modifiche resta nella storia Git e nel changelog.
+- L'insieme di soglie, aliquote, coefficienti, formule e regole di arrotondamento usato dalle simulazioni è un profilo fiscale immutabile in `src/lib/fiscal/profiles/<versione>.ts`; il registro `PROFILES` e il profilo attivo `CURRENT_PROFILE` vivono in `src/lib/fiscal/index.ts`.
+- `FiscalProfile` contiene anno, versione (`ANNO.N`), stato (`current`/`archived`), intervallo di validità (`validFrom`/`validTo`), data di revisione, fonti primarie con URL, regole di arrotondamento, costanti e `checksum` sha256 della rappresentazione canonica.
+- Un profilo rilasciato non si modifica: una modifica fiscale crea una nuova versione, chiude quella precedente con `validTo` e aggiorna `src/lib/fiscal/assumption-changes.ts`, questa ADR, `CHANGELOG.md` e i test.
+- `npm run fiscal:checksum` ricalcola e scrive il checksum, `npm run fiscal:write` rigenera `public/fiscal-profile.json` e `docs/fiscal/assumption-changelog.md`, `npm run fiscal:check` verifica che codice e artefatti siano allineati. La CI esegue `fiscal:check`.
+- La versione è mostrata nella pagina `/informativa`, nei risultati del calcolatore e nel titolo del PDF; il PDF del calcolatore riporta anche la versione dell'app e la data di generazione. Le stime passate si ricalcolano con `npm run fiscal:recalc -- --profile <versione>`; la procedura completa è in `docs/fiscal/versioning.md`.
+- La versione delle assunzioni è indipendente dalla versione dell'app: una release può non toccare le regole fiscali, una modifica fiscale deve comparire in entrambe.
 
 ## Aliquote IRPEF 2026 (art. 11 TUIR 2026)
 

@@ -115,6 +115,7 @@ Repository documentation:
 - [Architecture](docs/architecture.md)
 - [Privacy and local storage](docs/privacy-and-storage.md)
 - [Fiscal assumptions](docs/ADRs/0001-fiscal-assumptions.md)
+- [Assumption versioning](docs/fiscal/versioning.md)
 - [Repository governance](docs/repository-governance.md)
 - [Asset provenance](docs/asset-provenance.md)
 - [Changelog](CHANGELOG.md)
