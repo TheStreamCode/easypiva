@@ -1,6 +1,8 @@
-* @TheStreamCode
-
-/src/lib/calculations/ @TheStreamCode
-/src/lib/fiscal-data.ts @TheStreamCode
-/docs/ADRs/ @TheStreamCode
-/.github/ @TheStreamCode
+# Ownership of first-party sources and documentation.
+# Dependency manifests, lockfiles and GitHub workflows are intentionally unowned so
+# Dependabot pull requests do not request a maintainer review on every update.
+/components/ @TheStreamCode
+/docs/ @TheStreamCode
+/public/ @TheStreamCode
+/src/ @TheStreamCode
+/tests/ @TheStreamCode
