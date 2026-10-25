@@ -117,7 +117,6 @@ Repository documentation:
 - [Fiscal assumptions](docs/ADRs/0001-fiscal-assumptions.md)
 - [Repository governance](docs/repository-governance.md)
 - [Asset provenance](docs/asset-provenance.md)
-- [Full review 2026-10-24](docs/reviews/2026-10-24-full-review.md)
 - [Changelog](CHANGELOG.md)
 
 ## Support
