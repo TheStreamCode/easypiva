@@ -117,6 +117,7 @@ Documentazione del repository:
 - [Assunzioni fiscali](docs/ADRs/0001-fiscal-assumptions.md)
 - [Governance repository](docs/repository-governance.md)
 - [Provenienza degli asset](docs/asset-provenance.md)
+- [Review completa 2026-10-24](docs/reviews/2026-10-24-full-review.md)
 - [Changelog](CHANGELOG.md)
 
 ## Supporto
