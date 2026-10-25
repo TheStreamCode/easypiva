@@ -20,6 +20,7 @@ Tutte le modifiche rilevanti a EasyPIVA vengono tracciate in questo file.
 - l'export PDF del calcolatore carica `jsPDF` solo quando l'utente esporta, togliendo la libreria dal bundle iniziale della pagina.
 - escluse da ESLint e Prettier le directory di lavoro locali (`.review`, `.tmp`, coverage, report di test) per evitare che artefatti non versionati facciano fallire i controlli.
 - rimosso il riquadro di sfondo diverso attorno al pulsante "Ho compreso, inizia" nel disclaimer iniziale: il footer del modale ora è trasparente e allineato al contenuto.
+- introdotto il versioning delle assunzioni fiscali (`FISCAL_PROFILE`, versione 2026.1): la versione è mostrata nella pagina Informativa, nei risultati del calcolatore e nel titolo del PDF esportato, così ogni stima resta ricondotta all'insieme di regole che l'ha prodotta; regola di aggiornamento documentata nell'ADR fiscale e coperta da test.
 
 ## [1.1.1] - 2026-08-08
 

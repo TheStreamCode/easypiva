@@ -84,6 +84,21 @@ export const LIMITS = {
   redditoDipendente: 30000,
 } as const;
 
+// Identifies the assumption set used by every simulation and export. Bump the
+// version whenever a rate, threshold, coefficient or formula changes, together
+// with CHANGELOG.md and docs/ADRs/0001-fiscal-assumptions.md.
+export const FISCAL_PROFILE = {
+  year: 2026,
+  version: '2026.1',
+  validFrom: '2026-01-01',
+  sources: [
+    'D.Lgs. 117/2026 (TUIR 2026), artt. 11, 13, 232-243 e Allegato D',
+    'D.Lgs. 10/2026 (TU-IVA 2026)',
+    'Circolare INPS n. 8/2026 (Gestione Separata)',
+    'Circolare INPS n. 14/2026 (Artigiani e Commercianti)',
+  ],
+} as const;
+
 export function getAtecoCategory(atecoId: string) {
   return ATECO_CATEGORIES.find((category) => category.id === atecoId);
 }

@@ -26,6 +26,7 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 import { calculateForfettario } from '@/lib/calculations';
 import { formatCurrency } from '@/lib/format';
+import { formatFiscalProfileLabel, getCalculatorPdfTitle } from '@/lib/fiscal-profile';
 import { warningCopy } from '@/lib/public-copy';
 import { ContributionHistorySelect } from '../components/ContributionHistorySelect';
 import { NumberInput } from '../components/NumberInput';
@@ -127,7 +128,7 @@ export default function Calculator() {
     const { jsPDF } = await import('jspdf');
     const doc = new jsPDF();
     doc.setFontSize(20);
-    doc.text('Report EasyPIVA - Calcolo Forfettario 2026', 20, 20);
+    doc.text(getCalculatorPdfTitle(), 20, 20);
     doc.setFontSize(12);
     doc.text(`Ricavi: ${formatCurrency(values.ricavi)}`, 20, 40);
     doc.text(`Coefficiente Redditività: ${coefficiente * 100}%`, 20, 50);
@@ -624,6 +625,19 @@ export default function Calculator() {
                   Ricalcola{' '}
                 </Button>{' '}
               </div>{' '}
+              <p
+                data-testid="calculator-fiscal-profile-note"
+                className="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400"
+              >
+                Stime basate sulle {formatFiscalProfileLabel()}. Fonti e assunzioni nella{' '}
+                <a
+                  href="/informativa"
+                  className="underline underline-offset-2 hover:text-zinc-900 dark:hover:text-zinc-100"
+                >
+                  pagina Informativa
+                </a>
+                .
+              </p>{' '}
             </motion.div>
           )}{' '}
         </AnimatePresence>{' '}

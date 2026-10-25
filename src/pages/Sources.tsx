@@ -1,6 +1,9 @@
 import { Info, ExternalLink, ShieldAlert, Lock, Database } from 'lucide-react';
 import { motion } from 'motion/react';
 
+import { FISCAL_PROFILE } from '@/lib/fiscal-data';
+import { formatFiscalProfileValidFrom } from '@/lib/fiscal-profile';
+
 export default function Sources() {
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -143,6 +146,13 @@ export default function Sources() {
                 primarie vigenti al 24 ottobre 2026: il TUIR 2026 (D.Lgs. 117/2026) per imposte e
                 regime forfettario, il TU-IVA 2026 (D.Lgs. 10/2026) per l'IVA e le circolari INPS
                 per i contributi. I valori possono cambiare con la legge di bilancio.
+              </p>
+              <p data-testid="fiscal-profile-note">
+                Assunzioni fiscali <strong>{FISCAL_PROFILE.year}</strong>, versione{' '}
+                <strong>{FISCAL_PROFILE.version}</strong>, in vigore dal{' '}
+                {formatFiscalProfileValidFrom()}. Ogni modifica di aliquote, soglie o coefficienti
+                incrementa la versione e viene registrata nel changelog del progetto, così una stima
+                resta ricondotta all'insieme di regole che l'ha prodotta.
               </p>
               <ul className="ml-2 list-inside list-disc space-y-2 text-zinc-700 dark:text-zinc-300">
                 <li>

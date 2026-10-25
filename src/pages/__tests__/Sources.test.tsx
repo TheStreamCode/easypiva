@@ -24,4 +24,12 @@ describe('Sources page', () => {
 
     expect(screen.queryByRole('link', { name: /190\/2014/i })).not.toBeInTheDocument();
   });
+
+  test('shows the assumption set version', () => {
+    render(<Sources />);
+
+    expect(screen.getByTestId('fiscal-profile-note')).toHaveTextContent(
+      /assunzioni fiscali 2026, versione 2026\.1/i,
+    );
+  });
 });

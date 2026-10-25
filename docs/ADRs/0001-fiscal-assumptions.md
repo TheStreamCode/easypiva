@@ -23,6 +23,12 @@ EasyPIVA fornisce simulazioni fiscali indicative per utenti con Partita IVA ital
 - Persistire solo preferenze non sensibili, come il disclaimer e il tema.
 - Il preventivo usa lo stesso principio local-first: bozza in `localStorage`, export PDF dal DOM renderizzato.
 
+## Versioning delle assunzioni
+
+- L'insieme di soglie, aliquote, coefficienti e formule usato dalle simulazioni è identificato da `FISCAL_PROFILE` in `src/lib/fiscal-data.ts`: anno d'imposta, versione (`ANNO.N`), data di inizio validità e fonti primarie.
+- La versione va incrementata a ogni modifica fiscale (aliquote, soglie, coefficienti, formule, fonti), nello stesso cambio che aggiorna costanti, test, questa ADR e `CHANGELOG.md`.
+- La versione è mostrata nella pagina `/informativa`, nei risultati del calcolatore e nel titolo del PDF esportato dal calcolatore, così ogni stima resta ricondotta all'insieme di regole che l'ha prodotta; il dettaglio puntuale delle modifiche resta nella storia Git e nel changelog.
+
 ## Aliquote IRPEF 2026 (art. 11 TUIR 2026)
 
 - Fino a 28.000€: 23%

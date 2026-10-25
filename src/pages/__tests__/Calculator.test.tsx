@@ -1,17 +1,27 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type { ReactNode } from 'react';
-import { describe, expect, test, vi } from 'vitest';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
 
 import Calculator from '@/pages/Calculator';
 
-vi.mock('jspdf', () => ({
-  jsPDF: vi.fn().mockImplementation(() => ({
-    setFontSize: vi.fn(),
-    text: vi.fn(),
-    save: vi.fn(),
-  })),
+const pdfMocks = vi.hoisted(() => ({
+  setFontSize: vi.fn(),
+  text: vi.fn(),
+  save: vi.fn(),
 }));
+
+vi.mock('jspdf', () => {
+  function JsPdfMock() {
+    return {
+      setFontSize: pdfMocks.setFontSize,
+      text: pdfMocks.text,
+      save: pdfMocks.save,
+    };
+  }
+
+  return { jsPDF: vi.fn(JsPdfMock) };
+});
 
 vi.mock('recharts', () => ({
   ResponsiveContainer: ({ children }: { children: ReactNode }) => <div>{children}</div>,
@@ -23,6 +33,10 @@ vi.mock('recharts', () => ({
 }));
 
 describe('Calculator page', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   test('blocks PDF export when the immediate exit threshold is exceeded', async () => {
     const user = userEvent.setup();
     render(<Calculator />);
@@ -53,5 +67,44 @@ describe('Calculator page', () => {
     expect(atecoTrigger).toHaveAttribute('aria-invalid', 'true');
     expect(atecoTrigger).toHaveAttribute('aria-describedby', 'atecoId-error');
     expect(screen.getByText(/seleziona una categoria ateco/i)).toBeInTheDocument();
+  });
+
+  test('shows the fiscal assumption version next to the results', async () => {
+    const user = userEvent.setup();
+    render(<Calculator />);
+
+    await user.click(screen.getByLabelText(/categoria ateco/i));
+    await user.click(screen.getByText(/attività professionali/i));
+
+    await user.click(screen.getByRole('button', { name: /avanti/i }));
+    await user.click(screen.getByRole('button', { name: /avanti/i }));
+    await user.click(screen.getByRole('button', { name: /calcola risultati/i }));
+
+    expect(await screen.findByTestId('calculator-fiscal-profile-note')).toHaveTextContent(
+      /assunzioni fiscali 2026, versione 2026\.1/i,
+    );
+  });
+
+  test('includes the assumption version in the exported PDF', async () => {
+    const user = userEvent.setup();
+    render(<Calculator />);
+
+    await user.click(screen.getByLabelText(/categoria ateco/i));
+    await user.click(screen.getByText(/attività professionali/i));
+
+    await user.click(screen.getByRole('button', { name: /avanti/i }));
+    await user.click(screen.getByRole('button', { name: /avanti/i }));
+    await user.click(screen.getByRole('button', { name: /calcola risultati/i }));
+
+    const exportButton = await screen.findByRole('button', { name: /esporta pdf/i });
+    await user.click(exportButton);
+
+    await waitFor(() => {
+      expect(pdfMocks.text).toHaveBeenCalledWith(
+        expect.stringContaining('assunzioni 2026.1'),
+        20,
+        20,
+      );
+    });
   });
 });
