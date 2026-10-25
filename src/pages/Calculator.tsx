@@ -23,7 +23,6 @@ import {
   Tooltip as RechartsTooltip,
   Legend,
 } from 'recharts';
-import { jsPDF } from 'jspdf';
 import { motion, AnimatePresence } from 'motion/react';
 import { calculateForfettario } from '@/lib/calculations';
 import { formatCurrency } from '@/lib/format';
@@ -119,11 +118,13 @@ export default function Calculator() {
       color: 'var(--color-chart-4)',
     },
   ];
-  const handleExportPDF = () => {
+  const handleExportPDF = async () => {
     if (!available) {
       return;
     }
 
+    // jsPDF is only needed when the user actually exports, so load it on demand.
+    const { jsPDF } = await import('jspdf');
     const doc = new jsPDF();
     doc.setFontSize(20);
     doc.text('Report EasyPIVA - Calcolo Forfettario 2026', 20, 20);
@@ -131,15 +132,19 @@ export default function Calculator() {
     doc.text(`Ricavi: ${formatCurrency(values.ricavi)}`, 20, 40);
     doc.text(`Coefficiente Redditività: ${coefficiente * 100}%`, 20, 50);
     doc.text(`Reddito Lordo: ${formatCurrency(redditoLordo)}`, 20, 60);
-    doc.text(`Contributi Dedotti: ${formatCurrency(contributiConsiderati)}`, 20, 70);
+    doc.text(`Contributi considerati: ${formatCurrency(contributiConsiderati)}`, 20, 70);
     doc.text(`Reddito Imponibile: ${formatCurrency(redditoNettoImponibile)}`, 20, 80);
     doc.text(
       `Imposta Sostitutiva (${aliquotaImposta * 100}%): ${formatCurrency(impostaSostitutiva)}`,
       20,
       90,
     );
-    doc.text(`Stima INPS: ${formatCurrency(contributiConsiderati)}`, 20, 100);
-    doc.text(`Netto Stimato: ${formatCurrency(nettoStimato)}`, 20, 110);
+    doc.text(`Disponibile dopo imposte e contributi: ${formatCurrency(nettoStimato)}`, 20, 100);
+    doc.text(
+      'Il disponibile non sottrae i costi effettivi: il coefficiente ATECO li stima forfettariamente.',
+      20,
+      110,
+    );
     doc.save('easypiva-report.pdf');
   };
   const stepVariants = {
