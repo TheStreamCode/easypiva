@@ -40,9 +40,7 @@ export type QuotePaginationItemRowBlock = QuotePaginationBlockBase<'item-row'> &
 };
 
 export type QuotePaginationBlock =
-  | QuotePaginationStaticBlock
-  | QuotePaginationSplitTextBlock
-  | QuotePaginationItemRowBlock;
+  QuotePaginationStaticBlock | QuotePaginationSplitTextBlock | QuotePaginationItemRowBlock;
 
 export type QuotePaginationPage = {
   number: number;
