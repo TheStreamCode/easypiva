@@ -354,8 +354,7 @@ export function getVatLabel(vatMode: QuoteDraft['vatMode']) {
 }
 
 export type QuotePaginationResult =
-  | { ok: true; data: ReturnType<typeof buildPaginationData> }
-  | { ok: false };
+  { ok: true; data: ReturnType<typeof buildPaginationData> } | { ok: false };
 
 /**
  * The paginator throws on content it cannot fit (e.g. an oversized header).
