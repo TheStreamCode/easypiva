@@ -1,94 +1,94 @@
 # EasyPIVA 2026
 
-Simulazioni fiscali indicative per la Partita IVA italiana
+Indicative tax simulations for the Italian Partita IVA (sole proprietorship)
 
 [![CI](https://github.com/TheStreamCode/easypiva/actions/workflows/ci.yml/badge.svg)](https://github.com/TheStreamCode/easypiva/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/TheStreamCode/easypiva)](https://github.com/TheStreamCode/easypiva/releases)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-![EasyPIVA — dashboard del simulatore fiscale per la Partita IVA italiana](docs/assets/easypiva-social-preview.png)
+![EasyPIVA dashboard with the fiscal simulator for the Italian Partita IVA](docs/assets/easypiva-social-preview.png)
 
-**Italiano** · [English](README.en.md)
+[Italiano](README.it.md) · **English**
 
-EasyPIVA è una web app open source per simulazioni fiscali indicative dedicate alla Partita IVA italiana. Riunisce calcolo del regime forfettario, contributi INPS, confronto con il regime ordinario, pianificazione dei ricavi e generazione di preventivi con export PDF.
+EasyPIVA is an open-source web app for indicative tax simulations for the Italian Partita IVA (sole proprietorship). It combines flat-rate regime (regime forfettario) calculations, INPS contributions, a comparison with the ordinary regime, revenue planning, and quote generation with PDF export.
 
-Progetto indipendente: non è affiliato all'INPS, all'Agenzia delle Entrate o ad altri enti pubblici.
+Independent project: it is not affiliated with INPS, the Agenzia delle Entrate, or other public bodies.
 
-> I risultati sono stime indicative e non costituiscono consulenza fiscale, legale o contabile. Per decisioni professionali è necessario rivolgersi a un consulente abilitato.
+> The results are indicative estimates and do not constitute tax, legal, or accounting advice. For professional decisions, consult a qualified advisor.
 
-## Installazione
+## Install
 
-EasyPIVA non richiede installazione: apri [easypiva.vercel.app](https://easypiva.vercel.app) in un browser moderno. Non servono account, backend applicativo o configurazione lato server.
+EasyPIVA requires no installation: open [easypiva.vercel.app](https://easypiva.vercel.app) in a modern browser. No account, application backend, or server-side configuration is required.
 
-Per eseguire una copia locale dell'app, vedi la sezione [Sviluppo](#sviluppo).
+To run a local copy of the app, see [Development](#development).
 
-## Avvio rapido
+## Quick start
 
-1. Apri [EasyPIVA](https://easypiva.vercel.app).
-2. Apri il calcolatore del regime forfettario e inserisci ricavi, coefficiente ATECO e gestione INPS.
-3. Leggi il netto stimato e confronta il risultato con il regime ordinario.
-4. Compila un preventivo, salvalo nel browser oppure esportalo in PDF.
+1. Open [EasyPIVA](https://easypiva.vercel.app).
+2. Open the flat-rate regime calculator and enter revenue, the ATECO coefficient, and the INPS scheme.
+3. Read the estimated net income and compare the result with the ordinary regime.
+4. Fill in a quote, save it in the browser, or export it as a PDF.
 
-## Funzionalità
+## Features
 
-- Calcolo del regime forfettario 2026.
-- Confronto indicativo tra regime forfettario e ordinario.
-- Simulazione dei contributi INPS per Gestione Separata, Artigiani e Commercianti.
-- Calcolo inverso del fatturato necessario per raggiungere un netto obiettivo.
-- Pianificazione mensile dei ricavi rispetto alle soglie del regime.
-- Preventivo locale con anteprima A4, autosalvataggio nel browser ed export PDF.
+- 2026 flat-rate regime (regime forfettario) calculation.
+- Indicative comparison between the flat-rate regime and the ordinary regime.
+- INPS contribution simulation for Gestione Separata, Artigiani, and Commercianti.
+- Reverse calculation of the revenue needed to reach a target net income.
+- Monthly revenue planning against the regime thresholds.
+- Local quote with A4 preview, browser autosave, and PDF export.
 
-### Attendibilità e limiti
+### Reliability and limits
 
-- soglie, aliquote e coefficienti sono centralizzati in `src/lib/fiscal-data.ts`;
-- la logica fiscale è isolata in funzioni pure sotto `src/lib/calculations/`;
-- il regime forfettario e l'IRPEF fanno riferimento al TUIR 2026 (D.Lgs. 117/2026, artt. 11, 13, 232-243 e Allegato D), l'IVA al TU-IVA 2026 (D.Lgs. 10/2026) e i valori previdenziali alle circolari INPS 8/2026 e 14/2026;
-- le assunzioni e le fonti normative sono documentate nell'[ADR fiscale](docs/ADRs/0001-fiscal-assumptions.md) e nell'[informativa pubblica](https://easypiva.vercel.app/informativa);
-- test unitari, UI ed end-to-end proteggono i principali casi di regressione;
-- ogni cambiamento fiscale richiede aggiornamenti coordinati di codice, test, documentazione e copy pubblica.
+- thresholds, rates, and coefficients are centralized in `src/lib/fiscal-data.ts`;
+- tax logic is isolated in pure functions under `src/lib/calculations/`;
+- the forfettario regime and IRPEF reference the 2026 TUIR (Legislative Decree 117/2026, articles 11, 13, 232-243 and Annex D), VAT references the 2026 VAT Code (Legislative Decree 10/2026), and social security values reference INPS Circulars 8/2026 and 14/2026;
+- assumptions and legal sources are documented in the [fiscal ADR](docs/ADRs/0001-fiscal-assumptions.md) and the [public information page](https://easypiva.vercel.app/informativa);
+- unit, UI, and end-to-end tests protect the main regression cases;
+- every fiscal change requires coordinated updates to code, tests, documentation, and public copy.
 
-## Requisiti
+## Requirements
 
-- Un browser moderno con JavaScript abilitato, in una versione aggiornata di Chrome, Edge o Firefox.
-- L'app pubblicata non richiede account, backend applicativo o variabili d'ambiente.
-- Per lo sviluppo: Node.js 24 LTS e npm 11.
+- A modern browser with JavaScript enabled, in an up-to-date version of Chrome, Edge, or Firefox.
+- The published app requires no account, application backend, or environment variables.
+- For development: Node.js 24 LTS and npm 11.
 
-## Configurazione
+## Configuration
 
-EasyPIVA non espone impostazioni lato server. Le preferenze salvate nel browser sono:
+EasyPIVA exposes no server-side settings. The preferences saved in the browser are:
 
-| Impostazione           | Scopo                                                   | Predefinito     |
-| ---------------------- | ------------------------------------------------------- | --------------- |
-| Tema                   | Alterna interfaccia chiara e scura e conserva la scelta | Tema di sistema |
-| Consenso al disclaimer | Memorizza l'accettazione del disclaimer informativo     | Non memorizzato |
-| Bozza del preventivo   | Autosalva i dati del preventivo in corso nel browser    | Nessuna bozza   |
-| Logo del preventivo    | Inserisce un logo PNG, JPEG o WebP fino a 1 MB          | Nessun logo     |
+| Setting            | Purpose                                                   | Default      |
+| ------------------ | --------------------------------------------------------- | ------------ |
+| Theme              | Toggles the light and dark interface and keeps the choice | System theme |
+| Disclaimer consent | Stores the acceptance of the disclaimer notice            | Not stored   |
+| Quote draft        | Autosaves the quote being edited in the browser           | No draft     |
+| Quote logo         | Embeds a PNG, JPEG, or WebP logo up to 1 MB               | No logo      |
 
-Le preferenze sono salvate solo nel `localStorage` del browser. L'app non invia i valori inseriti a un server e non usa account o telemetria.
+Preferences are stored only in the browser's `localStorage`. The app does not send entered values to a server and does not use accounts or telemetry.
 
-## Privacy e sicurezza
+## Privacy and security
 
-Il progetto segue un'architettura local-first: i valori inseriti nei simulatori e nel preventivo non vengono inviati a un server. Tema, consenso al disclaimer e bozza del preventivo possono essere salvati nel `localStorage` del browser; il dettaglio è in [Privacy e storage locale](docs/privacy-and-storage.md).
+The project follows a local-first architecture: values entered in the simulators and in the quote are not sent to a server. Theme, disclaimer consent, and quote draft may be stored in the browser's `localStorage`; details are in [Privacy and local storage](docs/privacy-and-storage.md).
 
-Tutti i calcoli vengono eseguiti localmente nel browser e le assunzioni fiscali 2026 sono centralizzate e testate. Il repository usa CI con permessi minimi, GitHub Actions fissate a commit SHA e Dependency Review sulle pull request che modificano dipendenze. Per comunicare privatamente una vulnerabilità segui [SECURITY.md](SECURITY.md); non aprire issue pubbliche.
+All calculations run locally in the browser and the 2026 fiscal assumptions are centralized and tested. The repository uses CI with minimal permissions, GitHub Actions pinned to commit SHAs, and Dependency Review on pull requests that change dependencies. To report a vulnerability privately, follow [SECURITY.md](SECURITY.md); do not open a public issue.
 
-## Risoluzione dei problemi
+## Troubleshooting
 
-### I risultati differiscono da quelli del mio commercialista. Perché?
+### Results differ from my accountant's. Why?
 
-EasyPIVA produce stime indicative basate sulle assunzioni fiscali 2026 documentate nell'[ADR fiscale](docs/ADRs/0001-fiscal-assumptions.md) e nell'[informativa pubblica](https://easypiva.vercel.app/informativa), con soglie, aliquote e coefficienti centralizzati in `src/lib/fiscal-data.ts`. Un professionista può applicare deduzioni, detrazioni o situazioni personali (altri redditi, agevolazioni, acconti versati) che il simulatore non conosce. In caso di scostamento, confronta i valori inseriti con le assunzioni pubblicate e, per decisioni professionali, affidati sempre a un consulente abilitato.
+EasyPIVA produces indicative estimates based on the 2026 fiscal assumptions documented in the [fiscal ADR](docs/ADRs/0001-fiscal-assumptions.md) and the [public information page](https://easypiva.vercel.app/informativa), with thresholds, rates, and coefficients centralized in `src/lib/fiscal-data.ts`. A professional can apply deductions, reliefs, or personal situations (other income, benefits, advance payments) that the simulator does not know about. If the values diverge, compare the inputs with the published assumptions and, for professional decisions, always rely on a qualified advisor.
 
-### Quale gestione INPS si applica al mio caso?
+### Which INPS scheme applies to my case?
 
-L'app simula tre gestioni: Gestione Separata, Artigiani e Commercianti, secondo i valori 2026 (Circolare INPS 8/2026 per la Gestione Separata, 14/2026 per Artigiani e Commercianti). Per Artigiani e Commercianti il massimale annuo dipende dall'anzianità contributiva al 31/12/1995: 93.707 € per chi era già iscritto, 122.295 € per gli altri. La gestione corretta dipende dalla tua attività e dall'iscrizione alla Camera di Commercio o agli albi: in caso di dubbio, verifica la tua posizione con l'INPS o con un consulente.
+The app simulates three schemes: Gestione Separata, Artigiani, and Commercianti, with the 2026 values (INPS Circular 8/2026 for Gestione Separata, 14/2026 for Artigiani and Commercianti). For Artigiani and Commercianti the annual ceiling depends on the contribution seniority at 1995-12-31: 93,707 EUR for those already registered, 122,295 EUR for the others. The correct scheme depends on your activity and on registration with the Chamber of Commerce or a professional register: when in doubt, verify your position with INPS or an advisor.
 
-### L'export PDF del preventivo non funziona. Cosa posso fare?
+### The PDF quote export does not work. What can I do?
 
-L'export avviene interamente nel browser (jsPDF con rendering via html2canvas): assicurati di usare una versione aggiornata di Chrome, Edge o Firefox, di non aver bloccato i download per il sito e di avere spazio disponibile per il salvataggio. Se hai caricato un logo personalizzato, prova con un file più leggero (formato PNG o JPEG di piccole dimensioni). Se il problema persiste, ricarica la pagina — la bozza del preventivo è autosalvata nel `localStorage` — e riprova; per segnalazioni riproducibili apri una issue seguendo [CONTRIBUTING.md](CONTRIBUTING.md).
+The export happens entirely in the browser (jsPDF with rendering through html2canvas): make sure you are using an up-to-date version of Chrome, Edge, or Firefox, that downloads are not blocked for the site, and that there is enough space for the file. If you uploaded a custom logo, try a lighter file (a small PNG or JPEG). If the problem persists, reload the page — the quote draft is autosaved in `localStorage` — and retry; for reproducible reports, open an issue following [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## Sviluppo
+## Development
 
-Richiede Node.js 24 LTS e npm 11; npm è il package manager canonico e `.nvmrc` e `package.json` sono le fonti di verità delle versioni.
+Requires Node.js 24 LTS and npm 11; npm is the canonical package manager, and `.nvmrc` and `package.json` are the sources of truth for the versions.
 
 ```bash
 git clone https://github.com/TheStreamCode/easypiva.git
@@ -97,45 +97,46 @@ npm ci
 npm run dev
 ```
 
-L'app viene servita su `http://127.0.0.1:3000`.
+The app is served at `http://127.0.0.1:3000`.
 
 ```bash
 npm run ci
 npm audit
 ```
 
-`npm run ci` esegue formattazione, typecheck, lint, test Vitest, build di produzione e test Playwright. Se Chromium non è ancora installato, esegui una volta `npx playwright install chromium`. Gli script disponibili sono documentati in `package.json`; i principali sono `dev`, `dev:e2e`, `typecheck`, `lint`, `test`, `test:e2e`, `build` e `ci`.
+`npm run ci` runs formatting, typecheck, lint, Vitest tests, the production build, and Playwright tests. If Chromium is not installed yet, run `npx playwright install chromium` once. The available scripts are documented in `package.json`; the main ones are `dev`, `dev:e2e`, `typecheck`, `lint`, `test`, `test:e2e`, `build`, and `ci`.
 
-Stack: React 19, React Router 8, TypeScript 6 e Vite 6; Tailwind CSS v4 e componenti shadcn/ui; Zustand, React Hook Form e Zod; Recharts, motion e jsPDF; Vitest con jsdom e Playwright con Chromium.
+Stack: React 19, React Router 8, TypeScript 6, and Vite 6; Tailwind CSS v4 and shadcn/ui components; Zustand, React Hook Form, and Zod; Recharts, motion, and jsPDF; Vitest with jsdom and Playwright with Chromium.
 
-La build statica prodotta in `dist/` viene pubblicata su [Vercel](https://easypiva.vercel.app) dal branch `main`. `vercel.json` gestisce il routing client-side e gli header HTTP di sicurezza; il progetto non utilizza un backend applicativo né variabili d'ambiente runtime.
+The static build produced in `dist/` is published to [Vercel](https://easypiva.vercel.app) from the `main` branch. `vercel.json` handles client-side routing and the HTTP security headers; the project uses no application backend and no runtime environment variables.
 
-Documentazione del repository:
+Repository documentation:
 
-- [Architettura](docs/architecture.md)
-- [Privacy e storage locale](docs/privacy-and-storage.md)
-- [Assunzioni fiscali](docs/ADRs/0001-fiscal-assumptions.md)
-- [Versionamento delle assunzioni](docs/fiscal/versioning.md)
-- [Governance repository](docs/repository-governance.md)
-- [Provenienza degli asset](docs/asset-provenance.md)
+- [Architecture](docs/architecture.md)
+- [Privacy and local storage](docs/privacy-and-storage.md)
+- [Fiscal assumptions](docs/ADRs/0001-fiscal-assumptions.md)
+- [Assumption versioning](docs/fiscal/versioning.md)
+- [Repository governance](docs/repository-governance.md)
+- [Asset provenance](docs/asset-provenance.md)
 - [Changelog](CHANGELOG.md)
 
-## Supporto
+## Support
 
-- Segnalazioni riproducibili e problemi di accessibilità o privacy: issue GitHub con il template bug report.
-- Segnalazioni sulle assunzioni fiscali: issue corredate da fonti primarie verificabili.
-- Vulnerabilità: [SECURITY.md](SECURITY.md), mai una issue pubblica.
-- Contatti operativi: [info@mikesoft.it](mailto:info@mikesoft.it).
-- Il repository non fornisce consulenza fiscale, assistenza personalizzata o supporto operativo.
+- Reproducible reports and accessibility or privacy problems: GitHub issues using the bug report form.
+- Reports about the fiscal assumptions: issues with verifiable primary sources.
+- Vulnerabilities: [SECURITY.md](SECURITY.md), never a public issue.
+- Operational contacts: [info@mikesoft.it](mailto:info@mikesoft.it).
+- The repository does not provide tax advice, personalized assistance, or operational support.
 
-## Contribuire
+## Contributing
 
-Il repository è pubblico con licenza MIT, ma la manutenzione segue un workflow maintainers-only: consulta [CONTRIBUTING.md](CONTRIBUTING.md) e il [Codice di condotta](CODE_OF_CONDUCT.md) prima di aprire una segnalazione. Le pull request esterne non fanno parte del processo di manutenzione ufficiale.
+The repository is public under the MIT license, but maintenance follows a maintainers-only workflow: read [CONTRIBUTING.md](CONTRIBUTING.md) and the [Code of Conduct](CODE_OF_CONDUCT.md) before opening a report. External pull requests are not part of the official maintenance process.
 
-## Licenza
+## License
 
-Questo progetto è distribuito con [licenza MIT](LICENSE).
+This project is distributed under the [MIT License](LICENSE).
 
 ---
 
-Maintained by [Michael Gasperini (Mikesoft)](https://mikesoft.it). Se il progetto ti è utile, valuta di [sostenere la manutenzione](https://github.com/sponsors/TheStreamCode).
+Maintained by [Michael Gasperini (Mikesoft)](https://mikesoft.it).
+If this project is useful to you, consider [sponsoring its maintenance](https://github.com/sponsors/TheStreamCode).
