@@ -23,7 +23,7 @@ updates:
     ignore:
       # lucide-react 1.x removed the brand icons; `Github` is used by the
       # layout footer. Remove this rule once the icon is replaced.
-      - dependency-name: "lucide-react"
+      - dependency-name: 'lucide-react'
         update-types:
           - version-update:semver-major
 
